@@ -1,9 +1,6 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate hook
 
-const Overview = () => {
-  const navigate = useNavigate(); // Initialize the hook
-
+const page = () => {
   const units = [
     {
       title: "UNIT 1:",
@@ -11,31 +8,47 @@ const Overview = () => {
     },
     {
       title: "UNIT 2:",
-      description: "Overview of Investing",
+      description: "Unit 2 description goes here.",
     },
     {
       title: "UNIT 3:",
-      description: "Unit 2 description goes here.",
+      description: "Unit 3 description goes here.",
     },
     {
       title: "UNIT 4:",
-      description: "Unit 2 description goes here.",
+      description: "Unit 4 description goes here.",
     },
     {
       title: "UNIT 5:",
-      description: "Unit 2 description goes here.",
+      description: "Unit 5 description goes here.",
     },
     {
       title: "UNIT 6:",
-      description: "Unit 2 description goes here.",
+      description: "Unit 6 description goes here.",
     },
     {
       title: "UNIT 7:",
-      description: "Unit 2 description goes here.",
+      description: "Unit 7 description goes here.",
     },
     {
       title: "UNIT 8:",
-      description: "Unit 2 description goes here.",
+      description: "Unit 8 description goes here.",
+    },
+    {
+      title: "UNIT 9:",
+      description: "Unit 9 description goes here.",
+    },
+    {
+      title: "UNIT 10:",
+      description: "Unit 10 description goes here.",
+    },
+    {
+      title: "UNIT 11:",
+      description: "Unit 11 description goes here.",
+    },
+    {
+      title: "UNIT 12:",
+      description: "Unit 12 description goes here.",
     },
   ];
 
@@ -77,13 +90,10 @@ const Overview = () => {
                   <h5 className="mb-4 text-3xl font-bold tracking-tight">{unit.title}</h5>
                   <p className="font-normal mb-4">{unit.description}</p>
                 </div>
-                <div 
-                  className='button w-40 h-16 bg-blue-500 rounded-lg cursor-pointer select-none
+                <div className='button w-40 h-16 bg-blue-500 rounded-lg cursor-pointer select-none
                   active:translate-y-2 active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
                   active:border-b-[0px] transition-all duration-150 [box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841]
-                  border-b-[1px] border-blue-400'
-                  onClick={() => navigate(`/learn/unit${unitIndex + 1}`)} // Navigate to the unit page
-                >
+                  border-b-[1px] border-blue-400'>
                   <span className='flex flex-col justify-center items-center h-full text-white font-bold text-lg '>Learn</span>
                 </div>
               </div>
@@ -109,4 +119,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default page;
