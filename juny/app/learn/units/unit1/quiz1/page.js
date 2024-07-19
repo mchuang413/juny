@@ -1,10 +1,49 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import axios from "axios";
 
 const Page = () => {
   const [stepsComplete, setStepsComplete] = useState(0);
-  const numSteps = 4;
+  const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [aiFeedback, setAiFeedback] = useState("");
+  const numSteps = 3;
+  const isPremium = true; // Change this to dynamically check for premium status
+
+  const questions = [
+    {
+      question: "What is the main purpose of investing?",
+      options: [
+        "a. To buy and sell assets quickly",
+        "b. To build wealth and reach financial goals",
+        "c. To keep money in a savings account",
+        "d. To avoid financial markets"
+      ],
+      answer: "b. To build wealth and reach financial goals"
+    },
+    {
+      question: "Which of the following is an example of an asset you can invest in?",
+      options: [
+        "a. Groceries",
+        "b. Clothes",
+        "c. Stocks",
+        "d. Vacations"
+      ],
+      answer: "c. Stocks"
+    },
+    {
+      question: "Where was the first modern stock market established?",
+      options: [
+        "a. New York",
+        "b. London",
+        "c. Amsterdam",
+        "d. Tokyo"
+      ],
+      answer: "c. Amsterdam"
+    }
+  ];
 
   const handleSetStep = (num) => {
     if (
@@ -17,25 +56,108 @@ const Page = () => {
     setStepsComplete((pv) => pv + num);
   };
 
+  const handleSelectAnswer = (step, answer) => {
+    setSelectedAnswers((prev) => ({ ...prev, [step]: answer }));
+  };
+
+  const handleSubmit = () => {
+    setIsSubmitted(true);
+    if (isPremium) {
+      generatePersonalizedFeedback();
+    }
+  };
+
+  const generatePersonalizedFeedback = async () => {
+    setIsLoading(true);
+    setAiFeedback("");
+    try {
+      const response = await axios.post(
+        "https://api.openai.com/v1/completions",
+        {
+          model: "gpt-4o",
+          prompt: `Generate a personalized feedback report for the following quiz answers: ${JSON.stringify(selectedAnswers)}. Questions: ${JSON.stringify(questions)}`,
+        },
+        {
+          headers: {
+            Authorization: `Bearer sk-None-ivxITBru6B6r1URlO1vdT3BlbkFJNkfZRl4Wbwe7n6htj2xP`,
+            "Content-Type": "application/json"
+          },
+        }
+      );
+      setAiFeedback(response.data.choices[0].text);
+    } catch (error) {
+      console.error("Error generating personalized feedback:", error);
+      setAiFeedback("There was an error generating the feedback. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const TypewriterEffect = ({ text }) => {
+    const [displayedText, setDisplayedText] = useState("");
+
+    useEffect(() => {
+      let index = 0;
+      const interval = setInterval(() => {
+        setDisplayedText((prev) => prev + text.charAt(index));
+        index++;
+        if (index >= text.length) {
+          clearInterval(interval);
+        }
+      }, 50);
+      return () => clearInterval(interval);
+    }, [text]);
+
+    return <p>{displayedText}</p>;
+  };
+
   return (
     <div className="px-4 py-14 bg-white">
       <div className="p-8 bg-white shadow-lg rounded-md w-full max-w-2xl mx-auto">
-        <Steps numSteps={numSteps} stepsComplete={stepsComplete} />
-        <div className="p-2 my-6 h-48 bg-gray-100 border-2 border-dashed border-gray-200 rounded-lg"></div>
-        <div className="flex items-center justify-end gap-2">
-          <button
-            className="px-4 py-1 rounded hover:bg-gray-100 text-black"
-            onClick={() => handleSetStep(-1)}
-          >
-            Prev
-          </button>
-          <button
-            className="px-4 py-1 rounded bg-black text-white"
-            onClick={() => handleSetStep(1)}
-          >
-            Next
-          </button>
-        </div>
+        {!isSubmitted ? (
+          <>
+            <Steps numSteps={numSteps} stepsComplete={stepsComplete} />
+            <div className="p-2 my-6 h-auto bg-gray-100 border-2 border-dashed border-gray-200 rounded-lg">
+              <Question
+                step={stepsComplete}
+                questions={questions}
+                selectedAnswer={selectedAnswers[stepsComplete]}
+                onSelectAnswer={handleSelectAnswer}
+              />
+            </div>
+            <div className="flex items-center justify-end gap-2">
+              <button
+                className="px-4 py-1 rounded hover:bg-gray-100 text-black"
+                onClick={() => handleSetStep(-1)}
+              >
+                Prev
+              </button>
+              {stepsComplete < numSteps - 1 ? (
+                <button
+                  className="px-4 py-1 rounded bg-black text-white"
+                  onClick={() => handleSetStep(1)}
+                >
+                  Next
+                </button>
+              ) : (
+                <button
+                  className="px-4 py-1 rounded bg-black text-white"
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </button>
+              )}
+            </div>
+          </>
+        ) : (
+          <Report
+            questions={questions}
+            selectedAnswers={selectedAnswers}
+            isLoading={isLoading}
+            aiFeedback={aiFeedback}
+            isPremium={isPremium}
+          />
+        )}
       </div>
     </div>
   );
@@ -114,6 +236,87 @@ const Step = ({ num, isActive }) => {
       )}
     </div>
   );
+};
+
+const Question = ({ step, questions, selectedAnswer, onSelectAnswer }) => {
+  const question = questions[step];
+  if (!question) return null;
+  return (
+    <div>
+      <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
+      <ul className="list-disc pl-5">
+        {question.options.map((option, index) => (
+          <li key={index} className="mb-2">
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name={`question-${step}`}
+                value={option}
+                checked={selectedAnswer === option}
+                onChange={() => onSelectAnswer(step, option)}
+                className="mr-2"
+              />
+              {option}
+            </label>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }) => {
+  return (
+    <div className="mb-4 p-4 rounded-lg border-4 border-blue-400 w-full max-w-3xl mx-auto">
+      <h3 className="mb-6 font-semibold text-xl text-center">Quiz Report</h3>
+      {questions.map((question, index) => (
+        <div key={index} className="mb-4 p-4 bg-gray-100 rounded-lg shadow-md">
+          <p className="mb-2">
+            <strong>Question {index + 1}:</strong> {question.question}
+          </p>
+          <p className="mb-2">
+            <strong>Your Answer:</strong> {selectedAnswers[index]}
+          </p>
+          <p className="mb-2">
+            <strong>Correct Answer:</strong> {question.answer} -{" "}
+            {selectedAnswers[index] === question.answer ? (
+              <span className="text-green-600 font-semibold">Correct</span>
+            ) : (
+              <span className="text-red-600 font-semibold">Wrong</span>
+            )}
+          </p>
+        </div>
+      ))}
+      {isPremium && (
+        <div className="mt-6 p-4 bg-gray-100 rounded-lg shadow-md">
+          <h4 className="mb-4 font-semibold text-lg">Personalized Feedback</h4>
+          {isLoading ? (
+            <p>Loading personalized feedback...</p>
+          ) : (
+            <TypewriterEffect text={aiFeedback} />
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const TypewriterEffect = ({ text }) => {
+  const [displayedText, setDisplayedText] = useState("");
+
+  useEffect(() => {
+    let index = 0;
+    const interval = setInterval(() => {
+      setDisplayedText((prev) => prev + text.charAt(index));
+      index++;
+      if (index >= text.length) {
+        clearInterval(interval);
+      }
+    }, 50);
+    return () => clearInterval(interval);
+  }, [text]);
+
+  return <p>{displayedText}</p>;
 };
 
 export default Page;

@@ -1,7 +1,10 @@
 "use client"
 import React from "react";
+import { useRouter } from 'next/navigation';
 
-const page = () => {
+const Page = () => {
+  const router = useRouter();
+
   const units = [
     {
       title: "UNIT 1:",
@@ -54,19 +57,15 @@ const page = () => {
   ];
 
   const buttonPositionsLeft = [
-    { top: '45px', left: '50%', transform: 'translate(-50%, 0)' },
-    { top: '145px', left: '45%', transform: 'translate(-50%, 0)' },
-    { top: '245px', left: '40%', transform: 'translate(-50%, 0)' },
-    { top: '345px', left: '45%', transform: 'translate(-50%, 0)' },
-    { top: '445px', left: '50%', transform: 'translate(-50%, 0)' },
+    { top: '40px', left: '50%', transform: 'translate(-50%, 0)' },
+    { top: '160px', left: '45%', transform: 'translate(-50%, 0)' },
+    { top: '280px', left: '50%', transform: 'translate(-50%, 0)' },
   ];
 
   const buttonPositionsRight = [
     { top: '45px', left: '50%', transform: 'translate(-50%, 0)' },
-    { top: '145px', left: '55%', transform: 'translate(-50%, 0)' },
-    { top: '245px', left: '60%', transform: 'translate(-50%, 0)' },
-    { top: '345px', left: '55%', transform: 'translate(-50%, 0)' },
-    { top: '445px', left: '50%', transform: 'translate(-50%, 0)' },
+    { top: '160px', left: '55%', transform: 'translate(-50%, 0)' },
+    { top: '280px', left: '50%', transform: 'translate(-50%, 0)' },
   ];
 
   const starIcon = (
@@ -79,6 +78,10 @@ const page = () => {
       <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
     </svg>
   );
+
+  const handleStarClick = (unitIndex, starIndex) => {
+    router.push(`/learn/units/unit${unitIndex + 1}/quiz${starIndex + 1}`);
+  };
 
   return (
     <div className="relative flex flex-col items-center h-screen pt-8">
@@ -101,7 +104,7 @@ const page = () => {
             </a>
           </div>
 
-          <div className="relative w-full h-[600px] mt-8">
+          <div className="relative w-full h-[400px] mt-8">
             {(unitIndex % 2 === 0 ? buttonPositionsLeft : buttonPositionsRight).map((pos, starIndex) => (
               <div 
                 key={starIndex} 
@@ -109,7 +112,9 @@ const page = () => {
                 className='button w-24 h-24 bg-blue-500 rounded-full cursor-pointer select-none
                 active:translate-y-2 active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
                 active:border-b-[0px] transition-all duration-150 [box-shadow:0_8px_0_0_#1b6ff8,0_13px_0_0_#1b70f841]
-                border-[1px] border-blue-400 flex justify-center items-center text-white font-bold text-lg'>
+                border-[1px] border-blue-400 flex justify-center items-center text-white font-bold text-lg'
+                onClick={() => handleStarClick(unitIndex, starIndex)}
+              >
                 {starIcon}
               </div>
             ))}
@@ -120,4 +125,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
