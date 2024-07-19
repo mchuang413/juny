@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 
 const page = () => {
@@ -84,7 +85,7 @@ const page = () => {
       {units.map((unit, unitIndex) => (
         <div key={unitIndex} className="relative w-full mb-16">
           <div className="relative w-full flex justify-center">
-            <a href="#" className="block w-3/4 p-10 bg-blue-400 text-white border border-blue-400 rounded-lg shadow-lg">
+            <a href={`/learn/units/unit${unitIndex + 1}`} className="block w-3/4 p-10 bg-blue-400 text-white border border-blue-400 rounded-lg shadow-lg">
               <div className="flex justify-between items-center">
                 <div>
                   <h5 className="mb-4 text-3xl font-bold tracking-tight">{unit.title}</h5>
