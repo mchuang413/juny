@@ -79,7 +79,7 @@ const Page = () => {
         },
         {
           headers: {
-            Authorization: `Bearer sk-None-ivxITBru6B6r1URlO1vdT3BlbkFJNkfZRl4Wbwe7n6htj2xP`,
+            Authorization: `Bearer `,
             "Content-Type": "application/json"
           },
         }
