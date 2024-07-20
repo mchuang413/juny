@@ -1,12 +1,26 @@
-from flask import Flask
-from openai import OpenAI
+from flask import Flask, jsonify, request
 from flask_cors import CORS
-from dotenv import load_dotenv
-import os
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+
 app = Flask(__name__)
 CORS(app)
-load_dotenv()
-client = OpenAI(api_key=os.env("OPENAI_API_KEY"))
+
+uri = ""
+
+# Create a new client and connect to the server
+client = MongoClient(uri, server_api=ServerApi('1'))
+
+# Send a ping to confirm a successful connection
+try:
+    client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
+
+# Use the appropriate database and collection
+db = client["Juny"]
+collection = db["users"]  # Assuming a collection named "users" for user data
 
 # Initial problems and answers
 problems  = [
@@ -42,17 +56,66 @@ def ask_gpt(pretext, prompt):
         )
     return response.choices[0].message.content
 
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.json
+    username = data.get("username")
+    password = data.get("password")
+    alpaca_key = data.get("alpaca_key")
+
+    # Check if any field is missing
+    if not username or not password or not alpaca_key:
+        return jsonify({"status": "error", "message": "Username, password, and Alpaca API key are required"}), 400
+
+    user = collection.find_one({"username": username})
+    if not user:
+        return jsonify({"status": "nouser"})
+    if user["password"] == password and user["alpaca_key"] == alpaca_key:
+        return jsonify({"status": "works"})
+    else:
+        return jsonify({"status": "wrong"})
+
+@app.route("/signup", methods=["POST"])
+def signup():
+    data = request.json
+    username = data.get("username")
+    password = data.get("password")
+    alpaca_key = data.get("alpaca_key")
+
+    # Check if any field is missing
+    if not username or not password or not alpaca_key:
+        return jsonify({"status": "error", "message": "Username, password, and Alpaca API key are required"}), 400
+
+    # Check if the username already exists
+    if collection.find_one({"username": username}):
+        return jsonify({"status": "error", "message": "Username already exists"}), 400
+
+    # Insert the new user into the collection
+    collection.insert_one({
+        "username": username,
+        "password": password,
+        "alpaca_key": alpaca_key,
+        "premium_user": False  # Set default value for premium_user
+    })
+
+    return jsonify({"status": "success", "message": "User registered successfully"}), 201
+
 @app.route('/weaknesses/<input>')
 def weaknesses(input):
-  response = ask_gpt("Here are the questions asked by us, then the answers the user suggested. You're an expert teacher. Provide insightful feedback on the weaknesses of the student's learning style.", input)
-  return response
+    response = ask_gpt("Here are the questions asked by us, then the answers the user suggested. You're an expert teacher. Provide insightful feedback on the weaknesses of the student's learning style.", input)
+    return response
 
-@app.route('/checkanswer/<question>/<answer>')
-def checkanswer(question ,answer):
-  qindex = problems.index(question)
-  if answers[qindex] == answer:
-    return("Correct!")
-  else:
-    return("Incorrect")
+@app.route('/checkanswer/<question>/<answer>/<id>')
+def checkanswer(question ,answer, id):
+    qindex = problems.index(question)
+    if answers[qindex] == answer:
+        mydict = { "id": id, "question" : question, "correct": "T" }
+        collection.insert_one(mydict)
+        return("Correct!")
+    else:
+        mydict = { "id": id, "question" : question, "correct": "F" }
+        collection.insert_one(mydict)
+        return("Incorrect")
 
-app.run(host='0.0.0.0', port=8134)
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8134)
