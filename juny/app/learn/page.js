@@ -1,9 +1,10 @@
 "use client"
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 
 const Page = () => {
   const router = useRouter();
+  const [scrollDepth, setScrollDepth] = useState(0);
 
   const units = [
     {
@@ -83,10 +84,29 @@ const Page = () => {
     router.push(`/learn/units/unit${unitIndex + 1}/quiz${starIndex + 1}`);
   };
 
+  const handleScroll = () => {
+    const currentScroll = window.scrollY;
+    setScrollDepth(currentScroll);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const getParallaxStyle = (depth) => ({
+    transform: `translateY(${scrollDepth * depth}px)`,
+  });
+
   return (
     <div className="relative flex flex-col items-center h-screen pt-8">
+      <div className="parallax-background absolute top-0 left-0 w-full h-full" style={{ backgroundImage: 'url(/path/to/your/background1.png)', ...getParallaxStyle(0.1) }} />
+      <div className="parallax-background absolute top-0 left-0 w-full h-full" style={{ backgroundImage: 'url(/path/to/your/background2.png)', ...getParallaxStyle(0.2) }} />
+      <div className="parallax-background absolute top-0 left-0 w-full h-full" style={{ backgroundImage: 'url(/path/to/your/background3.png)', ...getParallaxStyle(0.3) }} />
       {units.map((unit, unitIndex) => (
-        <div key={unitIndex} className="relative w-full mb-16">
+        <div key={unitIndex} className="relative w-full mb-16 z-10">
           <div className="relative w-full flex justify-center">
             <a href={`/learn/units/unit${unitIndex + 1}`} className="block w-3/4 p-10 bg-blue-400 text-white border border-blue-400 rounded-lg shadow-lg">
               <div className="flex justify-between items-center">
