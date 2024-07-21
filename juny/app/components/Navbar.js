@@ -30,7 +30,7 @@ const SlideTabs = () => {
       className="relative mx-auto flex w-fit rounded-full border-2 border-blue-400 bg-white p-1"
     >
       <Tab setPosition={setPosition} href="/learn">Learn</Tab>
-      <Tab setPosition={setPosition} href="/simulator">Simulator</Tab>
+      <Tab setPosition={setPosition} href="/sim">Simulator</Tab>
       <Tab setPosition={setPosition} href="/news">News</Tab>
       <Tab setPosition={setPosition} href="/profile">Profile</Tab>
       <Tab setPosition={setPosition} href="/shop">Shop</Tab>
