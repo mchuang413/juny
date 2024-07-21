@@ -11,9 +11,8 @@ const RootLayout = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Check if the user is authenticated based on cookie
     const token = Cookies.get('auth');
-    setIsAuthenticated(!!token); // Update state based on the presence of the token
+    setIsAuthenticated(!!token);
   }, []);
 
   return (
