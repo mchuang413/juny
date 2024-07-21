@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 
@@ -8,6 +9,29 @@ const Page = () => {
   const [portfolioData, setPortfolioData] = useState(null);
   const [filteredData, setFilteredData] = useState(null);
   const [timeFrame, setTimeFrame] = useState('1D'); // Default time frame
+  const [apiKeys, setApiKeys] = useState({ alpaca_key: '', alpaca_secret: '' });
+
+  // Fetch API keys using username from cookies
+  const fetchApiKeys = async () => {
+    try {
+      const username = Cookies.get('username'); // Get the username cookie
+      const response = await axios.get('http://localhost:8134/get_api_keys/'+ username);
+      if (response.data.status === 'success') {
+        setApiKeys({
+          alpaca_key: response.data.alpaca_key,
+          alpaca_secret: response.data.alpaca_secret,
+        });
+      } else {
+        console.error('Failed to fetch API keys:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching API keys:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchApiKeys();
+  }, []);
 
   const fetchPortfolioHistory = async () => {
     const options = {
@@ -16,8 +40,8 @@ const Page = () => {
       params: { intraday_reporting: 'market_hours', pnl_reset: 'per_day' },
       headers: {
         accept: 'application/json',
-        'APCA-API-KEY-ID': 'PKAR0V0EQ98R3MX6UR61',
-        'APCA-API-SECRET-KEY': '9A29m91anzn9i8BpNluPlNaT4GGK8gdPbM7c1IBJ'
+        'APCA-API-KEY-ID': apiKeys.alpaca_key,
+        'APCA-API-SECRET-KEY': apiKeys.alpaca_secret
       }
     };
 
@@ -34,8 +58,10 @@ const Page = () => {
   };
 
   useEffect(() => {
-    fetchPortfolioHistory();
-  }, []);
+    if (apiKeys.alpaca_key && apiKeys.alpaca_secret) {
+      fetchPortfolioHistory();
+    }
+  }, [apiKeys]);
 
   useEffect(() => {
     if (portfolioData) {
