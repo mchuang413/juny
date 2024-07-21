@@ -154,7 +154,7 @@ const Page = () => {
                     {isSignup ? 'Already have an account?' : "Don't have an account yet?"}
                   </a>
                 </div>
-                {message && <p className="text-red-500 mt-4">{message}</p>}
+                {message && <p className="tex t-red-500 mt-4">{message}</p>}
               </form>
             </div>
           </div>

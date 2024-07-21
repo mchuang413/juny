@@ -97,10 +97,6 @@ const Page = () => {
   }, [apiKeys]);
 
   useEffect(() => {
-    fetchPollData();
-  }, []);
-
-  useEffect(() => {
     if (portfolioData) {
       filterData(portfolioData, timeFrame);
     }
@@ -248,10 +244,10 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen">
-      <div className="w-full max-w-6xl bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
-        <div className="flex justify-between">
-          <div className="w-2/3">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-6xl bg-white rounded-lg shadow dark:bg-gray-800 p-6 mt-6">
+        <div className="flex justify-between items-center mb-6">
+          <div>
             <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">
               {portfolioData ? portfolioData.equity[portfolioData.equity.length - 1].toFixed(2) : 'Loading...'}
             </h5>
@@ -262,78 +258,26 @@ const Page = () => {
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
               </svg>
             </div>
-            <div className="flex justify-end mt-4">
-              <select
-                value={timeFrame}
-                onChange={(e) => setTimeFrame(e.target.value)}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 p-2.5"
-              >
-                <option value="1D">1 Day</option>
-                <option value="5D">5 Days</option>
-                <option value="1M">1 Month</option>
-                <option value="3M">3 Months</option>
-                <option value="1Y">1 Year</option>
-              </select>
-            </div>
-            <div id="area-chart" className="mt-6">
-              {filteredData ? <Line data={chartData} options={chartOptions} /> : <p>Loading chart...</p>}
-            </div>
           </div>
-          <div className="w-1/3 bg-gray-100 dark:bg-gray-900 p-4 rounded-lg">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Trade Stocks</h3>
-            <div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-200">Ticker</label>
-              <input
-                type="text"
-                value={ticker}
-                onChange={(e) => setTicker(e.target.value.toUpperCase())}
-                className="w-full p-2 mt-2 border rounded-lg"
-                placeholder="Enter ticker symbol"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-200">Quantity</label>
-              <input
-                type="number"
-                value={quantity}
-                onChange={(e) => setQuantity(Number(e.target.value))}
-                className="w-full p-2 mt-2 border rounded-lg"
-                placeholder="Enter quantity"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-200">Time in Force</label>
-              <select
-                value={timeInForce}
-                onChange={(e) => setTimeInForce(e.target.value)}
-                className="w-full p-2 mt-2 border rounded-lg"
-              >
-                <option value="DAY">DAY</option>
-                <option value="GTC">GTC - Good till Canceled</option>
-                <option value="FOK">FOK - Fill or Kill</option>
-                <option value="IOC">IOC - Immediate or Cancel</option>
-                <option value="OPG">OPG - At the Open</option>
-                <option value="CLS">CLS - At the Close</option>
-              </select>
-            </div>
-            <div className="flex space-x-4">
-              <button
-                onClick={() => handleTrade('buy')}
-                className="w-full bg-green-500 text-white p-2 rounded-lg"
-              >
-                Buy
-              </button>
-              <button
-                onClick={() => handleTrade('sell')}
-                className="w-full bg-red-500 text-white p-2 rounded-lg"
-              >
-                Sell
-              </button>
-            </div>
+          <div>
+            <select
+              value={timeFrame}
+              onChange={(e) => setTimeFrame(e.target.value)}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 p-2.5"
+            >
+              <option value="1D">1 Day</option>
+              <option value="5D">5 Days</option>
+              <option value="1M">1 Month</option>
+              <option value="3M">3 Months</option>
+              <option value="1Y">1 Year</option>
+            </select>
           </div>
         </div>
+        <div id="area-chart" className="mt-6">
+          {filteredData ? <Line data={chartData} options={chartOptions} /> : <p>Loading chart...</p>}
+        </div>
       </div>
-      <div className="w-full max-w-6xl bg-white rounded-lg shadow dark:bg-gray-800 p-4 mt-6">
+      <div className="w-full max-w-6xl bg-white rounded-lg shadow dark:bg-gray-800 p-6 mt-6">
         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Account Information</h3>
         <div className="flex justify-around">
           <div className="text-center">
@@ -350,9 +294,10 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <div className="w-full max-w-6xl bg-white rounded-lg shadow dark:bg-gray-800 p-4 mt-6">
+      <div className="w-full max-w-6xl bg-white rounded-lg shadow dark:bg-gray-800 p-6 mt-6">
         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Quiver Poll Data</h3>
-        
+        {/* Placeholder for BarPoll component */}
+        <BarPoll pollData={pollData} />
       </div>
     </div>
   );
