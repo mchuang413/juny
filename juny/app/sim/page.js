@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import CountUp from 'react-countup';
+import BarPoll from './BarPoll'; // Import the BarPoll component
 
 const Page = () => {
   const [portfolioData, setPortfolioData] = useState(null);
@@ -15,6 +16,7 @@ const Page = () => {
   const [quantity, setQuantity] = useState('');
   const [timeInForce, setTimeInForce] = useState('GTC');
   const [accountInfo, setAccountInfo] = useState({ buyingPower: 0, cash: 0, tradeCount: 0 });
+  const [pollData, setPollData] = useState([]);
 
   // Fetch API keys using username from cookies
   const fetchApiKeys = async () => {
@@ -93,6 +95,10 @@ const Page = () => {
       fetchAccountInfo();
     }
   }, [apiKeys]);
+
+  useEffect(() => {
+    fetchPollData();
+  }, []);
 
   useEffect(() => {
     if (portfolioData) {
@@ -343,6 +349,10 @@ const Page = () => {
             <CountUp end={accountInfo.tradeCount} duration={1} className="text-2xl font-bold text-green-500 dark:text-green-400" />
           </div>
         </div>
+      </div>
+      <div className="w-full max-w-6xl bg-white rounded-lg shadow dark:bg-gray-800 p-4 mt-6">
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Quiver Poll Data</h3>
+        
       </div>
     </div>
   );
