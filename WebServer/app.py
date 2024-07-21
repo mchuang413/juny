@@ -6,7 +6,7 @@ from pymongo.server_api import ServerApi
 app = Flask(__name__)
 CORS(app)
 
-uri = "mongodb+srv://michael:michaelchuang@cluster0.r9ljm0v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+uri = "mongodb+srv://michael:michaelchuang@cluster0.r9ljm0v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"  # Add your MongoDB URI here
 
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
@@ -61,17 +61,15 @@ def login():
     data = request.json
     username = data.get("username")
     password = data.get("password")
-    alpaca_key = data.get("alpaca_key")
-    alpaca_secret = data.get("alpaca_secret")
 
     # Check if any field is missing
-    if not username or not password or not alpaca_key:
-        return jsonify({"status": "error", "message": "Username, password, and Alpaca API key are required"}), 400
+    if not username or not password:
+        return jsonify({"status": "error", "message": "Username and password are required"}), 400
 
     user = collection.find_one({"username": username})
     if not user:
         return jsonify({"status": "nouser"})
-    if user["password"] == password and user["alpaca_key"] == alpaca_key:
+    if user["password"] == password:
         return jsonify({"status": "works"})
     else:
         return jsonify({"status": "wrong"})
@@ -82,11 +80,11 @@ def signup():
     username = data.get("username")
     password = data.get("password")
     alpaca_key = data.get("alpaca_key")
-    alpaca_secret = data.get("alpaca_secret")
+    alpaca_secret = data.get("alpaca_secret")  # Get Alpaca secret from request
 
     # Check if any field is missing
-    if not username or not password or not alpaca_key:
-        return jsonify({"status": "error", "message": "Username, password, and Alpaca API key are required"}), 400
+    if not username or not password or not alpaca_key or not alpaca_secret:
+        return jsonify({"status": "error", "message": "Username, password, Alpaca API key, and Alpaca API secret are required"}), 400
 
     # Check if the username already exists
     if collection.find_one({"username": username}):
@@ -97,7 +95,7 @@ def signup():
         "username": username,
         "password": password,
         "alpaca_key": alpaca_key,
-        "alpaca_secret": alpaca_secret,
+        "alpaca_secret": alpaca_secret,  # Include Alpaca secret in the user document
         "premium_user": False  # Set default value for premium_user
     })
 
