@@ -6,7 +6,7 @@ from pymongo.server_api import ServerApi
 app = Flask(__name__)
 CORS(app)
 
-uri = ""
+uri = "mongodb+srv://michael:michaelchuang@cluster0.r9ljm0v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
@@ -62,6 +62,7 @@ def login():
     username = data.get("username")
     password = data.get("password")
     alpaca_key = data.get("alpaca_key")
+    alpaca_secret = data.get("alpaca_secret")
 
     # Check if any field is missing
     if not username or not password or not alpaca_key:
@@ -81,6 +82,7 @@ def signup():
     username = data.get("username")
     password = data.get("password")
     alpaca_key = data.get("alpaca_key")
+    alpaca_secret = data.get("alpaca_secret")
 
     # Check if any field is missing
     if not username or not password or not alpaca_key:
@@ -95,6 +97,7 @@ def signup():
         "username": username,
         "password": password,
         "alpaca_key": alpaca_key,
+        "alpaca_secret": alpaca_secret,
         "premium_user": False  # Set default value for premium_user
     })
 
