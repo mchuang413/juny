@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -7,23 +7,22 @@ const Page = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [alpacaKey, setAlpacaKey] = useState('');
-  const [alpacaSecret, setAlpacaSecret] = useState('');
+  const [alpacaSecret, setAlpacaSecret] = useState(''); // New state for Alpaca secret
   const [isSignup, setIsSignup] = useState(false);
   const [message, setMessage] = useState('');
 
+  // Function to handle login
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://localhost:8134/login', {
         username,
         password,
-        alpaca_key: alpacaKey,
-        alpaca_secret: alpacaSecret,
       });
 
       if (response.data.status === 'works') {
-        Cookies.set('auth', 'your-auth-token');
+        Cookies.set('auth', 'your-auth-token'); // Replace with actual token if available
         setMessage('Login successful');
-        window.location.reload();
+        window.location.reload(); // Refresh the page to update the authentication state
       } else if (response.data.status === 'nouser') {
         setMessage('User does not exist');
       } else {
@@ -35,17 +34,19 @@ const Page = () => {
     }
   };
 
+  // Function to handle signup
   const handleSignup = async () => {
     try {
       const response = await axios.post('http://localhost:8134/signup', {
         username,
         password,
         alpaca_key: alpacaKey,
+        alpaca_secret: alpacaSecret, // Include Alpaca secret in the signup request
       });
 
       if (response.data.status === 'success') {
         setMessage('Signup successful');
-        setIsSignup(false);
+        setIsSignup(false); // Redirect or handle post-signup logic here
       } else {
         setMessage(response.data.message);
       }
@@ -55,9 +56,10 @@ const Page = () => {
     }
   };
 
+  // Function to handle logout
   const handleLogout = () => {
     Cookies.remove('auth');
-    window.location.reload();
+    window.location.reload(); // Refresh the page to update the authentication state
   };
 
   return (
@@ -92,7 +94,7 @@ const Page = () => {
               />
               <input
                 type="text"
-                placeholder="Alpaca API Secret Key"
+                placeholder="Alpaca API Secret"
                 value={alpacaSecret}
                 onChange={(e) => setAlpacaSecret(e.target.value)}
               />
@@ -113,18 +115,6 @@ const Page = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Alpaca API Key"
-                value={alpacaKey}
-                onChange={(e) => setAlpacaKey(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Alpaca API Secret Key"
-                value={alpacaSecret}
-                onChange={(e) => setAlpacaSecret(e.target.value)}
               />
               <button onClick={handleLogin}>Login</button>
               <button onClick={() => setIsSignup(true)}>Sign Up</button>
