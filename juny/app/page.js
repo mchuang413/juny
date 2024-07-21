@@ -20,6 +20,8 @@ const Page = () => {
       });
 
       if (response.data.status === 'works') {
+        Cookies.set('username', username);
+
         Cookies.set('auth', 'your-auth-token'); // Replace with actual token if available
         setMessage('Login successful');
         window.location.reload(); // Refresh the page to update the authentication state
