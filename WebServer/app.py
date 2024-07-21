@@ -4,7 +4,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True)
 
 uri = "mongodb+srv://michael:michaelchuang@cluster0.r9ljm0v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"  # Add your MongoDB URI here
 
@@ -70,7 +70,9 @@ def login():
     if not user:
         return jsonify({"status": "nouser"})
     if user["password"] == password:
-        return jsonify({"status": "works"})
+        response = jsonify({"status": "works"})
+        response.set_cookie("username", username)
+        return response
     else:
         return jsonify({"status": "wrong"})
 
@@ -99,7 +101,9 @@ def signup():
         "premium_user": False  # Set default value for premium_user
     })
 
-    return jsonify({"status": "success", "message": "User registered successfully"}), 201
+    response = jsonify({"status": "success", "message": "User registered successfully"})
+    response.set_cookie("username", username)
+    return response, 201
 
 @app.route('/weaknesses/<input>')
 def weaknesses(input):
@@ -117,6 +121,26 @@ def checkanswer(question ,answer, id):
         mydict = { "id": id, "question" : question, "correct": "F" }
         collection.insert_one(mydict)
         return("Incorrect")
+
+@app.route("/get_api_keys/<username>", methods=["GET"])
+def get_api_keys(username):
+    print(f"Username parameter: {username}")  # Debug line
+    print(" hi")
+    if not username:
+        return jsonify({"status": "error", "message": "Username parameter not found"}), 400
+
+    user = collection.find_one({"username": username})
+    if not user:
+        return jsonify({"status": "error", "message": "User not found"}), 404
+
+    alpaca_key = user.get("alpaca_key")
+    alpaca_secret = user.get("alpaca_secret")
+
+    if not alpaca_key or not alpaca_secret:
+        return jsonify({"status": "error", "message": "API keys not found"}), 404
+    print(alpaca_key + " "+ alpaca_secret)
+    return jsonify({"status": "success", "alpaca_key": alpaca_key, "alpaca_secret": alpaca_secret})
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8134)
