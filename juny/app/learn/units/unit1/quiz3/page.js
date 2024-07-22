@@ -9,117 +9,56 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 10; // Updated to 10 steps for the new questions
+  const numSteps = 3;
   const isPremium = true; // Change this to dynamically check for premium status
 
-  const questions = [
+  const mixedQuestions = [
     {
-      question: "What does the principle of risk vs. reward mean in investing?",
+      question: "What is the capital of France?",
       options: [
-        "a. Higher risk always guarantees higher returns",
-        "b. Higher risk comes with the potential for higher returns",
-        "c. Lower risk always guarantees higher returns",
-        "d. Lower risk comes with the potential for higher returns"
+        "a. Berlin",
+        "b. Madrid",
+        "c. Paris",
+        "d. Rome",
       ],
-      answer: "b. Higher risk comes with the potential for higher returns"
+      answer: "c. Paris",
     },
     {
-      question: "What is diversification in investing?",
+      question: "Which company is known for the iPhone?",
       options: [
-        "a. Putting all your money into one stock",
-        "b. Spreading your investments across different types of assets",
-        "c. Investing only in low-risk assets",
-        "d. Avoiding investments in stocks"
+        "a. Samsung",
+        "b. Apple",
+        "c. Google",
+        "d. Microsoft",
       ],
-      answer: "b. Spreading your investments across different types of assets"
+      answer: "b. Apple",
     },
     {
-      question: "What is the benefit of diversification?",
+      question: "How has technology made investing easier for everyone?",
       options: [
-        "a. It guarantees higher returns",
-        "b. It eliminates all investment risk",
-        "c. It reduces the risk of significant losses",
-        "d. It ensures all investments grow at the same rate"
+        "a. By creating more physical stock exchanges",
+        "b. By increasing the number of banks",
+        "c. By making money more valuable",
+        "d. Through the use of online trading platforms",
       ],
-      answer: "c. It reduces the risk of significant losses"
+      answer: "d. Through the use of online trading platforms",
     },
     {
-      question: "What is compounding in the context of investing?",
+      question: "Investing means putting your money into various assets with the expectation that they will decrease in value over time.",
       options: [
-        "a. The process of spreading investments across various assets",
-        "b. Reinvesting earnings to generate more earnings over time",
-        "c. The impact of inflation on investments",
-        "d. Balancing risk and reward in a portfolio"
+        "True",
+        "False",
       ],
-      answer: "b. Reinvesting earnings to generate more earnings over time"
+      answer: "False",
     },
     {
-      question: "Juny the Octopus wants to protect her investments from significant losses. Which principle should she apply?",
+      question: "The main purpose of investing is to build wealth and reach financial goals.",
       options: [
-        "a. Compounding",
-        "b. Risk vs. Reward",
-        "c. Diversification",
-        "d. Inflation"
+        "True",
+        "False",
       ],
-      answer: "c. Diversification"
+      answer: "True",
     },
-    {
-      question: "Juny is concerned that the value of her savings will decrease over time due to rising prices. What should she consider to combat this?",
-      options: [
-        "a. Investing in assets that outpace inflation",
-        "b. Keeping all her money in a savings account",
-        "c. Avoiding all investments",
-        "d. Investing in low-risk bonds only"
-      ],
-      answer: "a. Investing in assets that outpace inflation"
-    },
-    {
-      question: "Stocks generally offer higher returns than bonds but also come with higher risks.",
-      options: [
-        "a. True",
-        "b. False"
-      ],
-      answer: "a. True"
-    },
-    {
-      question: "Inflation increases the purchasing power of your money over time.",
-      options: [
-        "a. True",
-        "b. False"
-      ],
-      answer: "b. False"
-    },
-    {
-      question: "Compounding can significantly increase your wealth over time by reinvesting your earnings.",
-      options: [
-        "a. True",
-        "b. False"
-      ],
-      answer: "a. True"
-    },
-    {
-      question: "Diversification involves putting all your money into a single stock to maximize returns.",
-      options: [
-        "a. True",
-        "b. False"
-      ],
-      answer: "b. False"
-    },
-    {
-      question: "Match the concept with its description.",
-      options: [
-        "a. Spreading your investments across different types of assets to reduce risk",
-        "b. The process where your investment earnings generate more earnings over time",
-        "c. The chance of losing money versus the potential to make money",
-        "d. The increase in prices over time, reducing purchasing power"
-      ],
-      matches: {
-        "Risk vs. Reward": "c. The chance of losing money versus the potential to make money",
-        "Diversification": "a. Spreading your investments across different types of assets to reduce risk",
-        "Compounding": "b. The process where your investment earnings generate more earnings over time",
-        "Inflation": "d. The increase in prices over time, reducing purchasing power"
-      }
-    }
   ];
 
   const handleSetStep = (num) => {
@@ -269,27 +208,31 @@ const Steps = ({ numSteps, stepsComplete }) => {
 
 const Step = ({ num, isActive }) => {
   return (
-    <div className="relative flex items-center justify-center">
+    <div className="relative">
       <div
-        className={`w-8 h-8 flex items-center justify-center rounded-full border-2 ${
-          isActive ? "border-indigo-600 bg-indigo-100" : "border-gray-300"
+        className={`w-10 h-10 flex items-center justify-center shrink-0 border-2 rounded-full font-semibold text-sm relative z-10 transition-colors duration-300 ${
+          isActive
+            ? "border-indigo-600 bg-indigo-600 text-white"
+            : "border-gray-300 text-gray-300"
         }`}
       >
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {isActive ? (
             <motion.svg
-              key="icon-marker"
-              initial={{ scale: 0.6, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.6, opacity: 0 }}
-              transition={{ duration: 0.125 }}
-              className="w-5 h-5 text-indigo-600"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
+              key="icon-marker-check"
               stroke="currentColor"
+              fill="currentColor"
+              strokeWidth="0"
+              viewBox="0 0 16 16"
+              height="1.6em"
+              width="1.6em"
+              xmlns="http://www.w3.org/2000/svg"
+              initial={{ rotate: 180, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: -180, opacity: 0 }}
+              transition={{ duration: 0.125 }}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 12l2 2 4-4m6 6l2 2 4-4m-6-6l-4 4L6 8" />
+              <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path>
             </motion.svg>
           ) : (
             <motion.span
@@ -365,7 +308,7 @@ const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }
           <h4 className="mb-4 font-semibold text-lg">Personalized Feedback</h4>
           {isLoading ? (
             <p>Loading personalized feedback...</p>
-          ) : 
+          ) : (
             <TypewriterEffect text={aiFeedback} />
           )}
         </div>
