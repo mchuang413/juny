@@ -15,7 +15,7 @@ const Page = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8134/login', {
+      const response = await axios.post('http://52.14.55.37:8134/login', {
         username,
         password,
       });
@@ -40,7 +40,7 @@ const Page = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8134/signup', {
+      const response = await axios.post('http://52.14.55.37:8134/signup', {
         username,
         password,
         alpaca_key: alpacaKey,
