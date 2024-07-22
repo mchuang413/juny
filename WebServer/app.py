@@ -8,11 +8,11 @@ import atexit
 from alpaca_trade_api import REST, TimeFrame  # Import Alpaca API client
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True)
+CORS(app, supports_credentials=True, origins=["https://www.junyapp.com"])
 
 uri = "mongodb+srv://michael:michaelchuang@cluster0.r9ljm0v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"  # Add your MongoDB URI here
 
-# Create a new client and connect to the server
+# Create a new client and connect to the servergit
 client = MongoClient(uri, server_api=ServerApi('1'))
 
 # Send a ping to confirm a successful connection
