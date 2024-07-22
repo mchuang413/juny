@@ -31,7 +31,7 @@ const Page = () => {
         setMessage('Invalid credentials');
       }
     } catch (error) {
-      console.error('Login error:', error);
+      console.error(error);
       setMessage('An error occurred');
     }
   };
@@ -75,7 +75,7 @@ const Page = () => {
             onClick={handleLogout}
           >
             Logout
-          </button>
+           </button>
         </div>
       ) : (
         <>
