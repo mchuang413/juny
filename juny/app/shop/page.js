@@ -6,7 +6,7 @@ const Slogan = () => {
   return (
     <div className="border-4 border-blue-400 text-black p-4 rounded-lg shadow-md mb-8">
       <h1 className="text-2xl font-bold text-center">
-        Join JUNY+ to learn about Juny's stock secrets 📈🐙
+        Join JUNY+ to learn about Juny&apos;s stock secrets 📈🐙
       </h1>
     </div>
   );
