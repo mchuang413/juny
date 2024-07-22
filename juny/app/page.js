@@ -1,6 +1,5 @@
 "use client";
 import { useState } from 'react';
-import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const Page = () => {
@@ -15,23 +14,31 @@ const Page = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://52.14.55.37:8134/login', {
-        username,
-        password,
+      const response = await fetch('http://52.14.55.37:8134/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
       });
 
-      if (response.data.status === 'works') {
+      const data = await response.json();
+
+      if (data.status === 'works') {
         Cookies.set('username', username);
         Cookies.set('auth', 'your-auth-token'); // Replace with actual token if available
         setMessage('Login successful');
         window.location.reload(); // Refresh the page to update the authentication state
-      } else if (response.data.status === 'nouser') {
+      } else if (data.status === 'nouser') {
         setMessage('User does not exist');
       } else {
         setMessage('Invalid credentials');
       }
     } catch (error) {
-      console.error(error);
+      console.error('Login error:', error);
       setMessage('An error occurred');
     }
   };
@@ -40,18 +47,26 @@ const Page = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://52.14.55.37:8134/signup', {
-        username,
-        password,
-        alpaca_key: alpacaKey,
-        alpaca_secret: alpacaSecret, // Include Alpaca secret in the signup request
+      const response = await fetch('http://52.14.55.37:8134/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+          alpaca_key: alpacaKey,
+          alpaca_secret: alpacaSecret,
+        }),
       });
 
-      if (response.data.status === 'success') {
+      const data = await response.json();
+
+      if (data.status === 'success') {
         setMessage('Signup successful');
         setIsSignup(false); // Redirect or handle post-signup logic here
       } else {
-        setMessage(response.data.message);
+        setMessage(data.message);
       }
     } catch (error) {
       console.error('Signup error:', error);

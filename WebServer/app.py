@@ -8,11 +8,7 @@ import atexit
 from alpaca_trade_api import REST, TimeFrame  # Import Alpaca API client
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True, origins=[
-    "https://junyapp.com",
-    "https://juny-git-main-mchuangycgmailcoms-projects.vercel.app",
-    "https://juny-8vz2idvn4-mchuangycgmailcoms-projects.vercel.app"
-])
+CORS(app, supports_credentials=True)
 
 uri = "mongodb+srv://michael:michaelchuang@cluster0.r9ljm0v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"  # Add your MongoDB URI here
 
