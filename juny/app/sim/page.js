@@ -17,11 +17,21 @@ const Page = () => {
   const [timeInForce, setTimeInForce] = useState('GTC');
   const [accountInfo, setAccountInfo] = useState({ buyingPower: 0, cash: 0, tradeCount: 0 });
   const [pollData, setPollData] = useState([]);
+  const [industry, setIndustry] = useState('Technology');
+  const [companies, setCompanies] = useState([]);
+
+  const industries = {
+    Technology: ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'FB'],
+    Healthcare: ['JNJ', 'PFE', 'MRK', 'ABT', 'LLY'],
+    Finance: ['JPM', 'BAC', 'WFC', 'C', 'GS'],
+    Consumer: ['PG', 'KO', 'PEP', 'MCD', 'DIS'],
+    Energy: ['XOM', 'CVX', 'COP', 'SLB', 'PSX'],
+  };
 
   // Fetch API keys using username from cookies
   const fetchApiKeys = async () => {
     try {
-      const username = Cookies.get('username'); // Get the username cookie
+      const username = Cookies.get('username');
       const response = await axios.get(`http://localhost:8134/get_api_keys/${username}`);
       if (response.data.status === 'success') {
         setApiKeys({
@@ -39,6 +49,10 @@ const Page = () => {
   useEffect(() => {
     fetchApiKeys();
   }, []);
+
+  useEffect(() => {
+    setCompanies(industries[industry]);
+  }, [industry]);
 
   const fetchPortfolioHistory = async () => {
     const options = {
@@ -155,52 +169,15 @@ const Page = () => {
     return 'Loading...';
   };
 
-  const handleTrade = async (action) => {
+  const handleTrade = async (action, symbol) => {
     try {
-      const response = await axios.get(`https://paper-api.alpaca.markets/v2/account`, {
-        headers: {
-          accept: 'application/json',
-          'APCA-API-KEY-ID': apiKeys.alpaca_key,
-          'APCA-API-SECRET-KEY': apiKeys.alpaca_secret
-        }
-      });
-      const account = response.data;
-
-      if (action === 'buy' && account.buying_power < quantity) {
-        alert('Insufficient funds to complete the purchase.');
-        return;
-      }
-
-      if (action === 'sell') {
-        const positions = await axios.get(`https://paper-api.alpaca.markets/v2/positions`, {
-          headers: {
-            accept: 'application/json',
-            'APCA-API-KEY-ID': apiKeys.alpaca_key,
-            'APCA-API-SECRET-KEY': apiKeys.alpaca_secret
-          }
-        });
-
-        const position = positions.data.find(pos => pos.symbol === ticker);
-        if (!position || position.qty < quantity) {
-          alert('You do not own enough of this stock to sell.');
-          return;
-        }
-      }
-
-      const order = {
-        symbol: ticker,
-        qty: quantity,
-        side: action,
-        type: 'market',
-        time_in_force: timeInForce
-      };
-
-      await axios.post(`https://paper-api.alpaca.markets/v2/orders`, order, {
-        headers: {
-          accept: 'application/json',
-          'APCA-API-KEY-ID': apiKeys.alpaca_key,
-          'APCA-API-SECRET-KEY': apiKeys.alpaca_secret
-        }
+      const username = Cookies.get('username');
+      await axios.post(`http://localhost:8134/trade`, {
+        username,
+        action,
+        symbol,
+        quantity,
+        timeInForce,
       });
 
       alert('Order placed successfully.');
@@ -244,7 +221,7 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-white">
       <div className="w-full max-w-6xl bg-white rounded-lg shadow dark:bg-gray-800 p-6 mt-6">
         <div className="flex justify-between items-center mb-6">
           <div>
@@ -295,7 +272,51 @@ const Page = () => {
         </div>
       </div>
       <div className="w-full max-w-6xl bg-white rounded-lg shadow dark:bg-gray-800 p-6 mt-6">
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Quiver Poll Data</h3>
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Place Order for Top Companies</h3>
+        <div className="mb-4">
+          <label htmlFor="industry" className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Choose Industry:</label>
+          <select
+            id="industry"
+            value={industry}
+            onChange={(e) => setIndustry(e.target.value)}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 p-2.5"
+          >
+            {Object.keys(industries).map((industryName) => (
+              <option key={industryName} value={industryName}>{industryName}</option>
+            ))}
+          </select>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {companies.map((company) => (
+            <div key={company} className="flex items-center justify-between bg-gray-100 p-4 rounded-lg shadow dark:bg-gray-700">
+              <span className="text-gray-900 dark:text-gray-300">{company}</span>
+              <div className="flex">
+                <input
+                  type="number"
+                  placeholder="Quantity"
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  className="w-24 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 p-2.5 mr-2"
+                />
+                <button
+                  onClick={() => handleTrade('buy', company)}
+                  className="bg-green-500 text-white px-4 py-2 rounded-lg mr-2"
+                >
+                  Buy
+                </button>
+                <button
+                  onClick={() => handleTrade('sell', company)}
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg"
+                >
+                  Sell
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="w-full max-w-6xl bg-white rounded-lg shadow dark:bg-gray-800 p-6 mt-6">
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Wall Street Bets</h3>
         {/* Placeholder for BarPoll component */}
         <BarPoll pollData={pollData} />
       </div>

@@ -7,12 +7,8 @@ const StockNews = () => {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState('stock_market');
-  const [searchTermPersisted, setSearchTermPersisted] = useState('');
-  const [filterPersisted, setFilterPersisted] = useState('stock_market');
 
-  const fetchNews = async (page, searchTerm, filter) => {
+  const fetchNews = async (page) => {
     setLoading(true);
     setError(null);
     try {
@@ -20,15 +16,14 @@ const StockNews = () => {
         params: {
           function: 'NEWS_SENTIMENT',
           apikey: 'Y5NLD75EWKROIBCI',
-          topics: filter,
+          topics: 'stock_market',
           page: page,
-          q: searchTerm,
         },
       });
       console.log('API response:', response.data);
       const articles = response.data.feed || [];
       setNews(articles);
-      setTotalPages(Math.ceil((response.data.total_results || 0) / 10)); // Adjust this based on actual API response
+      setTotalPages(Math.ceil((response.data.total_results || 0) / 10));
     } catch (error) {
       setError(error);
     } finally {
@@ -37,49 +32,14 @@ const StockNews = () => {
   };
 
   useEffect(() => {
-    fetchNews(page, searchTermPersisted, filterPersisted);
-  }, [page, searchTermPersisted, filterPersisted]);
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleFilterChange = (e) => {
-    setFilter(e.target.value);
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    setPage(1);
-    setSearchTermPersisted(searchTerm);
-    setFilterPersisted(filter);
-  };
+    fetchNews(page);
+  }, [page]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="p-4">
-      <form onSubmit={handleSearchSubmit} className="mb-4">
-        <div className="flex space-x-4 items-center">
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            placeholder="Search..."
-            className="px-4 py-2 border rounded w-full text-black"
-          />
-          <select value={filter} onChange={handleFilterChange} className="px-4 py-2 border rounded text-black">
-            <option value="stock_market">Stock Market</option>
-            <option value="technology">Technology</option>
-            <option value="finance">Finance</option>
-            <option value="economy">Economy</option>
-          </select>
-          <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded shadow-lg hover:bg-blue-700 transition duration-200">
-            Search
-          </button>
-        </div>
-      </form>
       {news.length === 0 ? (
         <div>Nothing seems to match your search</div>
       ) : (
