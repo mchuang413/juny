@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { Analytics } from "@vercel/analytics/react"
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
@@ -16,6 +17,7 @@ const RootLayout = ({ children }) => {
   }, []);
 
   return (
+    <>
     <html lang="en">
       <body className={inter.className}>
         <div className="flex flex-col h-screen">
@@ -24,6 +26,7 @@ const RootLayout = ({ children }) => {
         </div>
       </body>
     </html>
+    </>
   );
 };
 
