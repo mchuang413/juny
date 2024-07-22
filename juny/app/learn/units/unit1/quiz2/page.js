@@ -9,93 +9,71 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 7; // Updated to 7 steps for the new questions
+  const numSteps = 3;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "What do you purchase when you buy a stock?",
+      question: "How has technology made investing easier for everyone?",
       options: [
-        "a. A loan to a company",
-        "b. A small piece of ownership in a company",
-        "c. A share of a mutual fund",
-        "d. A bond issued by a company"
+        "a. By creating more physical stock exchanges",
+        "b. By increasing the number of banks",
+        "c. By making money more valuable",
+        "d. Through the use of online trading platforms"
       ],
-      answer: "b. A small piece of ownership in a company"
+      answer: "d. Through the use of online trading platforms"
     },
     {
-      question: "Which type of investment is generally considered safer but usually offers lower returns compared to stocks?",
+      question: "Investing means putting your money into various assets with the expectation that they will decrease in value over time.",
       options: [
-        "a. Real Estate Investment Trusts (REITs)",
-        "b. Commodities",
-        "c. Bonds",
-        "d. Exchange-Traded Funds (ETFs)"
+        "True",
+        "False"
       ],
-      answer: "c. Bonds"
+      answer: "False"
     },
     {
-      question: "What is a characteristic of mutual funds?",
+      question: "The first modern stock market was established in the early 1600s.",
       options: [
-        "a. They can only be bought and sold at the end of the trading day",
-        "b. They offer professional management and diversification",
-        "c. They are physical assets like gold and silver",
-        "d. They represent direct ownership of real estate properties"
+        "True",
+        "False"
       ],
-      answer: "b. They offer professional management and diversification"
+      answer: "True"
     },
     {
-      question: "How are ETFs different from mutual funds?",
+      question: "The history of investing includes people in ancient times investing in tangible assets like land and livestock.",
       options: [
-        "a. ETFs are not traded on stock exchanges",
-        "b. ETFs offer less diversification than mutual funds",
-        "c. ETFs can be bought and sold throughout the trading day",
-        "d. ETFs are only composed of bonds"
+        "True",
+        "False"
       ],
-      answer: "c. ETFs can be bought and sold throughout the trading day"
+      answer: "True"
     },
     {
-      question: "Which investment type involves owning shares in income-producing real estate?",
+      question: "The main purpose of investing is to build wealth and reach financial goals.",
       options: [
-        "a. Stocks",
-        "b. Bonds",
-        "c. Mutual Funds",
-        "d. Real Estate Investment Trusts (REITs)"
+        "True",
+        "False"
       ],
-      answer: "d. Real Estate Investment Trusts (REITs)"
+      answer: "True"
     },
     {
-      question: "What type of investment can protect against inflation and diversify your portfolio?",
+      question: "Juny the Octopus wants to invest her money with the hope that it will grow over time. Which of the following should she consider investing in?",
       options: [
-        "a. Stocks",
-        "b. Bonds",
-        "c. Commodities",
-        "d. ETFs"
+        "a. Seaweed decorations",
+        "b. Stocks, bonds, or real estate",
+        "c. Pearls for her friends",
+        "d. New underwater tablets"
       ],
-      answer: "c. Commodities"
+      answer: "b. Stocks, bonds, or real estate"
     },
     {
-      question: "When you buy a stock, you are lending money to a company.",
+      question: "Imagine Juny is looking at her underwater tablet and sees her investment in a coral reef has increased in value. What does this situation exemplify?",
       options: [
-        "a. True",
-        "b. False"
+        "a. A decrease in wealth",
+        "b. The risk of investing",
+        "c. The growth of her investment",
+        "d. The purpose of saving"
       ],
-      answer: "b. False"
-    },
-    {
-      question: "Mutual funds allow investors to pool their money together to buy a diversified portfolio of assets.",
-      options: [
-        "a. True",
-        "b. False"
-      ],
-      answer: "a. True"
-    },
-    {
-      question: "REITs allow investors to earn income from real estate without having to manage the properties themselves.",
-      options: [
-        "a. True",
-        "b. False"
-      ],
-      answer: "a. True"
+      answer: "c. The growth of her investment"
     }
   ];
 
@@ -128,12 +106,12 @@ const Page = () => {
       const response = await axios.post(
         "https://api.openai.com/v1/completions",
         {
-          model: "gpt-4o",
+          model: "gpt-4",
           prompt: `Generate a personalized feedback report for the following quiz answers: ${JSON.stringify(selectedAnswers)}. Questions: ${JSON.stringify(questions)}`,
         },
         {
           headers: {
-            Authorization: `Bearer `,
+            Authorization: `Bearer YOUR_OPENAI_API_KEY`,
             "Content-Type": "application/json"
           },
         }
