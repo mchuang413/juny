@@ -10,9 +10,9 @@ from alpaca_trade_api import REST, TimeFrame  # Import Alpaca API client
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
-uri = "mongodb+srv://michael:michaelchuang@cluster0.r9ljm0v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+uri = "mongodb+srv://michael:michaelchuang@cluster0.r9ljm0v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"  # Add your MongoDB URI here
 
-# Create a new client and connect to the server
+# Create a new client and connect to the servergit
 client = MongoClient(uri, server_api=ServerApi('1'))
 
 # Send a ping to confirm a successful connection
@@ -27,6 +27,7 @@ db = client["Juny"]
 collection = db["users"]  # Assuming a collection named "users" for user data
 news_collection = db["news"]  # Collection for storing news
 
+# Initial problems and answers
 problems = [
     "What is bullish meaning?",
     "What is bearish meaning?",
@@ -66,6 +67,7 @@ def login():
     username = data.get("username")
     password = data.get("password")
 
+    # Check if any field is missing
     if not username or not password:
         return jsonify({"status": "error", "message": "Username and password are required"}), 400
 
@@ -82,23 +84,26 @@ def login():
 @app.route("/signup", methods=["POST"])
 def signup():
     data = request.json
-    username = data.get("username") 
+    username = data.get("username")
     password = data.get("password")
     alpaca_key = data.get("alpaca_key")
-    alpaca_secret = data.get("alpaca_secret")
+    alpaca_secret = data.get("alpaca_secret")  # Get Alpaca secret from request
 
+    # Check if any field is missing
     if not username or not password or not alpaca_key or not alpaca_secret:
         return jsonify({"status": "error", "message": "Username, password, Alpaca API key, and Alpaca API secret are required"}), 400
 
+    # Check if the username already exists
     if collection.find_one({"username": username}):
         return jsonify({"status": "error", "message": "Username already exists"}), 400
 
+    # Insert the new user into the collection
     collection.insert_one({
         "username": username,
         "password": password,
         "alpaca_key": alpaca_key,
-        "alpaca_secret": alpaca_secret,
-        "premium_user": False
+        "alpaca_secret": alpaca_secret,  # Include Alpaca secret in the user document
+        "premium_user": False  # Set default value for premium_user
     })
 
     response = jsonify({"status": "success", "message": "User registered successfully"})
@@ -124,7 +129,7 @@ def checkanswer(question, answer, id):
 
 @app.route("/get_api_keys/<username>", methods=["GET"])
 def get_api_keys(username):
-    print(f"Username parameter: {username}")
+    print(f"Username parameter: {username}")  # Debug line
     print(" hi")
     if not username:
         return jsonify({"status": "error", "message": "Username parameter not found"}), 400
@@ -143,7 +148,7 @@ def get_api_keys(username):
 
 @app.route("/live_wallstreetbets", methods=["GET"])
 def live_wallstreetbets():
-    quiver_api_key = "a7f488dbb045a1805275bc5b109cdcdaa3c3fab8"
+    quiver_api_key = "a7f488dbb045a1805275bc5b109cdcdaa3c3fab8"  # Replace with your Quiver API key
     headers = {"Authorization": f"Bearer {quiver_api_key}"}
     url = "https://api.quiverquant.com/beta/live/wallstreetbets"
     
@@ -157,7 +162,7 @@ def live_wallstreetbets():
         return jsonify({"status": "error", "message": "Failed to fetch data from Quiver API"}), 500
 
 def fetch_news():
-    alpha_vantage_api_key = "SGNSNG70ZU9IAWW9"
+    alpha_vantage_api_key = "SGNSNG70ZU9IAWW9"  # Replace with your Alpha Vantage API key
     url = f"https://www.alphavantage.co/query?function=NEWS_SENTIMENT&apikey={alpha_vantage_api_key}"
 
     try:
@@ -182,7 +187,7 @@ def get_news():
 
         news_data = list(news_collection.find().sort("time_published", -1).skip(skip).limit(limit))
         for news in news_data:
-            news["_id"] = str(news["_id"])
+            news["_id"] = str(news["_id"])  # Convert ObjectId to string for JSON serialization
         return jsonify({"status": "success", "data": news_data})
     except Exception as e:
         print(e)
@@ -206,7 +211,7 @@ def trade():
 
     alpaca_key = user.get("alpaca_key")
     alpaca_secret = user.get("alpaca_secret")
-    if not alpaca_key or alpaca_secret:
+    if not alpaca_key or not alpaca_secret:
         return jsonify({"status": "error", "message": "API keys not found"}), 404
 
     alpaca = REST(
@@ -225,22 +230,16 @@ def trade():
         )
         return jsonify({"status": "success", "data": order._raw})
     except Exception as e:
-        print(f"Error creating order: {str(e)}")
+        print(f"Error creating order: {str(e)}")  # Log the error message
         return jsonify({"status": "error", "message": str(e)}), 500
-
-# Add a simple route to verify HTTPS setup
-@app.route("/hello")
-def hello():
-    return "Hello, world!"
 
 # Schedule the news fetching function to run 10 times a day
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=fetch_news, trigger="interval", hours=2.4)
+scheduler.add_job(func=fetch_news, trigger="interval", hours=2.4)  # 24 hours / 10 times = every 2.4 hours
 scheduler.start()
 
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
 
 if __name__ == "__main__":
-    context = ('cert.pem', 'key.pem')
-    app.run(host='0.0.0.0', port=443, ssl_context=context)
+    app.run(host='0.0.0.0', port=8134)
