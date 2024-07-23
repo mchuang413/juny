@@ -172,7 +172,7 @@ const Page = () => {
   const handleTrade = async (action, symbol) => {
     try {
       const username = Cookies.get('username');
-      await axios.post(`http://localhost:8134/trade`, {
+      await axios.post(`http://52.14.55.37:443/trade`, {
         username,
         action,
         symbol,
