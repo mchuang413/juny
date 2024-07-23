@@ -32,7 +32,7 @@ const Page = () => {
   const fetchApiKeys = async () => {
     try {
       const username = Cookies.get('username');
-      const response = await axios.get(`http://localhost:8134/get_api_keys/${username}`);
+      const response = await axios.get(`https://52.14.55.37:443/get_api_keys/${username}`);
       if (response.data.status === 'success') {
         setApiKeys({
           alpaca_key: response.data.alpaca_key,
