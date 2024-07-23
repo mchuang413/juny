@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
@@ -32,14 +31,15 @@ const Page = () => {
   const fetchApiKeys = async () => {
     try {
       const username = Cookies.get('username');
-      const response = await axios.get(`https://52.14.55.37:443/get_api_keys/${username}`);
-      if (response.data.status === 'success') {
+      const response = await fetch(`https://52.14.55.37:443/get_api_keys/${username}`);
+      const data = await response.json();
+      if (data.status === 'success') {
         setApiKeys({
-          alpaca_key: response.data.alpaca_key,
-          alpaca_secret: response.data.alpaca_secret,
+          alpaca_key: data.alpaca_key,
+          alpaca_secret: data.alpaca_secret,
         });
       } else {
-        console.error('Failed to fetch API keys:', response.data.message);
+        console.error('Failed to fetch API keys:', data.message);
       }
     } catch (error) {
       console.error('Error fetching API keys:', error);
@@ -57,8 +57,6 @@ const Page = () => {
   const fetchPortfolioHistory = async () => {
     const options = {
       method: 'GET',
-      url: `https://paper-api.alpaca.markets/v2/account/portfolio/history`,
-      params: { intraday_reporting: 'market_hours', pnl_reset: 'per_day' },
       headers: {
         accept: 'application/json',
         'APCA-API-KEY-ID': apiKeys.alpaca_key,
@@ -67,8 +65,8 @@ const Page = () => {
     };
 
     try {
-      const response = await axios.request(options);
-      const data = response.data;
+      const response = await fetch(`https://paper-api.alpaca.markets/v2/account/portfolio/history?intraday_reporting=market_hours&pnl_reset=per_day`, options);
+      const data = await response.json();
       setPortfolioData(data);
       filterData(data, timeFrame);
       console.log('Alpaca Portfolio Data:', data);
@@ -81,7 +79,6 @@ const Page = () => {
   const fetchAccountInfo = async () => {
     const options = {
       method: 'GET',
-      url: `https://paper-api.alpaca.markets/v2/account`,
       headers: {
         accept: 'application/json',
         'APCA-API-KEY-ID': apiKeys.alpaca_key,
@@ -90,8 +87,8 @@ const Page = () => {
     };
 
     try {
-      const response = await axios.request(options);
-      const data = response.data;
+      const response = await fetch(`https://paper-api.alpaca.markets/v2/account`, options);
+      const data = await response.json();
       setAccountInfo({
         buyingPower: data.buying_power,
         cash: data.cash,
@@ -172,16 +169,27 @@ const Page = () => {
   const handleTrade = async (action, symbol) => {
     try {
       const username = Cookies.get('username');
-      await axios.post(`https://52.14.55.37:443/trade`, {
-        username,
-        action,
-        symbol,
-        quantity,
-        timeInForce,
+      const response = await fetch(`https://52.14.55.37:443/trade`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          action,
+          symbol,
+          quantity,
+          timeInForce,
+        }),
       });
 
-      alert('Order placed successfully.');
-      fetchPortfolioHistory();
+      if (response.ok) {
+        alert('Order placed successfully.');
+        fetchPortfolioHistory();
+      } else {
+        const errorData = await response.json();
+        alert(`Failed to place order: ${errorData.message}`);
+      }
     } catch (error) {
       console.error('Error placing order:', error);
       alert('Failed to place order. Please try again.');
