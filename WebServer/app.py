@@ -206,7 +206,7 @@ def trade():
 
     alpaca_key = user.get("alpaca_key")
     alpaca_secret = user.get("alpaca_secret")
-    if not alpaca_key or alpaca_secret:
+    if not alpaca_key or not alpaca_secret:
         return jsonify({"status": "error", "message": "API keys not found"}), 404
 
     alpaca = REST(
@@ -221,7 +221,7 @@ def trade():
             qty=int(quantity),
             side=action,
             type='market',
-            time_in_force="day",
+            time_in_force='day',
         )
         return jsonify({"status": "success", "data": order._raw})
     except Exception as e:
@@ -242,5 +242,5 @@ scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
 
 if __name__ == "__main__":
-    context = ('cert.pem', 'key.pem')
+    context = ('/etc/letsencrypt/live/michaelape.site/fullchain.pem', '/etc/letsencrypt/live/michaelape.site/privkey.pem')  # Update paths to your SSL certificate and key
     app.run(host='0.0.0.0', port=443, ssl_context=context)

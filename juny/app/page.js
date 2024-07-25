@@ -14,7 +14,7 @@ const Page = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://52.14.55.37:443/login', {  // Update to HTTPS and correct port
+      const response = await fetch('https://michaelape.site/login', {  // Update to HTTPS and correct port
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const Page = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://52.14.55.37:443/signup', {  // Update to HTTPS and correct port
+      const response = await fetch('https://michaelape.site/signup', {  // Update to HTTPS and correct port
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
