@@ -31,7 +31,7 @@ const Page = () => {
   const fetchApiKeys = async () => {
     try {
       const username = Cookies.get('username');
-      const response = await fetch(`https://52.14.55.37:443/get_api_keys/${username}`);
+      const response = await fetch(`https://michaelape.site/get_api_keys/${username}`);
       const data = await response.json();
       if (data.status === 'success') {
         setApiKeys({
@@ -169,7 +169,7 @@ const Page = () => {
   const handleTrade = async (action, symbol) => {
     try {
       const username = Cookies.get('username');
-      const response = await fetch(`https://52.14.55.37:443/trade`, {
+      const response = await fetch(`https://michaelape.site/trade`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
