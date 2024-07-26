@@ -74,12 +74,13 @@ const Page = () => {
       const response = await axios.post(
         "https://api.openai.com/v1/completions",
         {
-          model: "gpt-4o",
+          model: "gpt-4",
           prompt: `Generate a personalized feedback report for the following quiz answers: ${JSON.stringify(selectedAnswers)}. Questions: ${JSON.stringify(questions)}`,
+          max_tokens: 500
         },
         {
           headers: {
-            Authorization: `Bearer `,
+            Authorization: `Bearer ${process.env.OPENAI_KEY}`,
             "Content-Type": "application/json"
           },
         }
