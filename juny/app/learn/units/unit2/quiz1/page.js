@@ -312,6 +312,12 @@ const DragDropMatch = ({ question, selectedAnswer, onMatchAnswer }) => {
   const moveDescription = (fromIndex, toType) => {
     const updatedDescriptions = [...descriptions];
     const [movedDescription] = updatedDescriptions.splice(fromIndex, 1);
+    const existingDescription = selectedAnswer?.[toType];
+    
+    if (existingDescription) {
+      updatedDescriptions.push(existingDescription);
+    }
+
     setDescriptions(updatedDescriptions);
     onMatchAnswer(3, toType, movedDescription);
   };
