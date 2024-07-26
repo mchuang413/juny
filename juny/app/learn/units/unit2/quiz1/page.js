@@ -354,7 +354,7 @@ const ClickSelectMatch = ({
           <span className="font-semibold">{type}</span>
           <div
             onClick={() => handleBoxClick(type)}
-            className="mt-2 p-4 border rounded h-auto bg-white min-h-[50px] cursor-pointer"
+            className={`mt-2 p-4 border rounded h-auto min-h-[50px] cursor-pointer ${selectedDescription ? "border-blue-500" : "border-gray-300"}`}
           >
             {selectedAnswer?.[type] || "Click to place description here"}
           </div>
@@ -365,8 +365,7 @@ const ClickSelectMatch = ({
           <div
             key={index}
             onClick={() => handleDescriptionClick(description)}
-            className={`p-2 border rounded mb-2 bg-gray-200 cursor-pointer ${selectedDescription === description ? "bg-blue-200" : ""
-              }`}
+            className={`p-2 border rounded mb-2 cursor-pointer ${selectedDescription === description ? "bg-blue-200 border-blue-500" : "bg-gray-200 border-gray-300"}`}
           >
             {description}
           </div>
