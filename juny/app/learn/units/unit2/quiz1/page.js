@@ -309,34 +309,48 @@ const Question = ({ step, questions, selectedAnswer, onSelectAnswer, onMatchAnsw
 const DragDropMatch = ({ question, selectedAnswer, onMatchAnswer }) => {
   const [descriptions, setDescriptions] = useState(Object.values(question.options));
 
-  const [{ isOver }, drop] = useDrop({
-    accept: "description",
-    drop: (item, monitor) => {
-      const { type } = monitor.getItem();
-      onMatchAnswer(3, type, descriptions[item.index]);
-    },
-    collect: (monitor) => ({
-      isOver: monitor.isOver()
-    })
-  });
+  const moveDescription = (fromIndex, toType) => {
+    const updatedDescriptions = [...descriptions];
+    const [movedDescription] = updatedDescriptions.splice(fromIndex, 1);
+    setDescriptions(updatedDescriptions);
+    onMatchAnswer(3, toType, movedDescription);
+  };
 
   return (
     <div className="grid grid-cols-2 gap-4">
-      {Object.keys(question.options).map((type, index) => (
-        <div key={type} className="mb-2">
-          <label className="flex flex-col items-start">
-            <span className="font-semibold">{type}</span>
-            <div className="mt-2 p-2 border rounded h-12 bg-white" ref={drop}>
-              {selectedAnswer?.[type] || "Drop description here"}
-            </div>
-          </label>
-        </div>
+      {Object.keys(question.options).map((type) => (
+        <DropTarget
+          key={type}
+          type={type}
+          description={selectedAnswer?.[type]}
+          moveDescription={moveDescription}
+        />
       ))}
       <div className="col-span-2">
         {descriptions.map((description, index) => (
           <DraggableDescription key={index} description={description} index={index} />
         ))}
       </div>
+    </div>
+  );
+};
+
+const DropTarget = ({ type, description, moveDescription }) => {
+  const [, drop] = useDrop({
+    accept: "description",
+    drop: (item) => {
+      moveDescription(item.index, type);
+    }
+  });
+
+  return (
+    <div ref={drop} className="mb-2">
+      <label className="flex flex-col items-start">
+        <span className="font-semibold">{type}</span>
+        <div className="mt-2 p-2 border rounded h-12 bg-white">
+          {description || "Drop description here"}
+        </div>
+      </label>
     </div>
   );
 };

@@ -1,453 +1,185 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import axios from "axios";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { useState } from 'react';
+import Cookies from 'js-cookie';
 
 const Page = () => {
-  const [stepsComplete, setStepsComplete] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 4;
-  const isPremium = true; // Change this to dynamically check for premium status
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [alpacaKey, setAlpacaKey] = useState('');
+  const [alpacaSecret, setAlpacaSecret] = useState('');
+  const [isSignup, setIsSignup] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const questions = [
-    {
-      question: "What is the main purpose of investing?",
-      options: [
-        "a. To buy and sell assets quickly",
-        "b. To build wealth and reach financial goals",
-        "c. To keep money in a savings account",
-        "d. To avoid financial markets"
-      ],
-      answer: "b. To build wealth and reach financial goals"
-    },
-    {
-      question: "Which of the following is an example of an asset you can invest in?",
-      options: [
-        "a. Groceries",
-        "b. Clothes",
-        "c. Stocks",
-        "d. Vacations"
-      ],
-      answer: "c. Stocks"
-    },
-    {
-      question: "Where was the first modern stock market established?",
-      options: [
-        "a. New York",
-        "b. London",
-        "c. Amsterdam",
-        "d. Tokyo"
-      ],
-      answer: "c. Amsterdam"
-    },
-    {
-      question: "Match the type of investment with its description.",
-      options: {
-        Stocks: "c. Ownership in a company that can increase in value and may pay dividends",
-        Bonds: "e. Lending money to a company or government with the promise of repayment with interest",
-        "Mutual Funds": "a. Collections of stocks, bonds, or other assets managed by professionals",
-        ETFs: "b. Traded on stock exchanges, offering diversification and professional management",
-        REITs: "d. Companies that own, operate, or finance income-producing real estate",
-        Commodities: "f. Raw materials like gold, silver, oil, or agricultural products"
-      },
-      answer: {
-        Stocks: "c. Ownership in a company that can increase in value and may pay dividends",
-        Bonds: "e. Lending money to a company or government with the promise of repayment with interest",
-        "Mutual Funds": "a. Collections of stocks, bonds, or other assets managed by professionals",
-        ETFs: "b. Traded on stock exchanges, offering diversification and professional management",
-        REITs: "d. Companies that own, operate, or finance income-producing real estate",
-        Commodities: "f. Raw materials like gold, silver, oil, or agricultural products"
-      }
-    }
-  ];
-
-  const handleSetStep = (num) => {
-    if (
-      (stepsComplete === 0 && num === -1) ||
-      (stepsComplete === numSteps && num === 1)
-    ) {
-      return;
-    }
-
-    setStepsComplete((pv) => pv + num);
-  };
-
-  const handleSelectAnswer = (step, answer) => {
-    setSelectedAnswers((prev) => ({ ...prev, [step]: answer }));
-  };
-
-  const handleMatchAnswer = (step, type, description) => {
-    setSelectedAnswers((prev) => ({
-      ...prev,
-      [step]: { ...prev[step], [type]: description }
-    }));
-  };
-
-  const handleSubmit = () => {
-    setIsSubmitted(true);
-    if (isPremium) {
-      generatePersonalizedFeedback();
-    }
-  };
-
-  const generatePersonalizedFeedback = async () => {
-    setIsLoading(true);
-    setAiFeedback("");
+  // Function to handle login
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.post(
-        "https://api.openai.com/v1/completions",
-        {
-          model: "gpt-4o",
-          prompt: `Generate a personalized feedback report for the following quiz answers: ${JSON.stringify(selectedAnswers)}. Questions: ${JSON.stringify(questions)}`,
+      const response = await fetch('https://michaelape.site/login', {  // Update to HTTPS and correct port
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        {
-          headers: {
-            Authorization: `Bearer `,
-            "Content-Type": "application/json"
-          },
-        }
-      );
-      setAiFeedback(response.data.choices[0].text);
-    } catch (error) {
-      console.error("Error generating personalized feedback:", error);
-      setAiFeedback("There was an error generating the feedback. Please try again later.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
 
-  const TypewriterEffect = ({ text }) => {
-    const [displayedText, setDisplayedText] = useState("");
+      const data = await response.json();
 
-    useEffect(() => {
-      let index = 0;
-      const interval = setInterval(() => {
-        setDisplayedText((prev) => prev + text.charAt(index));
-        index++;
-        if (index >= text.length) {
-          clearInterval(interval);
-        }
-      }, 50);
-      return () => clearInterval(interval);
-    }, [text]);
-
-    return <p>{displayedText}</p>;
-  };
-
-  return (
-    <DndProvider backend={HTML5Backend}>
-      <div className="px-4 py-14 bg-white">
-        <div className="p-8 bg-white shadow-lg rounded-md w-full max-w-2xl mx-auto">
-          {!isSubmitted ? (
-            <>
-              <Steps numSteps={numSteps} stepsComplete={stepsComplete} />
-              <div className="p-2 my-6 h-auto bg-gray-100 border-2 border-dashed border-gray-200 rounded-lg">
-                <Question
-                  step={stepsComplete}
-                  questions={questions}
-                  selectedAnswer={selectedAnswers[stepsComplete]}
-                  onSelectAnswer={handleSelectAnswer}
-                  onMatchAnswer={handleMatchAnswer}
-                />
-              </div>
-              <div className="flex items-center justify-end gap-2">
-                <button
-                  className="px-4 py-1 rounded hover:bg-gray-100 text-black"
-                  onClick={() => handleSetStep(-1)}
-                >
-                  Prev
-                </button>
-                {stepsComplete < numSteps - 1 ? (
-                  <button
-                    className="px-4 py-1 rounded bg-black text-white"
-                    onClick={() => handleSetStep(1)}
-                  >
-                    Next
-                  </button>
-                ) : (
-                  <button
-                    className="px-4 py-1 rounded bg-black text-white"
-                    onClick={handleSubmit}
-                  >
-                    Submit
-                  </button>
-                )}
-              </div>
-            </>
-          ) : (
-            <Report
-              questions={questions}
-              selectedAnswers={selectedAnswers}
-              isLoading={isLoading}
-              aiFeedback={aiFeedback}
-              isPremium={isPremium}
-            />
-          )}
-        </div>
-      </div>
-    </DndProvider>
-  );
-};
-
-const Steps = ({ numSteps, stepsComplete }) => {
-  const stepArray = Array.from(Array(numSteps).keys());
-
-  return (
-    <div className="flex items-center justify-between gap-3">
-      {stepArray.map((num) => {
-        const stepNum = num + 1;
-        const isActive = stepNum <= stepsComplete;
-        return (
-          <React.Fragment key={stepNum}>
-            <Step num={stepNum} isActive={isActive} />
-            {stepNum !== stepArray.length && (
-              <div className="w-full h-1 rounded-full bg-gray-200 relative">
-                <motion.div
-                  className="absolute top-0 bottom-0 left-0 bg-indigo-600 rounded-full"
-                  animate={{ width: isActive ? "100%" : 0 }}
-                  transition={{ ease: "easeIn", duration: 0.3 }}
-                />
-              </div>
-            )}
-          </React.Fragment>
-        );
-      })}
-    </div>
-  );
-};
-
-const Step = ({ num, isActive }) => {
-  return (
-    <div className="relative">
-      <div
-        className={`w-10 h-10 flex items-center justify-center shrink-0 border-2 rounded-full font-semibold text-sm relative z-10 transition-colors duration-300 ${
-          isActive
-            ? "border-indigo-600 bg-indigo-600 text-white"
-            : "border-gray-300 text-gray-300"
-        }`}
-      >
-        <AnimatePresence mode="wait">
-          {isActive ? (
-            <motion.svg
-              key="icon-marker-check"
-              stroke="currentColor"
-              fill="currentColor"
-              strokeWidth="0"
-              viewBox="0 0 16 16"
-              height="1.6em"
-              width="1.6em"
-              xmlns="http://www.w3.org/2000/svg"
-              initial={{ rotate: 180, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -180, opacity: 0 }}
-              transition={{ duration: 0.125 }}
-            >
-              <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path>
-            </motion.svg>
-          ) : (
-            <motion.span
-              key="icon-marker-num"
-              initial={{ rotate: 180, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -180, opacity: 0 }}
-              transition={{ duration: 0.125 }}
-            >
-              {num}
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </div>
-      {isActive && (
-        <div className="absolute z-0 -inset-1.5 bg-indigo-100 rounded-full animate-pulse" />
-      )}
-    </div>
-  );
-};
-
-const Question = ({ step, questions, selectedAnswer, onSelectAnswer, onMatchAnswer }) => {
-  const question = questions[step];
-  if (!question) return null;
-
-  if (step === 3) {
-    return (
-      <div>
-        <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
-        <DragDropMatch question={question} selectedAnswer={selectedAnswer} onMatchAnswer={onMatchAnswer} />
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
-      <ul className="list-disc pl-5">
-        {question.options.map((option, index) => (
-          <li key={index} className="mb-2">
-            <label className="flex items-center">
-              <input
-                type="radio"
-                name={`question-${step}`}
-                value={option}
-                checked={selectedAnswer === option}
-                onChange={() => onSelectAnswer(step, option)}
-                className="mr-2"
-              />
-              {option}
-            </label>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-const DragDropMatch = ({ question, selectedAnswer, onMatchAnswer }) => {
-  const [descriptions, setDescriptions] = useState(Object.values(question.options));
-
-  const moveDescription = (fromIndex, toType) => {
-    const updatedDescriptions = [...descriptions];
-    const [movedDescription] = updatedDescriptions.splice(fromIndex, 1);
-    setDescriptions(updatedDescriptions);
-    onMatchAnswer(3, toType, movedDescription);
-  };
-
-  return (
-    <div className="grid grid-cols-2 gap-4">
-      {Object.keys(question.options).map((type) => (
-        <DropTarget
-          key={type}
-          type={type}
-          description={selectedAnswer?.[type]}
-          moveDescription={moveDescription}
-        />
-      ))}
-      <div className="col-span-2">
-        {descriptions.map((description, index) => (
-          <DraggableDescription key={index} description={description} index={index} />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const DropTarget = ({ type, description, moveDescription }) => {
-  const [, drop] = useDrop({
-    accept: "description",
-    drop: (item) => {
-      moveDescription(item.index, type);
-    }
-  });
-
-  return (
-    <div ref={drop} className="mb-2">
-      <label className="flex flex-col items-start">
-        <span className="font-semibold">{type}</span>
-        <div className="mt-2 p-2 border rounded h-12 bg-white">
-          {description || "Drop description here"}
-        </div>
-      </label>
-    </div>
-  );
-};
-
-const DraggableDescription = ({ description, index }) => {
-  const [{ isDragging }, drag] = useDrag({
-    type: "description",
-    item: { description, index },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging()
-    })
-  });
-
-  return (
-    <div
-      ref={drag}
-      className={`p-2 border rounded mb-2 bg-gray-200 ${isDragging ? "opacity-50" : "opacity-100"}`}
-    >
-      {description}
-    </div>
-  );
-};
-
-const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }) => {
-  return (
-    <div className="mb-4 p-4 rounded-lg border-4 border-blue-400 w-full max-w-3xl mx-auto">
-      <h3 className="mb-6 font-semibold text-xl text-center">Quiz Report</h3>
-      {questions.map((question, index) => (
-        <div key={index} className="mb-4 p-4 bg-gray-100 rounded-lg shadow-md">
-          <p className="mb-2">
-            <strong>Question {index + 1}:</strong> {question.question}
-          </p>
-          {index === 3 ? (
-            <>
-              <p className="mb-2">
-                <strong>Your Answers:</strong>
-              </p>
-              <ul className="list-disc pl-5">
-                {Object.keys(question.options).map((type) => (
-                  <li key={type} className="mb-2">
-                    {type}: {selectedAnswers[3]?.[type]} -{" "}
-                    {selectedAnswers[3]?.[type] === question.answer[type] ? (
-                      <span className="text-green-600 font-semibold">Correct</span>
-                    ) : (
-                      <span className="text-red-600 font-semibold">Wrong</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : (
-            <>
-              <p className="mb-2">
-                <strong>Your Answer:</strong> {selectedAnswers[index]}
-              </p>
-              <p className="mb-2">
-                <strong>Correct Answer:</strong> {question.answer} -{" "}
-                {selectedAnswers[index] === question.answer ? (
-                  <span className="text-green-600 font-semibold">Correct</span>
-                ) : (
-                  <span className="text-red-600 font-semibold">Wrong</span>
-                )}
-              </p>
-            </>
-          )}
-        </div>
-      ))}
-      {isPremium && (
-        <div className="mt-6 p-4 bg-gray-100 rounded-lg shadow-md">
-          <h4 className="mb-4 font-semibold text-lg">Personalized Feedback</h4>
-          {isLoading ? (
-            <p>Loading personalized feedback...</p>
-          ) : (
-            <TypewriterEffect text={aiFeedback} />
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
-
-const TypewriterEffect = ({ text }) => {
-  const [displayedText, setDisplayedText] = useState("");
-
-  useEffect(() => {
-    let index = 0;
-    const interval = setInterval(() => {
-      setDisplayedText((prev) => prev + text.charAt(index));
-      index++;
-      if (index >= text.length) {
-        clearInterval(interval);
+      if (data.status === 'works') {
+        Cookies.set('username', username);
+        Cookies.set('auth', 'your-auth-token'); // Replace with actual token if available
+        setMessage('Login successful');
+        window.location.reload(); // Refresh the page to update the authentication state
+      } else if (data.status === 'nouser') {
+        setMessage('User does not exist');
+      } else {
+        setMessage('Invalid credentials');
       }
-    }, 50);
-    return () => clearInterval(interval);
-  }, [text]);
+    } catch (error) {
+      console.error('Login error:', error);
+      setMessage('An error occurred');
+    }
+  };
 
-  return <p>{displayedText}</p>;
+  // Function to handle signup
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('https://michaelape.site/signup', {  // Update to HTTPS and correct port
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+          alpaca_key: alpacaKey,
+          alpaca_secret: alpacaSecret,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        setMessage('Signup successful');
+        setIsSignup(false); // Redirect or handle post-signup logic here
+      } else {
+        setMessage(data.message);
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+      setMessage('An error occurred');
+    }
+  };
+
+  // Function to handle logout
+  const handleLogout = () => {
+    Cookies.remove('auth');
+    window.location.reload(); // Refresh the page to update the authentication state
+  };
+
+  return (
+    <div className="h-full flex flex-col justify-center items-center relative overflow-hidden">
+      {Cookies.get('auth') ? (
+        <div className="text-center">
+          <h1 className="text-4xl font-bold">Welcome to JUNY!</h1>
+          <button
+            className="bg-indigo-600 hover:bg-indigo-800 py-2 px-4 rounded transition duration-300 text-white font-semibold mt-4"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
+      ) : (
+        <>
+          <div className="flex w-full max-w-md justify-center items-center bg-white space-y-8 rounded-lg shadow-2xl p-10 relative z-10">
+            <div className="w-full">
+              <form onSubmit={isSignup ? handleSignup : handleLogin}>
+                <h1 className="text-gray-800 font-bold text-3xl mb-1 text-center">{isSignup ? 'Sign Up' : 'Hello Again!'}</h1>
+                <p className="text-sm font-normal text-gray-600 mb-8 text-center">{isSignup ? 'Create your account' : 'Welcome Back'}</p>
+                <div className="flex items-center border-2 mb-4 py-2 px-3 rounded-2xl">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                  </svg>
+                  <input
+                    id="username"
+                    className="pl-2 w-full outline-none border-none"
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="flex items-center border-2 mb-6 py-2 px-3 rounded-2xl">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                  </svg>
+                  <input
+                    className="pl-2 w-full outline-none border-none"
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                {isSignup && (
+                  <>
+                    <div className="flex items-center border-2 mb-4 py-2 px-3 rounded-2xl">
+                      <input
+                        className="pl-2 w-full outline-none border-none"
+                        type="text"
+                        name="alpacaKey"
+                        placeholder="Alpaca API Key"
+                        value={alpacaKey}
+                        onChange={(e) => setAlpacaKey(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="flex items-center border-2 mb-4 py-2 px-3 rounded-2xl">
+                      <input
+                        className="pl-2 w-full outline-none border-none"
+                        type="text"
+                        name="alpacaSecret"
+                        placeholder="Alpaca API Secret"
+                        value={alpacaSecret}
+                        onChange={(e) => setAlpacaSecret(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </>
+                )}
+                <button type="submit" className="block w-full bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2">
+                  {isSignup ? 'Sign Up' : 'Login'}
+                </button>
+                <div className="flex justify-between mt-4">
+                  {!isSignup && (
+                    <span className="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all">Forgot Password?</span>
+                  )}
+                  <a
+                    href="#"
+                    className="text-sm ml-2 hover:text-blue-500 cursor-pointer hover:-translate-y-1 duration-500 transition-all"
+                    onClick={() => setIsSignup(!isSignup)}
+                  >
+                    {isSignup ? 'Already have an account?' : "Don't have an account yet?"}
+                  </a>
+                </div>
+                {message && <p className="text-red-500 mt-4">{message}</p>}
+              </form>
+            </div>
+          </div>
+          <div className="absolute bottom-0 w-full">
+            <img src="/wave.svg" alt="Wave" className="w-full rounded-b-lg" />
+          </div>
+        </>
+      )}
+    </div>
+  );
 };
 
 export default Page;
