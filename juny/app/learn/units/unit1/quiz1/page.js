@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import axios from "axios";
 
 const Page = () => {
   const [stepsComplete, setStepsComplete] = useState(0);
@@ -71,22 +70,23 @@ const Page = () => {
     setIsLoading(true);
     setAiFeedback("");
     try {
-      const response = await axios.post(
+      const response = await fetch(
         "https://api.openai.com/v1/completions",
         {
-          model: "gpt-4",
-          prompt: `Generate a personalized feedback report for the following quiz answers: ${JSON.stringify(selectedAnswers)}. Questions: ${JSON.stringify(questions)}`,
-          max_tokens: 500
-        },
-        {
+          method: "POST",
           headers: {
-            Authorization: `Bearer ${process.env.OPENAI_KEY}`,
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPENAI_KEY}`,
             "Content-Type": "application/json"
           },
+          body: JSON.stringify({
+            model: "gpt-4",
+            prompt: `Generate a personalized feedback report for the following quiz answers: ${JSON.stringify(selectedAnswers)}. Questions: ${JSON.stringify(questions)}`,
+            max_tokens: 500
+          })
         }
       );
-      console.log(process.env.OPENAI_KEY);
-      setAiFeedback(response.data.choices[0].text);
+      const data = await response.json();
+      setAiFeedback(data.choices[0].text);
     } catch (error) {
       console.error("Error generating personalized feedback:", error);
       setAiFeedback("There was an error generating the feedback. Please try again later.");
