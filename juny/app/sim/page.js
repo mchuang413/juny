@@ -5,14 +5,15 @@ import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import CountUp from 'react-countup';
 import BarPoll from './BarPoll'; // Import the BarPoll component
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Page = () => {
   const [portfolioData, setPortfolioData] = useState(null);
   const [filteredData, setFilteredData] = useState(null);
   const [timeFrame, setTimeFrame] = useState('1D'); // Default time frame
   const [apiKeys, setApiKeys] = useState({ alpaca_key: '', alpaca_secret: '' });
-  const [ticker, setTicker] = useState('');
-  const [quantity, setQuantity] = useState('');
+  const [quantities, setQuantities] = useState({});
   const [timeInForce, setTimeInForce] = useState('GTC');
   const [accountInfo, setAccountInfo] = useState({ buyingPower: 0, cash: 0, tradeCount: 0 });
   const [pollData, setPollData] = useState([]);
@@ -20,7 +21,7 @@ const Page = () => {
   const [companies, setCompanies] = useState([]);
 
   const industries = {
-    Technology: ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'FB'],
+    Technology: ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'META'],
     Healthcare: ['JNJ', 'PFE', 'MRK', 'ABT', 'LLY'],
     Finance: ['JPM', 'BAC', 'WFC', 'C', 'GS'],
     Consumer: ['PG', 'KO', 'PEP', 'MCD', 'DIS'],
@@ -72,7 +73,7 @@ const Page = () => {
       console.log('Alpaca Portfolio Data:', data);
     } catch (error) {
       console.error('Error fetching portfolio data:', error);
-      alert('Failed to fetch portfolio data. Please check your API keys and parameters.');
+      toast.error('Failed to fetch portfolio data. Please check your API keys and parameters.');
     }
   };
 
@@ -178,21 +179,21 @@ const Page = () => {
           username,
           action,
           symbol,
-          quantity,
+          quantity: quantities[symbol] || 0,
           timeInForce,
         }),
       });
 
       if (response.ok) {
-        alert('Order placed successfully.');
+        toast.success('Order placed successfully.');
         fetchPortfolioHistory();
       } else {
         const errorData = await response.json();
-        alert(`Failed to place order: ${errorData.message}`);
+        toast.error(`Failed to place order: ${errorData.message}`);
       }
     } catch (error) {
       console.error('Error placing order:', error);
-      alert('Failed to place order. Please try again.');
+      toast.error('Failed to place order. Please try again.');
     }
   };
 
@@ -228,8 +229,16 @@ const Page = () => {
     },
   };
 
+  const handleQuantityChange = (symbol, value) => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [symbol]: value,
+    }));
+  };
+
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-white">
+      <ToastContainer />
       <div className="w-full max-w-6xl bg-white rounded-lg shadow dark:bg-gray-800 p-6 mt-6">
         <div className="flex justify-between items-center mb-6">
           <div>
@@ -302,8 +311,8 @@ const Page = () => {
                 <input
                   type="number"
                   placeholder="Quantity"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
+                  value={quantities[company] || ''}
+                  onChange={(e) => handleQuantityChange(company, e.target.value)}
                   className="w-24 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 p-2.5 mr-2"
                 />
                 <button
