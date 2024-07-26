@@ -78,7 +78,7 @@ const Page = () => {
       const response = await fetch("https://api.openai.com/v1/completions", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${apiKey}`,
+          Authorization: `${apiKey}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
