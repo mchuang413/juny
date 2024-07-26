@@ -70,10 +70,15 @@ const Page = () => {
     setIsLoading(true);
     setAiFeedback("");
     try {
+      const apiKey = process.env.OPENAI_KEY;
+      if (!apiKey) {
+        throw new Error("API key is not set");
+      }
+  
       const response = await fetch("https://api.openai.com/v1/completions", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.OPENAI_KEY}`,
+          Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
@@ -101,6 +106,7 @@ const Page = () => {
       setIsLoading(false);
     }
   };
+  
 
   const TypewriterEffect = ({ text }) => {
     const [displayedText, setDisplayedText] = useState("");
