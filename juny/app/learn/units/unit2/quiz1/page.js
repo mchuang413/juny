@@ -316,17 +316,26 @@ const DragDropMatch = ({ question, selectedAnswer, onMatchAnswer }) => {
     onMatchAnswer(3, toType, movedDescription);
   };
 
+  const removeDescription = (fromType) => {
+    const updatedDescriptions = [...descriptions, selectedAnswer[fromType]];
+    setDescriptions(updatedDescriptions);
+    onMatchAnswer(3, fromType, null);
+  };
+
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div>
       {Object.keys(question.options).map((type) => (
-        <DropTarget
-          key={type}
-          type={type}
-          description={selectedAnswer?.[type]}
-          moveDescription={moveDescription}
-        />
+        <div key={type} className="flex flex-col mb-4">
+          <span className="font-semibold">{type}</span>
+          <DropTarget
+            type={type}
+            description={selectedAnswer?.[type]}
+            moveDescription={moveDescription}
+            removeDescription={removeDescription}
+          />
+        </div>
       ))}
-      <div className="col-span-2">
+      <div className="flex flex-col">
         {descriptions.map((description, index) => (
           <DraggableDescription key={index} description={description} index={index} />
         ))}
@@ -335,7 +344,7 @@ const DragDropMatch = ({ question, selectedAnswer, onMatchAnswer }) => {
   );
 };
 
-const DropTarget = ({ type, description, moveDescription }) => {
+const DropTarget = ({ type, description, moveDescription, removeDescription }) => {
   const [, drop] = useDrop({
     accept: "description",
     drop: (item) => {
@@ -344,13 +353,17 @@ const DropTarget = ({ type, description, moveDescription }) => {
   });
 
   return (
-    <div ref={drop} className="mb-2">
-      <label className="flex flex-col items-start">
-        <span className="font-semibold">{type}</span>
-        <div className="mt-2 p-2 border rounded h-12 bg-white">
-          {description || "Drop description here"}
+    <div ref={drop} className="mt-2 p-4 border rounded h-auto bg-white min-h-[50px]">
+      {description ? (
+        <div
+          className="p-2 bg-gray-200 rounded"
+          onDoubleClick={() => removeDescription(type)}
+        >
+          {description}
         </div>
-      </label>
+      ) : (
+        "Drop description here"
+      )}
     </div>
   );
 };
