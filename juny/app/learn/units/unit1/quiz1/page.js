@@ -70,7 +70,7 @@ const Page = () => {
     setIsLoading(true);
     setAiFeedback("");
     try {
-      const apiKey = process.env.OPENAI_KEY;
+      const apiKey = process.env.NEXT_PUBLIC_OPENAI_KEY;
       if (!apiKey) {
         throw new Error("API key is not set");
       }
