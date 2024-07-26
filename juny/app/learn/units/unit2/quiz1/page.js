@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
+import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const Page = () => {
   const [stepsComplete, setStepsComplete] = useState(0);
@@ -14,7 +16,7 @@ const Page = () => {
 
   const questions = [
     {
-      question: "adsfasdfasdf What is the main purpose of investing?",
+      question: "What is the main purpose of investing?",
       options: [
         "a. To buy and sell assets quickly",
         "b. To build wealth and reach financial goals",
@@ -138,55 +140,57 @@ const Page = () => {
   };
 
   return (
-    <div className="px-4 py-14 bg-white">
-      <div className="p-8 bg-white shadow-lg rounded-md w-full max-w-2xl mx-auto">
-        {!isSubmitted ? (
-          <>
-            <Steps numSteps={numSteps} stepsComplete={stepsComplete} />
-            <div className="p-2 my-6 h-auto bg-gray-100 border-2 border-dashed border-gray-200 rounded-lg">
-              <Question
-                step={stepsComplete}
-                questions={questions}
-                selectedAnswer={selectedAnswers[stepsComplete]}
-                onSelectAnswer={handleSelectAnswer}
-                onMatchAnswer={handleMatchAnswer}
-              />
-            </div>
-            <div className="flex items-center justify-end gap-2">
-              <button
-                className="px-4 py-1 rounded hover:bg-gray-100 text-black"
-                onClick={() => handleSetStep(-1)}
-              >
-                Prev
-              </button>
-              {stepsComplete < numSteps - 1 ? (
+    <DndProvider backend={HTML5Backend}>
+      <div className="px-4 py-14 bg-white">
+        <div className="p-8 bg-white shadow-lg rounded-md w-full max-w-2xl mx-auto">
+          {!isSubmitted ? (
+            <>
+              <Steps numSteps={numSteps} stepsComplete={stepsComplete} />
+              <div className="p-2 my-6 h-auto bg-gray-100 border-2 border-dashed border-gray-200 rounded-lg">
+                <Question
+                  step={stepsComplete}
+                  questions={questions}
+                  selectedAnswer={selectedAnswers[stepsComplete]}
+                  onSelectAnswer={handleSelectAnswer}
+                  onMatchAnswer={handleMatchAnswer}
+                />
+              </div>
+              <div className="flex items-center justify-end gap-2">
                 <button
-                  className="px-4 py-1 rounded bg-black text-white"
-                  onClick={() => handleSetStep(1)}
+                  className="px-4 py-1 rounded hover:bg-gray-100 text-black"
+                  onClick={() => handleSetStep(-1)}
                 >
-                  Next
+                  Prev
                 </button>
-              ) : (
-                <button
-                  className="px-4 py-1 rounded bg-black text-white"
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </button>
-              )}
-            </div>
-          </>
-        ) : (
-          <Report
-            questions={questions}
-            selectedAnswers={selectedAnswers}
-            isLoading={isLoading}
-            aiFeedback={aiFeedback}
-            isPremium={isPremium}
-          />
-        )}
+                {stepsComplete < numSteps - 1 ? (
+                  <button
+                    className="px-4 py-1 rounded bg-black text-white"
+                    onClick={() => handleSetStep(1)}
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <button
+                    className="px-4 py-1 rounded bg-black text-white"
+                    onClick={handleSubmit}
+                  >
+                    Submit
+                  </button>
+                )}
+              </div>
+            </>
+          ) : (
+            <Report
+              questions={questions}
+              selectedAnswers={selectedAnswers}
+              isLoading={isLoading}
+              aiFeedback={aiFeedback}
+              isPremium={isPremium}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </DndProvider>
   );
 };
 
@@ -273,29 +277,7 @@ const Question = ({ step, questions, selectedAnswer, onSelectAnswer, onMatchAnsw
     return (
       <div>
         <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
-        <div className="grid grid-cols-2 gap-4">
-          {Object.keys(question.options).map((type) => (
-            <div key={type} className="mb-2">
-              <label className="flex flex-col items-start">
-                <span className="font-semibold">{type}</span>
-                <select
-                  className="mt-2 p-2 border rounded"
-                  value={selectedAnswer?.[type] || ""}
-                  onChange={(e) => onMatchAnswer(step, type, e.target.value)}
-                >
-                  <option value="" disabled>
-                    Select a description
-                  </option>
-                  {Object.values(question.options).map((description, index) => (
-                    <option key={index} value={description}>
-                      {description}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-          ))}
-        </div>
+        <DragDropMatch question={question} selectedAnswer={selectedAnswer} onMatchAnswer={onMatchAnswer} />
       </div>
     );
   }
@@ -320,6 +302,60 @@ const Question = ({ step, questions, selectedAnswer, onSelectAnswer, onMatchAnsw
           </li>
         ))}
       </ul>
+    </div>
+  );
+};
+
+const DragDropMatch = ({ question, selectedAnswer, onMatchAnswer }) => {
+  const [descriptions, setDescriptions] = useState(Object.values(question.options));
+
+  const [{ isOver }, drop] = useDrop({
+    accept: "description",
+    drop: (item, monitor) => {
+      const { type } = monitor.getItem();
+      onMatchAnswer(3, type, descriptions[item.index]);
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver()
+    })
+  });
+
+  return (
+    <div className="grid grid-cols-2 gap-4">
+      {Object.keys(question.options).map((type, index) => (
+        <div key={type} className="mb-2">
+          <label className="flex flex-col items-start">
+            <span className="font-semibold">{type}</span>
+            <div className="mt-2 p-2 border rounded h-12 bg-white" ref={drop}>
+              {selectedAnswer?.[type] || "Drop description here"}
+            </div>
+          </label>
+        </div>
+      ))}
+      <div className="col-span-2">
+        {descriptions.map((description, index) => (
+          <DraggableDescription key={index} description={description} index={index} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const DraggableDescription = ({ description, index }) => {
+  const [{ isDragging }, drag] = useDrag({
+    type: "description",
+    item: { description, index },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging()
+    })
+  });
+
+  return (
+    <div
+      ref={drag}
+      className={`p-2 border rounded mb-2 bg-gray-200 ${isDragging ? "opacity-50" : "opacity-100"}`}
+    >
+      {description}
     </div>
   );
 };
