@@ -75,7 +75,7 @@ const Page = () => {
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer sk-None-sjG6pfCodDI1aOv8lOGET3BlbkFJO6pUA5rIuso6BRe4SiLS`,
+            Authorization: `Bearer ${process.env.OPENAI_KEY}`,
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
