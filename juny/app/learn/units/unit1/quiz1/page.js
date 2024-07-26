@@ -85,6 +85,7 @@ const Page = () => {
           },
         }
       );
+      console.log(process.env.OPENAI_KEY);
       setAiFeedback(response.data.choices[0].text);
     } catch (error) {
       console.error("Error generating personalized feedback:", error);
