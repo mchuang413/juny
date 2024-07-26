@@ -2,8 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 
 const Page = () => {
   const [stepsComplete, setStepsComplete] = useState(0);
@@ -11,6 +9,7 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
+  const [selectedDescription, setSelectedDescription] = useState(null);
   const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
@@ -140,57 +139,57 @@ const Page = () => {
   };
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <div className="px-4 py-14 bg-white">
-        <div className="p-8 bg-white shadow-lg rounded-md w-full max-w-2xl mx-auto">
-          {!isSubmitted ? (
-            <>
-              <Steps numSteps={numSteps} stepsComplete={stepsComplete} />
-              <div className="p-2 my-6 h-auto bg-gray-100 border-2 border-dashed border-gray-200 rounded-lg">
-                <Question
-                  step={stepsComplete}
-                  questions={questions}
-                  selectedAnswer={selectedAnswers[stepsComplete]}
-                  onSelectAnswer={handleSelectAnswer}
-                  onMatchAnswer={handleMatchAnswer}
-                />
-              </div>
-              <div className="flex items-center justify-end gap-2">
+    <div className="px-4 py-14 bg-white">
+      <div className="p-8 bg-white shadow-lg rounded-md w-full max-w-2xl mx-auto">
+        {!isSubmitted ? (
+          <>
+            <Steps numSteps={numSteps} stepsComplete={stepsComplete} />
+            <div className="p-2 my-6 h-auto bg-gray-100 border-2 border-dashed border-gray-200 rounded-lg">
+              <Question
+                step={stepsComplete}
+                questions={questions}
+                selectedAnswer={selectedAnswers[stepsComplete]}
+                onSelectAnswer={handleSelectAnswer}
+                onMatchAnswer={handleMatchAnswer}
+                selectedDescription={selectedDescription}
+                setSelectedDescription={setSelectedDescription}
+              />
+            </div>
+            <div className="flex items-center justify-end gap-2">
+              <button
+                className="px-4 py-1 rounded hover:bg-gray-100 text-black"
+                onClick={() => handleSetStep(-1)}
+              >
+                Prev
+              </button>
+              {stepsComplete < numSteps - 1 ? (
                 <button
-                  className="px-4 py-1 rounded hover:bg-gray-100 text-black"
-                  onClick={() => handleSetStep(-1)}
+                  className="px-4 py-1 rounded bg-black text-white"
+                  onClick={() => handleSetStep(1)}
                 >
-                  Prev
+                  Next
                 </button>
-                {stepsComplete < numSteps - 1 ? (
-                  <button
-                    className="px-4 py-1 rounded bg-black text-white"
-                    onClick={() => handleSetStep(1)}
-                  >
-                    Next
-                  </button>
-                ) : (
-                  <button
-                    className="px-4 py-1 rounded bg-black text-white"
-                    onClick={handleSubmit}
-                  >
-                    Submit
-                  </button>
-                )}
-              </div>
-            </>
-          ) : (
-            <Report
-              questions={questions}
-              selectedAnswers={selectedAnswers}
-              isLoading={isLoading}
-              aiFeedback={aiFeedback}
-              isPremium={isPremium}
-            />
-          )}
-        </div>
+              ) : (
+                <button
+                  className="px-4 py-1 rounded bg-black text-white"
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </button>
+              )}
+            </div>
+          </>
+        ) : (
+          <Report
+            questions={questions}
+            selectedAnswers={selectedAnswers}
+            isLoading={isLoading}
+            aiFeedback={aiFeedback}
+            isPremium={isPremium}
+          />
+        )}
       </div>
-    </DndProvider>
+    </div>
   );
 };
 
@@ -269,7 +268,15 @@ const Step = ({ num, isActive }) => {
   );
 };
 
-const Question = ({ step, questions, selectedAnswer, onSelectAnswer, onMatchAnswer }) => {
+const Question = ({
+  step,
+  questions,
+  selectedAnswer,
+  onSelectAnswer,
+  onMatchAnswer,
+  selectedDescription,
+  setSelectedDescription
+}) => {
   const question = questions[step];
   if (!question) return null;
 
@@ -277,7 +284,13 @@ const Question = ({ step, questions, selectedAnswer, onSelectAnswer, onMatchAnsw
     return (
       <div>
         <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
-        <DragDropMatch question={question} selectedAnswer={selectedAnswer} onMatchAnswer={onMatchAnswer} />
+        <ClickSelectMatch
+          question={question}
+          selectedAnswer={selectedAnswer}
+          onMatchAnswer={onMatchAnswer}
+          selectedDescription={selectedDescription}
+          setSelectedDescription={setSelectedDescription}
+        />
       </div>
     );
   }
@@ -306,26 +319,32 @@ const Question = ({ step, questions, selectedAnswer, onSelectAnswer, onMatchAnsw
   );
 };
 
-const DragDropMatch = ({ question, selectedAnswer, onMatchAnswer }) => {
+const ClickSelectMatch = ({
+  question,
+  selectedAnswer,
+  onMatchAnswer,
+  selectedDescription,
+  setSelectedDescription
+}) => {
   const [descriptions, setDescriptions] = useState(Object.values(question.options));
 
-  const moveDescription = (fromIndex, toType) => {
-    const updatedDescriptions = [...descriptions];
-    const [movedDescription] = updatedDescriptions.splice(fromIndex, 1);
-    const existingDescription = selectedAnswer?.[toType];
-    
-    if (existingDescription) {
-      updatedDescriptions.push(existingDescription);
-    }
-
-    setDescriptions(updatedDescriptions);
-    onMatchAnswer(3, toType, movedDescription);
+  const handleDescriptionClick = (description) => {
+    setSelectedDescription(description);
   };
 
-  const removeDescription = (fromType) => {
-    const updatedDescriptions = [...descriptions, selectedAnswer[fromType]];
-    setDescriptions(updatedDescriptions);
-    onMatchAnswer(3, fromType, null);
+  const handleBoxClick = (type) => {
+    if (selectedDescription) {
+      const updatedDescriptions = descriptions.filter((desc) => desc !== selectedDescription);
+      const existingDescription = selectedAnswer?.[type];
+
+      if (existingDescription) {
+        updatedDescriptions.push(existingDescription);
+      }
+
+      setDescriptions(updatedDescriptions);
+      onMatchAnswer(3, type, selectedDescription);
+      setSelectedDescription(null);
+    }
   };
 
   return (
@@ -333,62 +352,26 @@ const DragDropMatch = ({ question, selectedAnswer, onMatchAnswer }) => {
       {Object.keys(question.options).map((type) => (
         <div key={type} className="flex flex-col mb-4">
           <span className="font-semibold">{type}</span>
-          <DropTarget
-            type={type}
-            description={selectedAnswer?.[type]}
-            moveDescription={moveDescription}
-            removeDescription={removeDescription}
-          />
+          <div
+            onClick={() => handleBoxClick(type)}
+            className="mt-2 p-4 border rounded h-auto bg-white min-h-[50px] cursor-pointer"
+          >
+            {selectedAnswer?.[type] || "Click to place description here"}
+          </div>
         </div>
       ))}
       <div className="flex flex-col">
         {descriptions.map((description, index) => (
-          <DraggableDescription key={index} description={description} index={index} />
+          <div
+            key={index}
+            onClick={() => handleDescriptionClick(description)}
+            className={`p-2 border rounded mb-2 bg-gray-200 cursor-pointer ${selectedDescription === description ? "bg-blue-200" : ""
+              }`}
+          >
+            {description}
+          </div>
         ))}
       </div>
-    </div>
-  );
-};
-
-const DropTarget = ({ type, description, moveDescription, removeDescription }) => {
-  const [, drop] = useDrop({
-    accept: "description",
-    drop: (item) => {
-      moveDescription(item.index, type);
-    }
-  });
-
-  return (
-    <div ref={drop} className="mt-2 p-4 border rounded h-auto bg-white min-h-[50px]">
-      {description ? (
-        <div
-          className="p-2 bg-gray-200 rounded"
-          onDoubleClick={() => removeDescription(type)}
-        >
-          {description}
-        </div>
-      ) : (
-        "Drop description here"
-      )}
-    </div>
-  );
-};
-
-const DraggableDescription = ({ description, index }) => {
-  const [{ isDragging }, drag] = useDrag({
-    type: "description",
-    item: { description, index },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging()
-    })
-  });
-
-  return (
-    <div
-      ref={drag}
-      className={`p-2 border rounded mb-2 bg-gray-200 ${isDragging ? "opacity-50" : "opacity-100"}`}
-    >
-      {description}
     </div>
   );
 };
