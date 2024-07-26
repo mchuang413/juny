@@ -329,7 +329,7 @@ const DragDropMatch = ({ question, selectedAnswer, onMatchAnswer }) => {
   };
 
   return (
-    <div>
+    <div className="overflow-y-auto max-h-96">
       {Object.keys(question.options).map((type) => (
         <div key={type} className="flex flex-col mb-4">
           <span className="font-semibold">{type}</span>
