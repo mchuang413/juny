@@ -70,22 +70,29 @@ const Page = () => {
     setIsLoading(true);
     setAiFeedback("");
     try {
-      const response = await fetch(
-        "https://api.openai.com/v1/completions",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${process.env.OPENAI_KEY}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            model: "gpt-4",
-            prompt: `Generate a personalized feedback report for the following quiz answers: ${JSON.stringify(selectedAnswers)}. Questions: ${JSON.stringify(questions)}`,
-            max_tokens: 500
-          })
-        }
-      );
+      const response = await fetch("https://api.openai.com/v1/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.OPENAI_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "gpt-4",
+          prompt: `Generate a personalized feedback report for the following quiz answers: ${JSON.stringify(selectedAnswers)}. Questions: ${JSON.stringify(questions)}`,
+          max_tokens: 500
+        })
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+  
       const data = await response.json();
+  
+      if (!data.choices || !data.choices[0] || !data.choices[0].text) {
+        throw new Error("Unexpected API response structure");
+      }
+  
       setAiFeedback(data.choices[0].text);
     } catch (error) {
       console.error("Error generating personalized feedback:", error);
