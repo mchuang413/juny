@@ -9,12 +9,12 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 3;
+  const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "What is the main purpose of investing?",
+      question: "adsfasdfasdf What is the main purpose of investing?",
       options: [
         "a. To buy and sell assets quickly",
         "b. To build wealth and reach financial goals",
@@ -42,6 +42,25 @@ const Page = () => {
         "d. Tokyo"
       ],
       answer: "c. Amsterdam"
+    },
+    {
+      question: "Match the type of investment with its description.",
+      options: {
+        Stocks: "c. Ownership in a company that can increase in value and may pay dividends",
+        Bonds: "e. Lending money to a company or government with the promise of repayment with interest",
+        "Mutual Funds": "a. Collections of stocks, bonds, or other assets managed by professionals",
+        ETFs: "b. Traded on stock exchanges, offering diversification and professional management",
+        REITs: "d. Companies that own, operate, or finance income-producing real estate",
+        Commodities: "f. Raw materials like gold, silver, oil, or agricultural products"
+      },
+      answer: {
+        Stocks: "c. Ownership in a company that can increase in value and may pay dividends",
+        Bonds: "e. Lending money to a company or government with the promise of repayment with interest",
+        "Mutual Funds": "a. Collections of stocks, bonds, or other assets managed by professionals",
+        ETFs: "b. Traded on stock exchanges, offering diversification and professional management",
+        REITs: "d. Companies that own, operate, or finance income-producing real estate",
+        Commodities: "f. Raw materials like gold, silver, oil, or agricultural products"
+      }
     }
   ];
 
@@ -58,6 +77,13 @@ const Page = () => {
 
   const handleSelectAnswer = (step, answer) => {
     setSelectedAnswers((prev) => ({ ...prev, [step]: answer }));
+  };
+
+  const handleMatchAnswer = (step, type, description) => {
+    setSelectedAnswers((prev) => ({
+      ...prev,
+      [step]: { ...prev[step], [type]: description }
+    }));
   };
 
   const handleSubmit = () => {
@@ -123,6 +149,7 @@ const Page = () => {
                 questions={questions}
                 selectedAnswer={selectedAnswers[stepsComplete]}
                 onSelectAnswer={handleSelectAnswer}
+                onMatchAnswer={handleMatchAnswer}
               />
             </div>
             <div className="flex items-center justify-end gap-2">
@@ -238,9 +265,41 @@ const Step = ({ num, isActive }) => {
   );
 };
 
-const Question = ({ step, questions, selectedAnswer, onSelectAnswer }) => {
+const Question = ({ step, questions, selectedAnswer, onSelectAnswer, onMatchAnswer }) => {
   const question = questions[step];
   if (!question) return null;
+
+  if (step === 3) {
+    return (
+      <div>
+        <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
+        <div className="grid grid-cols-2 gap-4">
+          {Object.keys(question.options).map((type) => (
+            <div key={type} className="mb-2">
+              <label className="flex flex-col items-start">
+                <span className="font-semibold">{type}</span>
+                <select
+                  className="mt-2 p-2 border rounded"
+                  value={selectedAnswer?.[type] || ""}
+                  onChange={(e) => onMatchAnswer(step, type, e.target.value)}
+                >
+                  <option value="" disabled>
+                    Select a description
+                  </option>
+                  {Object.values(question.options).map((description, index) => (
+                    <option key={index} value={description}>
+                      {description}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
@@ -274,17 +333,39 @@ const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }
           <p className="mb-2">
             <strong>Question {index + 1}:</strong> {question.question}
           </p>
-          <p className="mb-2">
-            <strong>Your Answer:</strong> {selectedAnswers[index]}
-          </p>
-          <p className="mb-2">
-            <strong>Correct Answer:</strong> {question.answer} -{" "}
-            {selectedAnswers[index] === question.answer ? (
-              <span className="text-green-600 font-semibold">Correct</span>
-            ) : (
-              <span className="text-red-600 font-semibold">Wrong</span>
-            )}
-          </p>
+          {index === 3 ? (
+            <>
+              <p className="mb-2">
+                <strong>Your Answers:</strong>
+              </p>
+              <ul className="list-disc pl-5">
+                {Object.keys(question.options).map((type) => (
+                  <li key={type} className="mb-2">
+                    {type}: {selectedAnswers[3]?.[type]} -{" "}
+                    {selectedAnswers[3]?.[type] === question.answer[type] ? (
+                      <span className="text-green-600 font-semibold">Correct</span>
+                    ) : (
+                      <span className="text-red-600 font-semibold">Wrong</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <>
+              <p className="mb-2">
+                <strong>Your Answer:</strong> {selectedAnswers[index]}
+              </p>
+              <p className="mb-2">
+                <strong>Correct Answer:</strong> {question.answer} -{" "}
+                {selectedAnswers[index] === question.answer ? (
+                  <span className="text-green-600 font-semibold">Correct</span>
+                ) : (
+                  <span className="text-red-600 font-semibold">Wrong</span>
+                )}
+              </p>
+            </>
+          )}
         </div>
       ))}
       {isPremium && (
