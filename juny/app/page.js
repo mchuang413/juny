@@ -1,6 +1,38 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+
+const generateAuthUrl = () => {
+  const clientId = 'dcd9816d13f11fb6b7d63366b844216a';
+  const redirectUri = 'https://www.junyapp.com/oauth/callback';
+  const state = 'lxsquidofficial';
+  const scope = 'account:write%20trading';
+
+  return `https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}&scope=${scope}`;
+};
+
+const exchangeCodeForToken = async (code) => {
+  const clientId = 'dcd9816d13f11fb6b7d63366b844216a';
+  const clientSecret = 'cc3f314b13ef1a016dbaf7815ec6255544166f4e';
+  const redirectUri = 'https://www.junyapp.com/oauth/callback';
+
+  const response = await fetch('https://api.alpaca.markets/oauth/token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      grant_type: 'authorization_code',
+      code: code,
+      client_id: clientId,
+      client_secret: clientSecret,
+      redirect_uri: redirectUri,
+    }).toString(),
+  });
+
+  const data = await response.json();
+  return data.access_token;
+};
 
 const Page = () => {
   const [username, setUsername] = useState('');
@@ -10,79 +42,39 @@ const Page = () => {
   const [isSignup, setIsSignup] = useState(false);
   const [message, setMessage] = useState('');
 
-  // Function to handle login
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('https://michaelape.site/login', {  // Update to HTTPS and correct port
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      });
+  const handleOAuthLogin = () => {
+    window.location.href = generateAuthUrl();
+  };
 
-      const data = await response.json();
-
-      if (data.status === 'works') {
-        Cookies.set('username', username);
-        Cookies.set('auth', 'your-auth-token'); // Replace with actual token if available
+  const handleOAuthCallback = async () => {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    if (code) {
+      try {
+        const accessToken = await exchangeCodeForToken(code);
+        Cookies.set('alpaca_token', accessToken);
         setMessage('Login successful');
-        window.location.reload(); // Refresh the page to update the authentication state
-      } else if (data.status === 'nouser') {
-        setMessage('User does not exist');
-      } else {
-        setMessage('Invalid credentials');
+        window.location.href = '/'; // Redirect to home or dashboard
+      } catch (error) {
+        setMessage('OAuth login failed');
       }
-    } catch (error) {
-      console.error('Login error:', error);
-      setMessage('An error occurred');
     }
   };
 
-  // Function to handle signup
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('https://michaelape.site/signup', {  // Update to HTTPS and correct port
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username,
-          password,
-          alpaca_key: alpacaKey,
-          alpaca_secret: alpacaSecret,
-        }),
-      });
+  // Call handleOAuthCallback if the URL contains an authorization code
+  useEffect(() => {
+    handleOAuthCallback();
+  }, []);
 
-      const data = await response.json();
-
-      if (data.status === 'success') {
-        setMessage('Signup successful');
-        setIsSignup(false); // Redirect or handle post-signup logic here
-      } else {
-        setMessage(data.message);
-      }
-    } catch (error) {
-      console.error('Signup error:', error);
-      setMessage('An error occurred');
-    }
-  };
-
-  // Function to handle logout
   const handleLogout = () => {
     Cookies.remove('auth');
-    window.location.reload(); // Refresh the page to update the authentication state
+    Cookies.remove('alpaca_token');
+    window.location.reload();
   };
 
   return (
     <div className="h-full flex flex-col justify-center items-center relative overflow-hidden">
-      {Cookies.get('auth') ? (
+      {Cookies.get('alpaca_token') ? (
         <div className="text-center">
           <h1 className="text-4xl font-bold">Welcome to JUNY!</h1>
           <button
@@ -100,9 +92,6 @@ const Page = () => {
                 <h1 className="text-gray-800 font-bold text-3xl mb-1 text-center">{isSignup ? 'Sign Up' : 'Hello Again!'}</h1>
                 <p className="text-sm font-normal text-gray-600 mb-8 text-center">{isSignup ? 'Create your account' : 'Welcome Back'}</p>
                 <div className="flex items-center border-2 mb-4 py-2 px-3 rounded-2xl">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-                  </svg>
                   <input
                     id="username"
                     className="pl-2 w-full outline-none border-none"
@@ -115,9 +104,6 @@ const Page = () => {
                   />
                 </div>
                 <div className="flex items-center border-2 mb-6 py-2 px-3 rounded-2xl">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-                  </svg>
                   <input
                     className="pl-2 w-full outline-none border-none"
                     type="password"
@@ -171,6 +157,14 @@ const Page = () => {
                 </div>
                 {message && <p className="text-red-500 mt-4">{message}</p>}
               </form>
+              {!isSignup && (
+                <button
+                  className="block w-full bg-indigo-600 mt-5 py-2 rounded-2xl hover:bg-indigo-700 hover:-translate-y-1 transition-all duration-500 text-white font-semibold mb-2"
+                  onClick={handleOAuthLogin}
+                >
+                  Login with Alpaca
+                </button>
+              )}
             </div>
           </div>
           <div className="absolute bottom-0 w-full">
