@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
 const clientId = 'dcd9816d13f11fb6b7d63366b844216a';
-const clientSecret = 'cc3f314b13ef1a016dbaf7815ec6255544166f4e';
 const redirectUri = 'https://www.junyapp.com/';
 const alpacaAuthUrl = `https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
 
@@ -18,41 +17,11 @@ const Page = () => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-    console.log('code:', code);
-    if (code) {
-      // Exchange the authorization code for an access token
-      const fetchToken = async () => {
-        try {
-          const response = await fetch('https://api.alpaca.markets/oauth/token', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              grant_type: 'authorization_code',
-              code,
-              client_id: clientId,
-              client_secret: clientSecret,
-              redirect_uri: redirectUri,
-            }),
-          });
-
-          const data = await response.json();
-
-          if (data.access_token) {
-            Cookies.set('auth', data.access_token);
-            window.location.href = redirectUri; // Remove the code query parameter
-          } else {
-            setMessage('Authentication failed');
-          }
-        } catch (error) {
-          console.error('Token fetch error:', error);
-          setMessage('An error occurred');
-        }
-      };
-
-      fetchToken();
+    const token = urlParams.get('token');
+    console.log('token:', token);
+    if (token) {
+      Cookies.set('auth', token);
+      window.location.href = redirectUri; // Remove the token query parameter
     }
   }, []);
 

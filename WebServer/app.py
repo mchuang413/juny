@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect, url_for
 from flask_cors import CORS
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
@@ -155,6 +155,46 @@ def live_wallstreetbets():
     except requests.exceptions.RequestException as e:
         print(e)
         return jsonify({"status": "error", "message": "Failed to fetch data from Quiver API"}), 500
+
+@app.route("/oauth/callback")
+def oauth_callback():
+    code = request.args.get('code')
+    client_id = "your_client_id"
+    client_secret = "your_client_secret"
+    redirect_uri = "your_redirect_uri"
+    
+    if not code:
+        return jsonify({"status": "error", "message": "Authorization code not found"}), 400
+
+    token_url = 'https://api.alpaca.markets/oauth/token'
+    payload = {
+        'grant_type': 'authorization_code',
+        'code': code,
+        'client_id': client_id,
+        'client_secret': client_secret,
+        'redirect_uri': redirect_uri,
+    }
+    headers = {
+        'Content-Type': 'application/json',
+    }
+
+    try:
+        response = requests.post(token_url, json=payload, headers=headers)
+        data = response.json()
+        
+        if 'access_token' in data:
+            access_token = data['access_token']
+            # Store the access token in the database or session
+            return redirect(url_for('dashboard'))  # Redirect to your dashboard or another page
+        else:
+            return jsonify({"status": "error", "message": "Failed to obtain access token"}), 400
+    except requests.exceptions.RequestException as e:
+        print(f"Token fetch error: {str(e)}")
+        return jsonify({"status": "error", "message": "An error occurred while fetching the token"}), 500
+
+@app.route("/dashboard")
+def dashboard():
+    return "Dashboard"
 
 def fetch_news():
     alpha_vantage_api_key = "SGNSNG70ZU9IAWW9"
