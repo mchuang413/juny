@@ -19,7 +19,7 @@ const Page = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
-
+    console.log('code:', code);
     if (code) {
       // Exchange the authorization code for an access token
       const fetchToken = async () => {
