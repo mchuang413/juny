@@ -159,9 +159,9 @@ def live_wallstreetbets():
 @app.route("/oauth/callback")
 def oauth_callback():
     code = request.args.get('code')
-    client_id = "your_client_id"
-    client_secret = "your_client_secret"
-    redirect_uri = "your_redirect_uri"
+    client_id = "dcd9816d13f11fb6b7d63366b844216a"
+    client_secret = "cc3f314b13ef1a016dbaf7815ec6255544166f4e"
+    redirect_uri = "https://www.junyapp.com/"
     
     if not code:
         return jsonify({"status": "error", "message": "Authorization code not found"}), 400
