@@ -9,19 +9,16 @@ const alpacaAuthUrl = `https://app.alpaca.markets/oauth/authorize?response_type=
 const Page = () => {
   const [message, setMessage] = useState('');
 
-  // Function to handle logout
   const handleLogout = () => {
     Cookies.remove('auth');
-    window.location.reload(); // Refresh the page to update the authentication state
+    window.location.reload();
   };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code'); // Get the authorization code from the URL
-    console.log('code:', code);
+    const code = urlParams.get('code');
     if (code) {
-      // Exchange the authorization code for an access token
-      fetch('https://michaelape.site/oauth/callback', {
+      fetch('/oauth/callback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -32,7 +29,7 @@ const Page = () => {
       .then(data => {
         if (data.access_token) {
           Cookies.set('auth', data.access_token);
-          window.location.href = redirectUri; // Redirect to remove the code from URL
+          window.location.href = redirectUri;
         } else {
           setMessage('Failed to authenticate.');
         }
