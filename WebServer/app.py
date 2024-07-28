@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, redirect, url_for
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
@@ -27,42 +27,38 @@ db = client["Juny"]
 collection = db["users"]  # Assuming a collection named "users" for user data
 news_collection = db["news"]  # Collection for storing news
 
-@app.route("/oauth/callback", methods=["POST"])
-def oauth_callback():
-    data = request.json
-    code = data.get('code')
-    client_id = "dcd9816d13f11fb6b7d63366b844216a"
-    client_secret = "cc3f314b13ef1a016dbaf7815ec6255544166f4e"
-    redirect_uri = "https://www.junyapp.com/"
-    
-    if not code:
-        return jsonify({"status": "error", "message": "Authorization code not found"}), 400
+problems = [
+    "What is bullish meaning?",
+    "What is bearish meaning?",
+    "What is the main purpose of investing? a. To buy and sell assets quickly b. To build wealth and reach financial goals c. To keep money in a savings account d. To avoid financial markets",
+    "Which of the following is an example of an asset you can invest in? a. Groceries b. Clothes c. Stocks d. Vacations",
+    "Where was the first modern stock market established? a. New York b. London c. Amsterdam d. Tokyo",
+    "Scenario: Juny wants to build wealth and reach her financial goals. Based on the text, which of the following should she consider investing in? a. Clothes b. Stocks c. Groceries d. Vacations",
+    "Investing guarantees growth in value over time. True False",
+    "In ancient times, people invested in tangible assets like land, livestock, and trade goods. True False"
+]
+answers = [
+    "Bullish is a buying trend that indicates that the price is rising.",
+    "Bearish is a selling trend that indicates that the price is falling.",
+    "b",
+    "c",
+    "c",
+    "b",
+    "f",
+    "t"
+]
 
-    token_url = 'https://api.alpaca.markets/oauth/token'
-    payload = {
-        'grant_type': 'authorization_code',
-        'code': code,
-        'client_id': client_id,
-        'client_secret': client_secret,
-        'redirect_uri': redirect_uri,
-    }
-    headers = {
-        'Content-Type': 'application/json',
-    }
-
-    try:
-        response = requests.post(token_url, json=payload, headers=headers)
-        data = response.json()
-        
-        if 'access_token' in data:
-            access_token = data['access_token']
-            # You may want to save the token in the database or session
-            return jsonify({"access_token": access_token})
-        else:
-            return jsonify({"status": "error", "message": "Failed to obtain access token"}), 400
-    except requests.exceptions.RequestException as e:
-        print(f"Token fetch error: {str(e)}")
-        return jsonify({"status": "error", "message": "An error occurred while fetching the token"}), 500
+def ask_gpt(pretext, prompt):
+    response = client.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": pretext + prompt,
+            }
+        ],
+        model="gpt-3.5-turbo",
+    )
+    return response.choices[0].message.content
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -159,10 +155,6 @@ def live_wallstreetbets():
     except requests.exceptions.RequestException as e:
         print(e)
         return jsonify({"status": "error", "message": "Failed to fetch data from Quiver API"}), 500
-
-@app.route("/dashboard")
-def dashboard():
-    return "Dashboard"
 
 def fetch_news():
     alpha_vantage_api_key = "SGNSNG70ZU9IAWW9"
