@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
 const clientId = 'dcd9816d13f11fb6b7d63366b844216a';
-const redirectUri = 'https://www.junyapp.com/'; // Replace with your redirect URI
+const clientSecret = 'cc3f314b13ef1a016dbaf7815ec6255544166f4e';
+const redirectUri = 'https://www.junyapp.com/oauth/callback/';
 const alpacaAuthUrl = `https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
 
 const Page = () => {
@@ -32,7 +33,7 @@ const Page = () => {
               grant_type: 'authorization_code',
               code,
               client_id: clientId,
-              client_secret: 'cc3f314b13ef1a016dbaf7815ec6255544166f4e',
+              client_secret: clientSecret,
               redirect_uri: redirectUri,
             }),
           });
