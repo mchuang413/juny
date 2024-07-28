@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
 const clientId = 'dcd9816d13f11fb6b7d63366b844216a';
-const redirectUri = 'https://www.junyapp.com'; // Replace with your redirect URI
+const redirectUri = 'https://www.junyapp.com/'; // Replace with your redirect URI
 const alpacaAuthUrl = `https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
 
 const Page = () => {
