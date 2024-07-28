@@ -6,7 +6,7 @@ const generateAuthUrl = () => {
   const clientId = 'dcd9816d13f11fb6b7d63366b844216a';
   const redirectUri = 'https://www.junyapp.com/oauth/callback';
   const state = 'lxsquidofficial';
-  const scope = 'account:write%20trading';
+  const scope = 'account:write trading';
 
   return `https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}&scope=${scope}`;
 };
@@ -65,6 +65,16 @@ const Page = () => {
   useEffect(() => {
     handleOAuthCallback();
   }, []);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    // Implement login logic here
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    // Implement signup logic here
+  };
 
   const handleLogout = () => {
     Cookies.remove('auth');
