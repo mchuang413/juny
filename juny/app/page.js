@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 
 const clientId = 'dcd9816d13f11fb6b7d63366b844216a';
 const clientSecret = 'cc3f314b13ef1a016dbaf7815ec6255544166f4e';
-const redirectUri = 'https://www.junyapp.com/oauth/callback/';
+const redirectUri = 'https://www.junyapp.com/';
 const alpacaAuthUrl = `https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
 
 const Page = () => {
