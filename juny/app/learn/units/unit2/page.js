@@ -26,7 +26,7 @@ const Page = () => {
       title: "Stocks",
       content: "Imagine owning a little part of Juny's favorite seaweed farm. If the farm thrives, so does your investment! 📈 For instance, Apple Inc. is a well-known company whose stock has grown significantly over the years. If you had bought Apple stock in 2000, its value would have increased dramatically, reflecting the company’s success and growth.",
       image: "/unit2Assets/3.png",
-      juny: "/unit2Assets/gifs/3.gif"
+      juny: "/unit2Assets/gifs/3.png"
     },
     {
       title: "Bonds",
@@ -62,7 +62,7 @@ const Page = () => {
       title: "Exchange-Traded Funds (ETFs)",
       content: "Think of them as baskets of different sea treasures that Juny can trade whenever she wants! 🧺 The SPDR S&P 500 ETF (SPY) is one of the most well-known ETFs. It tracks the performance of the S&P 500 Index, giving you exposure to 500 of the largest U.S. companies. You can buy and sell shares of SPY just like you would a stock.",
       image: "/unit2Assets/9.png",
-      juny: "/unit2Assets/gifs/9.gif"
+      juny: "/unit2Assets/gifs/9.png"
     },
     {
       title: "Real Estate Investment Trusts (REITs)",
