@@ -8,7 +8,7 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 3;
+  const numSteps = 5;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
@@ -47,9 +47,13 @@ const Page = () => {
   ];
 
   const handleSetStep = (num) => {
-    if ((stepsComplete === 0 && num === -1) || (stepsComplete === numSteps && num === 1)) {
+    if (
+      (stepsComplete === 0 && num === -1) ||
+      (stepsComplete === numSteps && num === 1)
+    ) {
       return;
     }
+
     setStepsComplete((pv) => pv + num);
   };
 
@@ -63,7 +67,7 @@ const Page = () => {
       generatePersonalizedFeedback();
     }
   };
-  
+
   const TypewriterEffect = ({ text }) => {
     const [displayedText, setDisplayedText] = useState("");
 
@@ -83,38 +87,39 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-3xl p-6 bg-white rounded-lg shadow-md">
-        <Steps numSteps={numSteps} stepsComplete={stepsComplete} />
+    <div className="px-4 py-14 bg-white">
+      <div className="p-8 bg-white shadow-lg rounded-md w-full max-w-2xl mx-auto">
         {!isSubmitted ? (
           <>
-            <Question
-              step={stepsComplete}
-              questions={questions}
-              selectedAnswer={selectedAnswers[stepsComplete]}
-              onSelectAnswer={handleSelectAnswer}
-            />
-            <div className="flex justify-between mt-6">
+            <Steps numSteps={numSteps} stepsComplete={stepsComplete} />
+            <div className="p-2 my-6 h-auto bg-gray-100 border-2 border-dashed border-gray-200 rounded-lg">
+              <Question
+                step={stepsComplete}
+                questions={questions}
+                selectedAnswer={selectedAnswers[stepsComplete]}
+                onSelectAnswer={handleSelectAnswer}
+              />
+            </div>
+            <div className="flex items-center justify-end gap-2">
               <button
+                className="px-4 py-1 rounded hover:bg-gray-100 text-black"
                 onClick={() => handleSetStep(-1)}
-                disabled={stepsComplete === 0}
-                className="px-4 py-2 text-white bg-gray-400 rounded-lg disabled:bg-gray-300"
               >
-                Previous
+                Prev
               </button>
-              {stepsComplete === numSteps - 1 ? (
+              {stepsComplete < numSteps - 1 ? (
                 <button
-                  onClick={handleSubmit}
-                  className="px-4 py-2 text-white bg-indigo-600 rounded-lg"
+                  className="px-4 py-1 rounded bg-black text-white"
+                  onClick={() => handleSetStep(1)}
                 >
-                  Submit
+                  Next
                 </button>
               ) : (
                 <button
-                  onClick={() => handleSetStep(1)}
-                  className="px-4 py-2 text-white bg-indigo-600 rounded-lg"
+                  className="px-4 py-1 rounded bg-black text-white"
+                  onClick={handleSubmit}
                 >
-                  Next
+                  Submit
                 </button>
               )}
             </div>
@@ -137,7 +142,7 @@ const Steps = ({ numSteps, stepsComplete }) => {
   const stepArray = Array.from(Array(numSteps).keys());
 
   return (
-    <div className="flex items-center justify-between gap-3 mb-6">
+    <div className="flex items-center justify-between gap-3">
       {stepArray.map((num) => {
         const stepNum = num + 1;
         const isActive = stepNum <= stepsComplete;
@@ -269,6 +274,24 @@ const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }
       )}
     </div>
   );
+};
+
+const TypewriterEffect = ({ text }) => {
+  const [displayedText, setDisplayedText] = useState("");
+
+  useEffect(() => {
+    let index = 0;
+    const interval = setInterval(() => {
+      setDisplayedText((prev) => prev + text.charAt(index));
+      index++;
+      if (index >= text.length) {
+        clearInterval(interval);
+      }
+    }, 50);
+    return () => clearInterval(interval);
+  }, [text]);
+
+  return <p>{displayedText}</p>;
 };
 
 export default Page;
