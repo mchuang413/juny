@@ -47,7 +47,7 @@ const Page = () => {
       juny: "/unit1Assets/gifs/6.gif"
     }
   ];
-
+  
   useEffect(() => {
     let currentText = '';
     let index = 0;

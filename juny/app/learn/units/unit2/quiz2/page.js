@@ -14,68 +14,23 @@ const Page = () => {
 
   const questions = [
     {
-      question: "How has technology made investing easier for everyone?",
-      options: [
-        "a. By creating more physical stock exchanges",
-        "b. By increasing the number of banks",
-        "c. By making money more valuable",
-        "d. Through the use of online trading platforms"
-      ],
-      answer: "d. Through the use of online trading platforms"
+      question: "How are ETFs different from mutual funds?",
+      options: ["a. ETFs are not traded on stock exchanges", "b. ETFs offer less diversification than mutual funds", "c. ETFs can be bought and sold throughout the trading day", "d. ETFs are only composed of bonds"],
+      answer: "c. ETFs can be bought and sold throughout the trading day",
     },
     {
-      question: "Investing means putting your money into various assets with the expectation that they will decrease in value over time.",
-      options: [
-        "True",
-        "False"
-      ],
-      answer: "False"
+      question: "Which investment type involves owning shares in income-producing real estate?",
+      options: ["a. Stocks", "b. Bonds", "c. Mutual Funds", "d. Real Estate Investment Trusts (REITs)"],
+      answer: "d. Real Estate Investment Trusts (REITs)",
     },
     {
-      question: "The first modern stock market was established in the early 1600s.",
-      options: [
-        "True",
-        "False"
-      ],
-      answer: "True"
-    },
-    {
-      question: "The history of investing includes people in ancient times investing in tangible assets like land and livestock.",
-      options: [
-        "True",
-        "False"
-      ],
-      answer: "True"
-    },
-    {
-      question: "The main purpose of investing is to build wealth and reach financial goals.",
-      options: [
-        "True",
-        "False"
-      ],
-      answer: "True"
-    },
-    {
-      question: "Juny the Octopus wants to invest her money with the hope that it will grow over time. Which of the following should she consider investing in?",
-      options: [
-        "a. Seaweed decorations",
-        "b. Stocks, bonds, or real estate",
-        "c. Pearls for her friends",
-        "d. New underwater tablets"
-      ],
-      answer: "b. Stocks, bonds, or real estate"
-    },
-    {
-      question: "Imagine Juny is looking at her underwater tablet and sees her investment in a coral reef has increased in value. What does this situation exemplify?",
-      options: [
-        "a. A decrease in wealth",
-        "b. The risk of investing",
-        "c. The growth of her investment",
-        "d. The purpose of saving"
-      ],
-      answer: "c. The growth of her investment"
+      question: "What type of investment can protect against inflation and diversify your portfolio?",
+      options: ["a. Stocks", "b. Bonds", "c. Commodities", "d. ETFs"],
+      answer: "c. Commodities",
     }
   ];
+  
+  
 
   const handleSetStep = (num) => {
     if (

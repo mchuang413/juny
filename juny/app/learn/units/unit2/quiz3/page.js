@@ -9,43 +9,46 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 3;
+  const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "What is the capital of France?",
-      options: ["a. Berlin", "b. Madrid", "c. Paris", "d. Rome"],
-      answer: "c. Paris",
-    },
-    {
-      question: "Which company is known for the iPhone?",
-      options: ["a. Samsung", "b. Apple", "c. Google", "d. Microsoft"],
-      answer: "b. Apple",
-    },
-    {
-      question: "How has technology made investing easier for everyone?",
-      options: [
-        "a. By creating more physical stock exchanges",
-        "b. By increasing the number of banks",
-        "c. By making money more valuable",
-        "d. Through the use of online trading platforms",
-      ],
-      answer: "d. Through the use of online trading platforms",
-    },
-    {
-      question:
-        "Investing means putting your money into various assets with the expectation that they will decrease in value over time.",
+      question: "When you buy a stock, you are lending money to a company.",
       options: ["True", "False"],
       answer: "False",
     },
     {
-      question:
-        "The main purpose of investing is to build wealth and reach financial goals.",
+      question: "Mutual funds allow investors to pool their money together to buy a diversified portfolio of assets.",
       options: ["True", "False"],
       answer: "True",
     },
+    {
+      question: "REITs allow investors to earn income from real estate without having to manage the properties themselves.",
+      options: ["True", "False"],
+      answer: "True",
+    },
+    {
+      question: "Match the type of investment with its description.",
+      options: {
+        Stocks: "c. Ownership in a company that can increase in value and may pay dividends",
+        Bonds: "e. Lending money to a company or government with the promise of repayment with interest",
+        "Mutual Funds": "a. Collections of stocks, bonds, or other assets managed by professionals",
+        ETFs: "b. Traded on stock exchanges, offering diversification and professional management",
+        REITs: "d. Companies that own, operate, or finance income-producing real estate",
+        Commodities: "f. Raw materials like gold, silver, oil, or agricultural products"
+      },
+      answer: {
+        Stocks: "c. Ownership in a company that can increase in value and may pay dividends",
+        Bonds: "e. Lending money to a company or government with the promise of repayment with interest",
+        "Mutual Funds": "a. Collections of stocks, bonds, or other assets managed by professionals",
+        ETFs: "b. Traded on stock exchanges, offering diversification and professional management",
+        REITs: "d. Companies that own, operate, or finance income-producing real estate",
+        Commodities: "f. Raw materials like gold, silver, oil, or agricultural products"
+      }
+    }
   ];
+  
 
   const handleSetStep = (num) => {
     if ((stepsComplete === 0 && num === -1) || (stepsComplete === numSteps && num === 1)) {

@@ -11,40 +11,88 @@ const Page = () => {
 
   const slides = [
     {
-      title: "Overview of Investing",
-      content: "Investing is like embarking on an adventure with Juny the Octopus in the vast ocean! 🌊 It means putting your money into various assets, such as stocks, bonds, or real estate, with the expectation that these assets will grow in value over time.",
-      image: "/unit1Assets/1.png",
-      juny: "/unit1Assets/gifs/1.gif"
+      title: "Unit 1 Lesson 3: Types of Investments",
+      content: "Investing is like exploring a vibrant coral reef with Juny the Octopus, where each type of investment is a different kind of sea creature, each with its own unique characteristics. Let's dive in and discover the different types of investments! 🐙🌊",
+      image: "/unit2Assets/1.png",
+      juny: "/unit2Assets/gifs/1.gif"
     },
     {
-      title: "Overview of Investing",
-      content: "The main purpose of investing is to build wealth and reach financial goals, whether it's buying a home, funding education, or saving for retirement. Imagine Juny planting tiny seaweed seeds in her garden, hoping they will grow into a lush underwater forest! 🌱💰",
-      image: "/unit1Assets/2.png",
-      juny: "/unit1Assets/gifs/2.gif"
+      title: "Stocks",
+      content: "When you buy a stock, you’re purchasing a small piece of ownership in a company. If the company does well, the value of your stock can increase, and you might also receive dividends, which are a share of the company's profits.",
+      image: "/unit2Assets/2.png",
+      juny: "/unit2Assets/gifs/2.gif"
     },
     {
-      title: "History of Investing",
-      content: "The history of investing is as rich and diverse as the ocean itself. Imagine Juny's ancestors trading precious shells long ago to build their wealth! 🐚 In ancient times, people invested in tangible assets like land, livestock, and trade goods.",
-      image: "/unit1Assets/3.png",
-      juny: "/unit1Assets/gifs/3.gif"
+      title: "Stocks",
+      content: "Imagine owning a little part of Juny's favorite seaweed farm. If the farm thrives, so does your investment! 📈 For instance, Apple Inc. is a well-known company whose stock has grown significantly over the years. If you had bought Apple stock in 2000, its value would have increased dramatically, reflecting the company’s success and growth.",
+      image: "/unit2Assets/3.png",
+      juny: "/unit2Assets/gifs/3.gif"
     },
     {
-      title: "History of Investing",
-      content: "The concept was simple: put resources into something valuable that could grow over time. The first modern stock market, the Amsterdam Stock Exchange, was established in the early 1600s, allowing people to buy and sell shares of companies.",
-      image: "/unit1Assets/3.png",
-      juny: "/unit1Assets/gifs/4.gif"
+      title: "Bonds",
+      content: "Bonds are like lending money to a company or government. In return, they promise to pay you back with interest after a certain period. It’s similar to Juny lending her shiny pearl to a friend, who returns it later with an extra pearl as thanks!",
+      image: "/unit2Assets/4.png",
+      juny: "/unit2Assets/gifs/4.gif"
     },
     {
-      title: "History of Investing",
-      content: "This innovation marked the beginning of modern investing. Fast forward to today, investing has become more diverse and accessible than ever before. From the bustling floors of stock exchanges to the convenience of online trading platforms, anyone can invest with just a few clicks.",
-      image: "/unit1Assets/5.png",
-      juny: "/unit1Assets/gifs/5.gif"
+      title: "Bonds",
+      content: "Bonds are generally considered safer than stocks but usually offer lower returns. 💎 U.S. Treasury Bonds are considered very safe investments. When you buy a Treasury bond, you’re lending money to the U.S. government, which promises to pay you back with interest. These bonds are often used to save for long-term goals with minimal risk.",
+      image: "/unit2Assets/5.png",
+      juny: "/unit2Assets/gifs/5.gif"
     },
     {
-      title: "History of Investing",
-      content: "Juny might use her underwater tablet to keep track of her investments in various coral reefs and seaweed farms, showing how technology has made investing easier for everyone. 📱🌿By understanding what investing is and exploring its fascinating history, you are now ready to join Juny the Octopus on an exciting journey to grow your wealth! 🐙💸",
-      image: "/unit1Assets/6.png",
-      juny: "/unit1Assets/gifs/6.gif"
+      title: "Mutual Funds",
+      content: "Mutual funds are collections of stocks, bonds, or other assets managed by professionals. When you invest in a mutual fund, you're pooling your money with other investors to buy a diversified portfolio.",
+      image: "/unit2Assets/6.png",
+      juny: "/unit2Assets/gifs/6.gif"
+    },
+    {
+      title: "Mutual Funds",
+      content: "It's like Juny putting her pearls together with her friends to buy a variety of underwater treasures, spreading out the risk. 🗃️ The Vanguard 500 Index Fund is a popular mutual fund that includes stocks from the 500 largest companies in the U.S. By investing in this fund, you own a small piece of each company, reducing your risk compared to investing in a single stock.",
+      image: "/unit2Assets/7.png",
+      juny: "/unit2Assets/gifs/7.gif"
+    },
+    {
+      title: "Exchange-Traded Funds (ETFs)",
+      content: "ETFs are similar to mutual funds but are traded on stock exchanges like individual stocks. They offer the benefits of diversification and professional management but can be bought and sold throughout the trading day.",
+      image: "/unit2Assets/8.png",
+      juny: "/unit2Assets/gifs/8.gif"
+    },
+    {
+      title: "Exchange-Traded Funds (ETFs)",
+      content: "Think of them as baskets of different sea treasures that Juny can trade whenever she wants! 🧺 The SPDR S&P 500 ETF (SPY) is one of the most well-known ETFs. It tracks the performance of the S&P 500 Index, giving you exposure to 500 of the largest U.S. companies. You can buy and sell shares of SPY just like you would a stock.",
+      image: "/unit2Assets/9.png",
+      juny: "/unit2Assets/gifs/9.gif"
+    },
+    {
+      title: "Real Estate Investment Trusts (REITs)",
+      content: "REITs are companies that own, operate, or finance income-producing real estate. When you invest in REITs, you're essentially buying shares in large-scale properties, like shopping malls or office buildings.",
+      image: "/unit2Assets/10.png",
+      juny: "/unit2Assets/gifs/10.gif"
+    },
+    {
+      title: "Real Estate Investment Trusts (REITs)",
+      content: "Imagine Juny owning a piece of a luxurious underwater castle and earning rent from the creatures living there! 🏰 Public Storage is a well-known REIT that owns and operates self-storage facilities. By investing in Public Storage, you can earn income from the rents paid by people who use their storage units, without having to manage any properties yourself.",
+      image: "/unit2Assets/11.png",
+      juny: "/unit2Assets/gifs/11.gif"
+    },
+    {
+      title: "Commodities",
+      content: "Commodities are raw materials like gold, silver, oil, or agricultural products. Investing in commodities can protect against inflation and diversify your portfolio. It's like Juny collecting rare and valuable shells that can be traded or sold later. 🌾 Gold is a popular commodity that people invest in, especially during times of economic uncertainty.",
+      image: "/unit2Assets/12.png",
+      juny: "/unit2Assets/gifs/12.gif"
+    },
+    {
+      title: "Commodities",
+      content: "You can invest in gold directly by buying physical gold or indirectly by purchasing shares in a gold ETF like the SPDR Gold Trust (GLD). Each type of investment has its own risks and rewards, just like the diverse creatures in the ocean.",
+      image: "/unit2Assets/13.png",
+      juny: "/unit2Assets/gifs/13.gif"
+    },
+    {
+      title: "Commodities",
+      content: "By understanding these different options, you can make informed decisions and build a balanced investment portfolio with Juny the Octopus by your side! 🐙💰",
+      image: "/unit2Assets/14.png",
+      juny: "/unit2Assets/gifs/14.gif"
     }
   ];
 

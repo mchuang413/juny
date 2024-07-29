@@ -10,60 +10,42 @@ const Page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
   const [selectedDescription, setSelectedDescription] = useState(null);
-  const numSteps = 4;
+  const numSteps = 3;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "What is the main purpose of investing?",
+      question: "What do you purchase when you buy a stock?",
       options: [
-        "a. To buy and sell assets quickly",
-        "b. To build wealth and reach financial goals",
-        "c. To keep money in a savings account",
-        "d. To avoid financial markets"
+        "a. A loan to a company",
+        "b. A small piece of ownership in a company",
+        "c. A share of a mutual fund",
+        "d. A bond issued by a company"
       ],
-      answer: "b. To build wealth and reach financial goals"
+      answer: "b. A small piece of ownership in a company"
     },
     {
-      question: "Which of the following is an example of an asset you can invest in?",
+      question: "Which type of investment is generally considered safer but usually offers lower returns compared to stocks?",
       options: [
-        "a. Groceries",
-        "b. Clothes",
-        "c. Stocks",
-        "d. Vacations"
+        "a. Real Estate Investment Trusts (REITs)",
+        "b. Commodities",
+        "c. Bonds",
+        "d. Exchange-Traded Funds (ETFs)"
       ],
-      answer: "c. Stocks"
+      answer: "c. Bonds"
     },
     {
-      question: "Where was the first modern stock market established?",
+      question: "What is a characteristic of mutual funds?",
       options: [
-        "a. New York",
-        "b. London",
-        "c. Amsterdam",
-        "d. Tokyo"
+        "a. They can only be bought and sold at the end of the trading day",
+        "b. They offer professional management and diversification",
+        "c. They are physical assets like gold and silver",
+        "d. They represent direct ownership of real estate properties"
       ],
-      answer: "c. Amsterdam"
-    },
-    {
-      question: "Match the type of investment with its description.",
-      options: {
-        Stocks: "c. Ownership in a company that can increase in value and may pay dividends",
-        Bonds: "e. Lending money to a company or government with the promise of repayment with interest",
-        "Mutual Funds": "a. Collections of stocks, bonds, or other assets managed by professionals",
-        ETFs: "b. Traded on stock exchanges, offering diversification and professional management",
-        REITs: "d. Companies that own, operate, or finance income-producing real estate",
-        Commodities: "f. Raw materials like gold, silver, oil, or agricultural products"
-      },
-      answer: {
-        Stocks: "c. Ownership in a company that can increase in value and may pay dividends",
-        Bonds: "e. Lending money to a company or government with the promise of repayment with interest",
-        "Mutual Funds": "a. Collections of stocks, bonds, or other assets managed by professionals",
-        ETFs: "b. Traded on stock exchanges, offering diversification and professional management",
-        REITs: "d. Companies that own, operate, or finance income-producing real estate",
-        Commodities: "f. Raw materials like gold, silver, oil, or agricultural products"
-      }
+      answer: "b. They offer professional management and diversification"
     }
   ];
+  
 
   const handleSetStep = (num) => {
     if (
