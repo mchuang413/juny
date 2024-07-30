@@ -49,7 +49,9 @@ const Page = () => {
   useEffect(() => {
     const fetchUserLevel = async () => {
       try {
-        const response = await fetch('/get_user_level?username=your_username');  // Replace 'your_username' with actual logic
+        const username = Cookies.get('username');
+        console.log('Username:', username);
+        const response = await fetch(`/get_user_level?username=${username}`);  // Replace 'your_username' with actual logic
         const data = await response.json();
         setUserLevel(data.level);
       } catch (error) {
