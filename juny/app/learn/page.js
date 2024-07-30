@@ -333,12 +333,15 @@ const Page = () => {
               <div className="flex justify-between items-center">
                 <div>
                   <h5 className="mb-4 text-3xl font-bold tracking-tight">{unit.title}</h5>
-                  <p className="font-normal mb-4">{unit.description}</p>
+                  <p className={`font-normal mb-4 ${userLevel < unit.requiredLevel ? 'blur' : ''}`}>{unit.description}</p>
                 </div>
                 <div className={`button w-40 h-16 ${userLevel >= unit.requiredLevel ? 'bg-blue-500' : 'bg-gray-500'} rounded-lg cursor-pointer select-none
                   active:translate-y-2 active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
                   active:border-b-[0px] transition-all duration-150 ${userLevel >= unit.requiredLevel ? '[box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841] border-b-[1px] border-blue-400' : '[box-shadow:0_10px_0_0_#888888,0_15px_0_0_#888888] border-b-[1px] border-gray-400'}`}>
-                  <span className='flex flex-col justify-center items-center h-full text-white font-bold text-lg '>Learn</span>
+                  <span className='flex flex-col justify-center items-center h-full text-white font-bold text-lg '>
+                    {userLevel < unit.requiredLevel && <img src="/lock.png" alt="locked" className="h-8 w-8 mr-2" />}
+                    Learn
+                  </span>
                 </div>
               </div>
             </a>
@@ -354,6 +357,7 @@ const Page = () => {
                 active:border-b-[0px] transition-all duration-150 ${userLevel >= units[unitIndex].requiredLevel ? '[box-shadow:0_8px_0_0_#1b6ff8,0_13px_0_0_#1b70f841] border-[1px] border-blue-400' : '[box-shadow:0_8px_0_0_#888888,0_13px_0_0_#888888] border-[1px] border-gray-400'} flex justify-center items-center text-white font-bold text-lg`}
                 onClick={() => handleStarClick(unitIndex, starIndex)}
               >
+                {userLevel < units[unitIndex].requiredLevel && <img src="/lock.png" alt="locked" className="h-6 w-6 mr-2" />}
                 {starIcon}
               </div>
             ))}
