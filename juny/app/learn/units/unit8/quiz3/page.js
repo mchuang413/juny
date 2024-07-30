@@ -50,7 +50,7 @@ const Page = () => {
     if ((stepsComplete === 0 && num === -1) || (stepsComplete === numSteps && num === 1)) {
       return;
     }
-    setStepsComplete((pv) => pv + num);
+    setStepsComplete((prev) => prev + num);
   };
 
   const handleSelectAnswer = (step, answer) => {
@@ -362,7 +362,7 @@ const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }
           <p className="mb-2">
             <strong>Question {index + 1}:</strong> {question.question}
           </p>
-          {index === 1 ? ( // Assuming the matching question is the second one
+          {index === 1 ? (
             <>
               <p className="mb-2">
                 <strong>Your Answers:</strong>

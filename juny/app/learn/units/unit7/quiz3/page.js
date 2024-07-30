@@ -268,7 +268,7 @@ const Question = ({
   const question = questions[step];
   if (!question) return null;
 
-  if (step === 1) { // Assuming the matching question is the second one
+  if (step === 1) {
     return (
       <div>
         <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
@@ -330,7 +330,7 @@ const ClickSelectMatch = ({
       }
 
       setDescriptions(updatedDescriptions);
-      onMatchAnswer(1, type, selectedDescription); // Assuming the matching question is the second one
+      onMatchAnswer(1, type, selectedDescription);
       setSelectedDescription(null);
     }
   };
@@ -372,7 +372,7 @@ const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }
           <p className="mb-2">
             <strong>Question {index + 1}:</strong> {question.question}
           </p>
-          {index === 1 ? ( // Assuming the matching question is the second one
+          {index === 1 ? (
             <>
               <p className="mb-2">
                 <strong>Your Answers:</strong>

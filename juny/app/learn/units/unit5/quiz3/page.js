@@ -248,7 +248,10 @@ const Question = ({
   const question = questions[step];
   if (!question) return null;
 
-  if (step === 1) { // Assuming the matching question is the second one
+  const isMatchingQuestion =
+    typeof question.options === "object" && !Array.isArray(question.options);
+
+  if (isMatchingQuestion) {
     return (
       <div>
         <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
@@ -352,7 +355,7 @@ const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }
           <p className="mb-2">
             <strong>Question {index + 1}:</strong> {question.question}
           </p>
-          {index === 1 ? ( // Assuming the matching question is the second one
+          {typeof question.options === 'object' && !Array.isArray(question.options) ? (
             <>
               <p className="mb-2">
                 <strong>Your Answers:</strong>
@@ -360,8 +363,8 @@ const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }
               <ul className="list-disc pl-5">
                 {Object.keys(question.options).map((type) => (
                   <li key={type} className="mb-2">
-                    {type}: {selectedAnswers[1]?.[type]} -{" "}
-                    {selectedAnswers[1]?.[type] === question.answer[type] ? (
+                    {type}: {selectedAnswers[index]?.[type]} -{" "}
+                    {selectedAnswers[index]?.[type] === question.answer[type] ? (
                       <span className="text-green-600 font-semibold">Correct</span>
                     ) : (
                       <span className="text-red-600 font-semibold">Wrong</span>
