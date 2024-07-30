@@ -348,19 +348,20 @@ const Page = () => {
           </div>
 
           <div className="relative w-full h-[400px] mt-8">
-            {(unitIndex % 2 === 0 ? buttonPositionsLeft : buttonPositionsRight).map((pos, starIndex) => (
-              <div 
-                key={starIndex} 
-                style={{ position: 'absolute', top: pos.top, left: pos.left, transform: pos.transform }} 
-                className={`button w-24 h-24 ${userLevel >= units[unitIndex].requiredLevel ? 'bg-blue-500' : 'bg-gray-500'} rounded-full cursor-pointer select-none
-                active:translate-y-2 active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
-                active:border-b-[0px] transition-all duration-150 ${userLevel >= units[unitIndex].requiredLevel ? '[box-shadow:0_8px_0_0_#1b6ff8,0_13px_0_0_#1b70f841] border-[1px] border-blue-400' : '[box-shadow:0_8px_0_0_#888888,0_13px_0_0_#888888] border-[1px] border-gray-400'} flex justify-center items-center text-white font-bold text-lg`}
-                onClick={() => handleStarClick(unitIndex, starIndex)}
-              >
-                {userLevel < units[unitIndex].requiredLevel && <img src="/lock.png" alt="locked" className="h-6 w-6 mr-2" />}
-                {starIcon}
-              </div>
-            ))}
+          {(unitIndex % 2 === 0 ? buttonPositionsLeft : buttonPositionsRight).map((pos, starIndex) => (
+            <div 
+              key={starIndex} 
+              style={{ position: 'absolute', top: pos.top, left: pos.left, transform: pos.transform }} 
+              className={`button w-24 h-24 ${userLevel >= units[unitIndex].requiredLevel ? 'bg-blue-500' : 'bg-gray-500'} rounded-full cursor-pointer select-none
+              active:translate-y-2 active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
+              active:border-b-[0px] transition-all duration-150 ${userLevel >= units[unitIndex].requiredLevel ? '[box-shadow:0_8px_0_0_#1b6ff8,0_13px_0_0_#1b70f841] border-[1px] border-blue-400' : '[box-shadow:0_8px_0_0_#888888,0_13px_0_0_#888888] border-[1px] border-gray-400'} flex justify-center items-center text-white font-bold text-lg`}
+              onClick={() => handleStarClick(unitIndex, starIndex)}
+            >
+              {userLevel < units[unitIndex].requiredLevel 
+                ? <img src="/lock.png" alt="locked" className="h-6 w-6" /> 
+                : starIcon}
+            </div>
+          ))}
           </div>
         </div>
       ))}
