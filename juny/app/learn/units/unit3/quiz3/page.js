@@ -13,38 +13,37 @@ const Page = () => {
 
   const questions = [
     {
-      question: "What is the capital of France?",
-      options: ["a. Berlin", "b. Madrid", "c. Paris", "d. Rome"],
-      answer: "c. Paris",
-    },
-    {
-      question: "Which company is known for the iPhone?",
-      options: ["a. Samsung", "b. Apple", "c. Google", "d. Microsoft"],
-      answer: "b. Apple",
-    },
-    {
-      question: "How has technology made investing easier for everyone?",
-      options: [
-        "a. By creating more physical stock exchanges",
-        "b. By increasing the number of banks",
-        "c. By making money more valuable",
-        "d. Through the use of online trading platforms",
-      ],
-      answer: "d. Through the use of online trading platforms",
-    },
-    {
-      question:
-        "Investing means putting your money into various assets with the expectation that they will decrease in value over time.",
+      question: "Inflation increases the purchasing power of your money over time.",
       options: ["True", "False"],
-      answer: "False",
+      answer: "False"
     },
     {
-      question:
-        "The main purpose of investing is to build wealth and reach financial goals.",
+      question: "Compounding can significantly increase your wealth over time by reinvesting your earnings.",
       options: ["True", "False"],
-      answer: "True",
+      answer: "True"
     },
+    {
+      question: "Diversification involves putting all your money into a single stock to maximize returns.",
+      options: ["True", "False"],
+      answer: "False"
+    },
+    {
+      question: "Match the concept with its description.",
+      options: {
+        "Risk vs. Reward": "c. The chance of losing money versus the potential to make money",
+        "Diversification": "a. Spreading your investments across different types of assets to reduce risk",
+        "Compounding": "b. The process where your investment earnings generate more earnings over time",
+        "Inflation": "d. The increase in prices over time, reducing purchasing power"
+      },
+      answer: {
+        "Risk vs. Reward": "c. The chance of losing money versus the potential to make money",
+        "Diversification": "a. Spreading your investments across different types of assets to reduce risk",
+        "Compounding": "b. The process where your investment earnings generate more earnings over time",
+        "Inflation": "d. The increase in prices over time, reducing purchasing power"
+      }
+    }
   ];
+  
 
   const handleSetStep = (num) => {
     if (

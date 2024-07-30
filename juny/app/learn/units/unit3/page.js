@@ -11,40 +11,58 @@ const Page = () => {
 
   const slides = [
     {
-      title: "Overview of Investing",
-      content: "Investing is like embarking on an adventure with Juny the Octopus in the vast ocean! 🌊 It means putting your money into various assets, such as stocks, bonds, or real estate, with the expectation that these assets will grow in value over time.",
-      image: "/unit1Assets/1.png",
-      juny: "/unit1Assets/gifs/1.gif"
+      title: "Unit 1 Lesson 4: Basic Investment Principles",
+      content: "Let's explore the basic principles of investing with Juny the Octopus! These principles are like the rules of the ocean, helping you navigate the vast sea of investment opportunities safely and successfully. 🌊🐙",
+      image: "/unit3Assets/1.png",
+      juny: "/unit3Assets/gifs/1.gif"
     },
     {
-      title: "Overview of Investing",
-      content: "The main purpose of investing is to build wealth and reach financial goals, whether it's buying a home, funding education, or saving for retirement. Imagine Juny planting tiny seaweed seeds in her garden, hoping they will grow into a lush underwater forest! 🌱💰",
-      image: "/unit1Assets/2.png",
-      juny: "/unit1Assets/gifs/2.gif"
+      title: "Risk vs. Reward",
+      content: "Every investment comes with a level of risk, which is the chance that you might lose money. However, with risk comes the potential for reward, which is the chance to make money.",
+      image: "/unit3Assets/2.png",
+      juny: "/unit3Assets/gifs/2.gif"
     },
     {
-      title: "History of Investing",
-      content: "The history of investing is as rich and diverse as the ocean itself. Imagine Juny's ancestors trading precious shells long ago to build their wealth! 🐚 In ancient times, people invested in tangible assets like land, livestock, and trade goods.",
-      image: "/unit1Assets/3.png",
-      juny: "/unit1Assets/gifs/3.gif"
+      title: "Risk vs. Reward",
+      content: "It's like Juny venturing into deeper waters to find rare pearls. The deeper she goes, the more valuable the pearls, but the journey also becomes more dangerous. Balancing risk and reward is crucial in investing. For example, stocks generally offer higher returns than bonds but also come with higher risks. 📈⚖️",
+      image: "/unit3Assets/3.png",
+      juny: "/unit3Assets/gifs/3.png"
     },
     {
-      title: "History of Investing",
-      content: "The concept was simple: put resources into something valuable that could grow over time. The first modern stock market, the Amsterdam Stock Exchange, was established in the early 1600s, allowing people to buy and sell shares of companies.",
-      image: "/unit1Assets/3.png",
-      juny: "/unit1Assets/gifs/4.gif"
+      title: "Diversification",
+      content: "Diversification is the practice of spreading your investments across different types of assets to reduce risk. Imagine Juny planting various types of seaweed in her garden. If one type doesn't grow well, the others might still thrive, ensuring she always has a beautiful garden. In investing, this means not putting all your money into one stock or asset.",
+      image: "/unit3Assets/4.png",
+      juny: "/unit3Assets/gifs/4.gif"
     },
     {
-      title: "History of Investing",
-      content: "This innovation marked the beginning of modern investing. Fast forward to today, investing has become more diverse and accessible than ever before. From the bustling floors of stock exchanges to the convenience of online trading platforms, anyone can invest with just a few clicks.",
-      image: "/unit1Assets/5.png",
-      juny: "/unit1Assets/gifs/5.gif"
+      title: "Diversification",
+      content: "By diversifying, you can protect your portfolio from significant losses. For instance, if you invest in both technology stocks and government bonds, a downturn in the tech industry won’t wipe out your entire portfolio. 🌱📊",
+      image: "/unit3Assets/5.png",
+      juny: "/unit3Assets/gifs/5.gif"
     },
     {
-      title: "History of Investing",
-      content: "Juny might use her underwater tablet to keep track of her investments in various coral reefs and seaweed farms, showing how technology has made investing easier for everyone. 📱🌿By understanding what investing is and exploring its fascinating history, you are now ready to join Juny the Octopus on an exciting journey to grow your wealth! 🐙💸",
-      image: "/unit1Assets/6.png",
-      juny: "/unit1Assets/gifs/6.gif"
+      title: "Compounding",
+      content: "Compounding is the process where your investment earnings generate even more earnings over time. It's like Juny finding a magical coral that grows faster and faster each year!",
+      image: "/unit3Assets/6.png",
+      juny: "/unit3Assets/gifs/6.png"
+    },
+    {
+      title: "Compounding",
+      content: "The interest or returns you earn on your investments are reinvested, leading to exponential growth. For example, if you invest $1,000 at an annual return of 5%, you’ll have $1,050 after one year. If you leave that money invested, you'll earn 5% on $1,050 the next year, and so on. Over time, this can significantly increase your wealth. 💸🌟",
+      image: "/unit3Assets/7.png",
+      juny: "/unit3Assets/gifs/7.png"
+    },
+    {
+      title: "Inflation and its Impact on Investments",
+      content: "Inflation is the increase in prices over time, which reduces the purchasing power of your money. Think of inflation as a sneaky current that slowly erodes the sandcastle Juny builds. If your investments don’t grow at least as fast as inflation, you’re effectively losing money. This is why it’s essential to choose investments that can outpace inflation.",
+      image: "/unit3Assets/8.png",
+      juny: "/unit3Assets/gifs/8.gif"
+    },
+    {
+      title: "Inflation and its Impact on Investments",
+      content: "For instance, while savings accounts offer low risk, their returns are often lower than the inflation rate. Stocks, on the other hand, have historically provided higher returns that can help combat inflation. 📉💰By understanding these basic principles, you can make smarter investment decisions and navigate the investing ocean with confidence, just like Juny the Octopus! 🐙💡",
+      image: "/unit3Assets/9.png",
+      juny: "/unit3Assets/gifs/9.png"
     }
   ];
 

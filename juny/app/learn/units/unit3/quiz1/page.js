@@ -14,36 +14,37 @@ const Page = () => {
 
   const questions = [
     {
-      question: "What is the main purpose of investing?",
+      question: "What does the principle of risk vs. reward mean in investing?",
       options: [
-        "a. To buy and sell assets quickly",
-        "b. To build wealth and reach financial goals",
-        "c. To keep money in a savings account",
-        "d. To avoid financial markets"
+        "a. Higher risk always guarantees higher returns",
+        "b. Higher risk comes with the potential for higher returns",
+        "c. Lower risk always guarantees higher returns",
+        "d. Lower risk comes with the potential for higher returns"
       ],
-      answer: "b. To build wealth and reach financial goals"
+      answer: "b. Higher risk comes with the potential for higher returns"
     },
     {
-      question: "Which of the following is an example of an asset you can invest in?",
+      question: "What is diversification in investing?",
       options: [
-        "a. Groceries",
-        "b. Clothes",
-        "c. Stocks",
-        "d. Vacations"
+        "a. Putting all your money into one stock",
+        "b. Spreading your investments across different types of assets",
+        "c. Investing only in low-risk assets",
+        "d. Avoiding investments in stocks"
       ],
-      answer: "c. Stocks"
+      answer: "b. Spreading your investments across different types of assets"
     },
     {
-      question: "Where was the first modern stock market established?",
+      question: "What is the benefit of diversification?",
       options: [
-        "a. New York",
-        "b. London",
-        "c. Amsterdam",
-        "d. Tokyo"
+        "a. It guarantees higher returns",
+        "b. It eliminates all investment risk",
+        "c. It reduces the risk of significant losses",
+        "d. It ensures all investments grow at the same rate"
       ],
-      answer: "c. Amsterdam"
+      answer: "c. It reduces the risk of significant losses"
     }
   ];
+  
 
   const handleSetStep = (num) => {
     if (

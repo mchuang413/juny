@@ -9,73 +9,47 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 3;
+  const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "How has technology made investing easier for everyone?",
+      question: "What is compounding in the context of investing?",
       options: [
-        "a. By creating more physical stock exchanges",
-        "b. By increasing the number of banks",
-        "c. By making money more valuable",
-        "d. Through the use of online trading platforms"
+        "a. The process of spreading investments across various assets",
+        "b. Reinvesting earnings to generate more earnings over time",
+        "c. The impact of inflation on investments",
+        "d. Balancing risk and reward in a portfolio"
       ],
-      answer: "d. Through the use of online trading platforms"
+      answer: "b. Reinvesting earnings to generate more earnings over time"
     },
     {
-      question: "Investing means putting your money into various assets with the expectation that they will decrease in value over time.",
+      question: "Juny the Octopus wants to protect her investments from significant losses. Which principle should she apply?",
       options: [
-        "True",
-        "False"
+        "a. Compounding",
+        "b. Risk vs. Reward",
+        "c. Diversification",
+        "d. Inflation"
       ],
-      answer: "False"
+      answer: "c. Diversification"
     },
     {
-      question: "The first modern stock market was established in the early 1600s.",
+      question: "Juny is concerned that the value of her savings will decrease over time due to rising prices. What should she consider to combat this?",
       options: [
-        "True",
-        "False"
+        "a. Investing in assets that outpace inflation",
+        "b. Keeping all her money in a savings account",
+        "c. Avoiding all investments",
+        "d. Investing in low-risk bonds only"
       ],
-      answer: "True"
+      answer: "a. Investing in assets that outpace inflation"
     },
     {
-      question: "The history of investing includes people in ancient times investing in tangible assets like land and livestock.",
-      options: [
-        "True",
-        "False"
-      ],
-      answer: "True"
-    },
-    {
-      question: "The main purpose of investing is to build wealth and reach financial goals.",
-      options: [
-        "True",
-        "False"
-      ],
-      answer: "True"
-    },
-    {
-      question: "Juny the Octopus wants to invest her money with the hope that it will grow over time. Which of the following should she consider investing in?",
-      options: [
-        "a. Seaweed decorations",
-        "b. Stocks, bonds, or real estate",
-        "c. Pearls for her friends",
-        "d. New underwater tablets"
-      ],
-      answer: "b. Stocks, bonds, or real estate"
-    },
-    {
-      question: "Imagine Juny is looking at her underwater tablet and sees her investment in a coral reef has increased in value. What does this situation exemplify?",
-      options: [
-        "a. A decrease in wealth",
-        "b. The risk of investing",
-        "c. The growth of her investment",
-        "d. The purpose of saving"
-      ],
-      answer: "c. The growth of her investment"
+      question: "Stocks generally offer higher returns than bonds but also come with higher risks.",
+      options: ["True", "False"],
+      answer: "True",
     }
   ];
+  
 
   const handleSetStep = (num) => {
     if (
