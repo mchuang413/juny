@@ -143,7 +143,13 @@ const Page = () => {
             <p className="text-medium mb-8">{displayedText}</p>
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-blue-100 rotate-45" style={{ marginTop: '-0.5rem' }}></div>
           </motion.div>
-          <Image src={slides[currentSlide].juny} width={300} height={300} alt="Bottom Image" className="mt-4 mx-auto"/>
+          <Image 
+            src={slides[currentSlide].juny} 
+            width={currentSlide === 2 ? 600 : 300} // Adjust the size based on the current slide
+            height={currentSlide === 2 ? 600 : 300} 
+            alt="Bottom Image" 
+            className="mt-4 mx-auto"
+          />
         </div>
       </div>
       <div className="flex justify-center space-x-4 mt-8">
