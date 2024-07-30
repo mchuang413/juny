@@ -55,7 +55,7 @@ const Page = () => {
           console.error('Username not found in cookies');
           return;
         }
-        const response = await fetch(`/get_user_level?username=${username}`);
+        const response = await fetch(`https://michaelape.site/get_user_level?username=${username}`);
         const data = await response.json();
         if (response.ok) {
           setUserLevel(data.level);
