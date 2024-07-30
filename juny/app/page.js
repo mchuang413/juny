@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
 const Page = () => {
@@ -14,7 +14,7 @@ const Page = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://michaelape.site/login', {  // Update to HTTPS and correct port
+      const response = await fetch('https://michaelape.site/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,6 +29,7 @@ const Page = () => {
 
       if (data.status === 'works') {
         Cookies.set('username', username);
+        console.log(username);
         Cookies.set('auth', 'your-auth-token'); // Replace with actual token if available
         setMessage('Login successful');
         window.location.reload(); // Refresh the page to update the authentication state
@@ -47,7 +48,7 @@ const Page = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://michaelape.site/signup', {  // Update to HTTPS and correct port
+      const response = await fetch('https://michaelape.site/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,6 +64,8 @@ const Page = () => {
       const data = await response.json();
 
       if (data.status === 'success') {
+        Cookies.set('username', username);
+        Cookies.set('auth', 'your-auth-token'); // Replace with actual token if available
         setMessage('Signup successful');
         setIsSignup(false); // Redirect or handle post-signup logic here
       } else {
@@ -77,8 +80,16 @@ const Page = () => {
   // Function to handle logout
   const handleLogout = () => {
     Cookies.remove('auth');
+    Cookies.remove('username');
     window.location.reload(); // Refresh the page to update the authentication state
   };
+
+  useEffect(() => {
+    const usernameFromCookies = Cookies.get('username');
+    if (usernameFromCookies) {
+      setUsername(usernameFromCookies);
+    }
+  }, []);
 
   return (
     <div className="h-full flex flex-col justify-center items-center relative overflow-hidden">

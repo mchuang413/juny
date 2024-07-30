@@ -48,16 +48,22 @@ const Card = () => {
         </motion.span>
         <ul className="mt-4 space-y-2">
           <li className="flex items-center">
-            <CheckIcon /> Access to Live News
+            <CheckIcon /> Unlimited Learning
           </li>
           <li className="flex items-center">
-            <CheckIcon /> Personalized AI Feedback after every assessment
+            <CheckIcon /> Unlimited Paper Trading Simulator Access
           </li>
           <li className="flex items-center">
-            <CheckIcon /> David will violate you
+            <CheckIcon /> Exclusive Portfolios
           </li>
           <li className="flex items-center">
-            <CheckIcon /> and MORE
+            <CheckIcon /> Live Stock News
+          </li>
+          <li className="flex items-center">
+            <CheckIcon /> AI - Powered Feedback
+          </li>
+          <li className="flex items-center">
+            <CheckIcon /> and MORE!
           </li>
         </ul>
       </div>
