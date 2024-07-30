@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import axios from "axios";
 
 const Page = () => {
   const [stepsComplete, setStepsComplete] = useState(0);
@@ -76,32 +75,6 @@ const Page = () => {
     setIsSubmitted(true);
     if (isPremium) {
       generatePersonalizedFeedback();
-    }
-  };
-
-  const generatePersonalizedFeedback = async () => {
-    setIsLoading(true);
-    setAiFeedback("");
-    try {
-      const response = await axios.post(
-        "https://api.openai.com/v1/completions",
-        {
-          model: "gpt-4o",
-          prompt: `Generate a personalized feedback report for the following quiz answers: ${JSON.stringify(selectedAnswers)}. Questions: ${JSON.stringify(questions)}`,
-        },
-        {
-          headers: {
-            Authorization: `Bearer `,
-            "Content-Type": "application/json"
-          },
-        }
-      );
-      setAiFeedback(response.data.choices[0].text);
-    } catch (error) {
-      console.error("Error generating personalized feedback:", error);
-      setAiFeedback("There was an error generating the feedback. Please try again later.");
-    } finally {
-      setIsLoading(false);
     }
   };
 
