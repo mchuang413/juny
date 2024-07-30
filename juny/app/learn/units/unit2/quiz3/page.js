@@ -8,7 +8,7 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 4;
+  const numSteps = 5;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
@@ -47,7 +47,6 @@ const Page = () => {
       }
     }
   ];
-  
 
   const handleSetStep = (num) => {
     if (
