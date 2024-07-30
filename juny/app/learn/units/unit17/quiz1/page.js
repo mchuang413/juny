@@ -3,61 +3,63 @@ import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
 
-const Page = () => {
+const QuizPage = () => {
   const [stepsComplete, setStepsComplete] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 3;
+  const [selectedDescription, setSelectedDescription] = useState(null);
+  const numSteps = 3; // Adjust based on number of questions
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "What is the main purpose of investing?",
-      options: [
-        "a. To buy and sell assets quickly",
-        "b. To build wealth and reach financial goals",
-        "c. To keep money in a savings account",
-        "d. To avoid financial markets"
-      ],
-      answer: "b. To build wealth and reach financial goals"
+      type: "trueFalse",
+      question: "Insider trading is fair and encouraged by regulators.",
+      options: ["True", "False"],
+      answer: "False",
     },
     {
-      question: "Which of the following is an example of an asset you can invest in?",
-      options: [
-        "a. Groceries",
-        "b. Clothes",
-        "c. Stocks",
-        "d. Vacations"
-      ],
-      answer: "c. Stocks"
+      type: "matching",
+      question: "Match the concept with its description.",
+      options: {
+        "Regulatory Environment": "b. System of rules governing financial markets",
+        "Investor Protection": "c. Safeguarding investors from fraud",
+        "Market Integrity": "d. Maintaining trust in the market system",
+        "Fair Trading Practices": "a. Ensuring trades are transparent and fair"
+      },
+      answer: {
+        "Regulatory Environment": "b. System of rules governing financial markets",
+        "Investor Protection": "c. Safeguarding investors from fraud",
+        "Market Integrity": "d. Maintaining trust in the market system",
+        "Fair Trading Practices": "a. Ensuring trades are transparent and fair"
+      }
     },
     {
-      question: "Where was the first modern stock market established?",
-      options: [
-        "a. New York",
-        "b. London",
-        "c. Amsterdam",
-        "d. Tokyo"
-      ],
-      answer: "c. Amsterdam"
+      type: "multipleChoice",
+      question: "Juny the Octopus learns about a hidden treasure and buys it before the information is public. What is this?",
+      options: ["a. Transparent Trading", "b. Insider Trading", "c. Market Regulation", "d. Fair Trading"],
+      answer: "b. Insider Trading",
     }
   ];
 
   const handleSetStep = (num) => {
-    if (
-      (stepsComplete === 0 && num === -1) ||
-      (stepsComplete === numSteps && num === 1)
-    ) {
+    if ((stepsComplete === 0 && num === -1) || (stepsComplete === numSteps && num === 1)) {
       return;
     }
-
-    setStepsComplete((pv) => pv + num);
+    setStepsComplete((prev) => prev + num);
   };
 
   const handleSelectAnswer = (step, answer) => {
     setSelectedAnswers((prev) => ({ ...prev, [step]: answer }));
+  };
+
+  const handleMatchAnswer = (step, type, description) => {
+    setSelectedAnswers((prev) => ({
+      ...prev,
+      [step]: { ...prev[step], [type]: description }
+    }));
   };
 
   const handleSubmit = () => {
@@ -74,13 +76,15 @@ const Page = () => {
       const response = await axios.post(
         "https://api.openai.com/v1/completions",
         {
-          model: "gpt-4o",
-          prompt: `Generate a personalized feedback report for the following quiz answers: ${JSON.stringify(selectedAnswers)}. Questions: ${JSON.stringify(questions)}`,
+          model: "gpt-3.5-turbo",
+          prompt: `Generate a personalized feedback report for the following quiz answers: ${JSON.stringify(
+            selectedAnswers
+          )}. Questions: ${JSON.stringify(questions)}`,
         },
         {
           headers: {
-            Authorization: `Bearer `,
-            "Content-Type": "application/json"
+            Authorization: `Bearer YOUR_OPENAI_API_KEY`, // Replace with your actual API key
+            "Content-Type": "application/json",
           },
         }
       );
@@ -112,39 +116,41 @@ const Page = () => {
   };
 
   return (
-    <div className="px-4 py-14 bg-white">
-      <div className="p-8 bg-white shadow-lg rounded-md w-full max-w-2xl mx-auto">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-3xl p-6 bg-white rounded-lg shadow-md">
+        <Steps numSteps={numSteps} stepsComplete={stepsComplete} />
         {!isSubmitted ? (
           <>
-            <Steps numSteps={numSteps} stepsComplete={stepsComplete} />
-            <div className="p-2 my-6 h-auto bg-gray-100 border-2 border-dashed border-gray-200 rounded-lg">
-              <Question
-                step={stepsComplete}
-                questions={questions}
-                selectedAnswer={selectedAnswers[stepsComplete]}
-                onSelectAnswer={handleSelectAnswer}
-              />
-            </div>
-            <div className="flex items-center justify-end gap-2">
+            <Question
+              step={stepsComplete}
+              questions={questions}
+              selectedAnswer={selectedAnswers[stepsComplete]}
+              onSelectAnswer={handleSelectAnswer}
+              onMatchAnswer={handleMatchAnswer}
+              selectedDescription={selectedDescription}
+              setSelectedDescription={setSelectedDescription}
+            />
+            <div className="flex justify-between mt-6">
               <button
-                className="px-4 py-1 rounded hover:bg-gray-100 text-black"
                 onClick={() => handleSetStep(-1)}
+                disabled={stepsComplete === 0}
+                className="px-4 py-2 text-white bg-gray-400 rounded-lg disabled:bg-gray-300"
               >
-                Prev
+                Previous
               </button>
-              {stepsComplete < numSteps - 1 ? (
+              {stepsComplete === numSteps - 1 ? (
                 <button
-                  className="px-4 py-1 rounded bg-black text-white"
-                  onClick={() => handleSetStep(1)}
+                  onClick={handleSubmit}
+                  className="px-4 py-2 text-white bg-indigo-600 rounded-lg"
                 >
-                  Next
+                  Submit
                 </button>
               ) : (
                 <button
-                  className="px-4 py-1 rounded bg-black text-white"
-                  onClick={handleSubmit}
+                  onClick={() => handleSetStep(1)}
+                  className="px-4 py-2 text-white bg-indigo-600 rounded-lg"
                 >
-                  Submit
+                  Next
                 </button>
               )}
             </div>
@@ -167,7 +173,7 @@ const Steps = ({ numSteps, stepsComplete }) => {
   const stepArray = Array.from(Array(numSteps).keys());
 
   return (
-    <div className="flex items-center justify-between gap-3">
+    <div className="flex items-center justify-between gap-3 mb-6">
       {stepArray.map((num) => {
         const stepNum = num + 1;
         const isActive = stepNum <= stepsComplete;
@@ -238,9 +244,33 @@ const Step = ({ num, isActive }) => {
   );
 };
 
-const Question = ({ step, questions, selectedAnswer, onSelectAnswer }) => {
+const Question = ({
+  step,
+  questions,
+  selectedAnswer,
+  onSelectAnswer,
+  onMatchAnswer,
+  selectedDescription,
+  setSelectedDescription
+}) => {
   const question = questions[step];
   if (!question) return null;
+
+  if (question.type === "matching") {
+    return (
+      <div>
+        <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
+        <ClickSelectMatch
+          question={question}
+          selectedAnswer={selectedAnswer}
+          onMatchAnswer={onMatchAnswer}
+          selectedDescription={selectedDescription}
+          setSelectedDescription={setSelectedDescription}
+        />
+      </div>
+    );
+  }
+
   return (
     <div>
       <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
@@ -265,6 +295,62 @@ const Question = ({ step, questions, selectedAnswer, onSelectAnswer }) => {
   );
 };
 
+const ClickSelectMatch = ({
+  question,
+  selectedAnswer,
+  onMatchAnswer,
+  selectedDescription,
+  setSelectedDescription
+}) => {
+  const [descriptions, setDescriptions] = useState(Object.values(question.options));
+
+  const handleDescriptionClick = (description) => {
+    setSelectedDescription(description);
+  };
+
+  const handleBoxClick = (type) => {
+    if (selectedDescription) {
+      const updatedDescriptions = descriptions.filter((desc) => desc !== selectedDescription);
+      const existingDescription = selectedAnswer?.[type];
+
+      if (existingDescription) {
+        updatedDescriptions.push(existingDescription);
+      }
+
+      setDescriptions(updatedDescriptions);
+      onMatchAnswer(1, type, selectedDescription); // Assuming the matching question is the second one
+      setSelectedDescription(null);
+    }
+  };
+
+  return (
+    <div className="overflow-y-auto max-h-96">
+      {Object.keys(question.options).map((type) => (
+        <div key={type} className="flex flex-col mb-4">
+          <span className="font-semibold">{type}</span>
+          <div
+            onClick={() => handleBoxClick(type)}
+            className={`mt-2 p-4 border rounded h-auto min-h-[50px] cursor-pointer ${selectedDescription ? "border-blue-500" : "border-gray-300"}`}
+          >
+            {selectedAnswer?.[type] || "Click to place description here"}
+          </div>
+        </div>
+      ))}
+      <div className="flex flex-col">
+        {descriptions.map((description, index) => (
+          <div
+            key={index}
+            onClick={() => handleDescriptionClick(description)}
+            className={`p-2 border rounded mb-2 cursor-pointer ${selectedDescription === description ? "bg-blue-200 border-blue-500" : "bg-gray-200 border-gray-300"}`}
+          >
+            {description}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }) => {
   return (
     <div className="mb-4 p-4 rounded-lg border-4 border-blue-400 w-full max-w-3xl mx-auto">
@@ -274,17 +360,39 @@ const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }
           <p className="mb-2">
             <strong>Question {index + 1}:</strong> {question.question}
           </p>
-          <p className="mb-2">
-            <strong>Your Answer:</strong> {selectedAnswers[index]}
-          </p>
-          <p className="mb-2">
-            <strong>Correct Answer:</strong> {question.answer} -{" "}
-            {selectedAnswers[index] === question.answer ? (
-              <span className="text-green-600 font-semibold">Correct</span>
-            ) : (
-              <span className="text-red-600 font-semibold">Wrong</span>
-            )}
-          </p>
+          {question.type === "matching" ? (
+            <>
+              <p className="mb-2">
+                <strong>Your Answers:</strong>
+              </p>
+              <ul className="list-disc pl-5">
+                {Object.keys(question.options).map((type) => (
+                  <li key={type} className="mb-2">
+                    {type}: {selectedAnswers[1]?.[type]} -{" "}
+                    {selectedAnswers[1]?.[type] === question.answer[type] ? (
+                      <span className="text-green-600 font-semibold">Correct</span>
+                    ) : (
+                      <span className="text-red-600 font-semibold">Wrong</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <>
+              <p className="mb-2">
+                <strong>Your Answer:</strong> {selectedAnswers[index]}
+              </p>
+              <p className="mb-2">
+                <strong>Correct Answer:</strong> {question.answer} -{" "}
+                {selectedAnswers[index] === question.answer ? (
+                  <span className="text-green-600 font-semibold">Correct</span>
+                ) : (
+                  <span className="text-red-600 font-semibold">Wrong</span>
+                )}
+              </p>
+            </>
+          )}
         </div>
       ))}
       {isPremium && (
@@ -319,4 +427,4 @@ const TypewriterEffect = ({ text }) => {
   return <p>{displayedText}</p>;
 };
 
-export default Page;
+export default QuizPage;
