@@ -32,37 +32,37 @@ const Page = () => {
     {
       title: "UNIT 2: Types of Investments",
       description: "Explore various types of investments, including stocks, bonds, mutual funds, ETFs, REITs, and commodities. You'll learn the characteristics of each investment type, how they work, and their potential benefits and risks. 📊💼",
-      requiredLevel: 0,  // Level 4 required for Unit 2
+      requiredLevel: 3,  // Level 4 required for Unit 2
     },
     {
       title: "UNIT 3: Basic Investment Principles",
       description: "Understand fundamental investment principles such as risk vs. reward, diversification, compounding, and the impact of inflation on investments. These core concepts will help you make informed investment decisions and build a robust portfolio. 📉🏦",
-      requiredLevel: 0,  // Level 7 required for Unit 3
+      requiredLevel: 6,  // Level 7 required for Unit 3
     },
     {
       title: "UNIT 4: Setting Investment Goals",
       description: "Learn how to set and achieve your investment goals. This lesson covers the differences between short-term and long-term goals, assessing your risk tolerance, and determining your investment time horizon. 🏁🎯",
-      requiredLevel: 0,  // Level 11 required for Unit 4
+      requiredLevel: 9,  // Level 11 required for Unit 4
     },
     {
       title: "UNIT 5: Investment Accounts",
       description: "Discover different types of investment accounts, including brokerage accounts and retirement accounts like 401(k) and IRA. Understand their features, benefits, and how to choose the right account for your investment needs. 💼💡",
-      requiredLevel: 0,
+      requiredLevel: 12,
     },
     {
       title: "UNIT 6: Market Participants",
       description: "Meet the key players in the financial markets, including retail investors, institutional investors, and market makers. Learn their roles and how they contribute to the market's functionality. 🐟🐋🐠",
-      requiredLevel: 0,
+      requiredLevel: 15,
     },
     {
       title: "UNIT 7: Stock Exchanges",
       description: "Explore major global stock exchanges such as the NYSE, NASDAQ, and more. Understand how stock exchanges operate and facilitate the buying and selling of securities, ensuring market liquidity and efficiency. 🏛️📈",
-      requiredLevel: 0,
+      requiredLevel: 18,
     },
     {
       title: "UNIT 8: Regulatory Environment",
       description: "Dive into the regulatory environment of financial markets. Learn about the role of regulatory bodies like the SEC and FINRA, insider trading laws, and market ethics. Understand how regulations protect investors and maintain market integrity. 🛡️⚖️",
-      requiredLevel: 0,
+      requiredLevel: 21,
     },
     {
       title: "UNIT 9: Financial Statements",
