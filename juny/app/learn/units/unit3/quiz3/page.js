@@ -31,15 +31,15 @@ const Page = () => {
       question: "Match the concept with its description.",
       options: {
         "Risk vs. Reward": "c. The chance of losing money versus the potential to make money",
-        "Diversification": "a. Spreading your investments across different types of assets to reduce risk",
-        "Compounding": "b. The process where your investment earnings generate more earnings over time",
-        "Inflation": "d. The increase in prices over time, reducing purchasing power"
+        Diversification: "a. Spreading your investments across different types of assets to reduce risk",
+        Compounding: "b. The process where your investment earnings generate more earnings over time",
+        Inflation: "d. The increase in prices over time, reducing purchasing power"
       },
       answer: {
         "Risk vs. Reward": "c. The chance of losing money versus the potential to make money",
-        "Diversification": "a. Spreading your investments across different types of assets to reduce risk",
-        "Compounding": "b. The process where your investment earnings generate more earnings over time",
-        "Inflation": "d. The increase in prices over time, reducing purchasing power"
+        Diversification: "a. Spreading your investments across different types of assets to reduce risk",
+        Compounding: "b. The process where your investment earnings generate more earnings over time",
+        Inflation: "d. The increase in prices over time, reducing purchasing power"
       }
     }
   ];
