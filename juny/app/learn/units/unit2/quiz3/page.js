@@ -32,7 +32,7 @@ const Page = () => {
       options: {
         Stocks: "c. Ownership in a company that can increase in value and may pay dividends",
         Bonds: "e. Lending money to a company or government with the promise of repayment with interest",
-        Mutual Funds: "a. Collections of stocks, bonds, or other assets managed by professionals",
+        MutualFunds: "a. Collections of stocks, bonds, or other assets managed by professionals",
         ETFs: "b. Traded on stock exchanges, offering diversification and professional management",
         REITs: "d. Companies that own, operate, or finance income-producing real estate",
         Commodities: "f. Raw materials like gold, silver, oil, or agricultural products"
@@ -40,7 +40,7 @@ const Page = () => {
       answer: {
         Stocks: "c. Ownership in a company that can increase in value and may pay dividends",
         Bonds: "e. Lending money to a company or government with the promise of repayment with interest",
-        Mutual Funds: "a. Collections of stocks, bonds, or other assets managed by professionals",
+        MutualFunds: "a. Collections of stocks, bonds, or other assets managed by professionals",
         ETFs: "b. Traded on stock exchanges, offering diversification and professional management",
         REITs: "d. Companies that own, operate, or finance income-producing real estate",
         Commodities: "f. Raw materials like gold, silver, oil, or agricultural products"
@@ -218,6 +218,43 @@ const Step = ({ num, isActive }) => {
 const Question = ({ step, questions, selectedAnswer, onSelectAnswer }) => {
   const question = questions[step];
   if (!question) return null;
+  if (typeof question.options === "object" && !Array.isArray(question.options)) {
+    return (
+      <div>
+        <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
+        <ul className="list-disc pl-5">
+          {Object.entries(question.options).map(([key, value], index) => (
+            <li key={index} className="mb-2">
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  name={`question-${step}-${key}`}
+                  value={key}
+                  checked={selectedAnswer && selectedAnswer[key] === value}
+                  onChange={(e) =>
+                    onSelectAnswer(step, {
+                      ...selectedAnswer,
+                      [key]: e.target.checked ? value : ""
+                    })
+                  }
+                  className="mr-2"
+                />
+                {key === "MutualFunds" ? (
+                  <span>
+                    Mutual Funds: {value}
+                  </span>
+                ) : (
+                  <span>
+                    {key}: {value}
+                  </span>
+                )}
+              </label>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
   return (
     <div>
       <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
@@ -276,24 +313,6 @@ const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }
       )}
     </div>
   );
-};
-
-const TypewriterEffect = ({ text }) => {
-  const [displayedText, setDisplayedText] = useState("");
-
-  useEffect(() => {
-    let index = 0;
-    const interval = setInterval(() => {
-      setDisplayedText((prev) => prev + text.charAt(index));
-      index++;
-      if (index >= text.length) {
-        clearInterval(interval);
-      }
-    }, 50);
-    return () => clearInterval(interval);
-  }, [text]);
-
-  return <p>{displayedText}</p>;
 };
 
 export default Page;
