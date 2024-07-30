@@ -43,7 +43,6 @@ const Page = () => {
       }
     }
   ];
-  
 
   const handleSetStep = (num) => {
     if (
@@ -58,6 +57,13 @@ const Page = () => {
 
   const handleSelectAnswer = (step, answer) => {
     setSelectedAnswers((prev) => ({ ...prev, [step]: answer }));
+  };
+
+  const handleMatchAnswer = (step, type, description) => {
+    setSelectedAnswers((prev) => ({
+      ...prev,
+      [step]: { ...prev[step], [type]: description }
+    }));
   };
 
   const handleSubmit = () => {
@@ -97,6 +103,9 @@ const Page = () => {
                 questions={questions}
                 selectedAnswer={selectedAnswers[stepsComplete]}
                 onSelectAnswer={handleSelectAnswer}
+                onMatchAnswer={handleMatchAnswer}
+                selectedDescription={selectedDescription}
+                setSelectedDescription={setSelectedDescription}
               />
             </div>
             <div className="flex items-center justify-end gap-2">
@@ -212,9 +221,33 @@ const Step = ({ num, isActive }) => {
   );
 };
 
-const Question = ({ step, questions, selectedAnswer, onSelectAnswer }) => {
+const Question = ({
+  step,
+  questions,
+  selectedAnswer,
+  onSelectAnswer,
+  onMatchAnswer,
+  selectedDescription,
+  setSelectedDescription
+}) => {
   const question = questions[step];
   if (!question) return null;
+
+  if (step === 3) {
+    return (
+      <div>
+        <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
+        <ClickSelectMatch
+          question={question}
+          selectedAnswer={selectedAnswer}
+          onMatchAnswer={onMatchAnswer}
+          selectedDescription={selectedDescription}
+          setSelectedDescription={setSelectedDescription}
+        />
+      </div>
+    );
+  }
+
   return (
     <div>
       <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
@@ -235,6 +268,62 @@ const Question = ({ step, questions, selectedAnswer, onSelectAnswer }) => {
           </li>
         ))}
       </ul>
+    </div>
+  );
+};
+
+const ClickSelectMatch = ({
+  question,
+  selectedAnswer,
+  onMatchAnswer,
+  selectedDescription,
+  setSelectedDescription
+}) => {
+  const [descriptions, setDescriptions] = useState(Object.values(question.options));
+
+  const handleDescriptionClick = (description) => {
+    setSelectedDescription(description);
+  };
+
+  const handleBoxClick = (type) => {
+    if (selectedDescription) {
+      const updatedDescriptions = descriptions.filter((desc) => desc !== selectedDescription);
+      const existingDescription = selectedAnswer?.[type];
+
+      if (existingDescription) {
+        updatedDescriptions.push(existingDescription);
+      }
+
+      setDescriptions(updatedDescriptions);
+      onMatchAnswer(3, type, selectedDescription);
+      setSelectedDescription(null);
+    }
+  };
+
+  return (
+    <div className="overflow-y-auto max-h-96">
+      {Object.keys(question.options).map((type) => (
+        <div key={type} className="flex flex-col mb-4">
+          <span className="font-semibold">{type}</span>
+          <div
+            onClick={() => handleBoxClick(type)}
+            className={`mt-2 p-4 border rounded h-auto min-h-[50px] cursor-pointer ${selectedDescription ? "border-blue-500" : "border-gray-300"}`}
+          >
+            {selectedAnswer?.[type] || "Click to place description here"}
+          </div>
+        </div>
+      ))}
+      <div className="flex flex-col">
+        {descriptions.map((description, index) => (
+          <div
+            key={index}
+            onClick={() => handleDescriptionClick(description)}
+            className={`p-2 border rounded mb-2 cursor-pointer ${selectedDescription === description ? "bg-blue-200 border-blue-500" : "bg-gray-200 border-gray-300"}`}
+          >
+            {description}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

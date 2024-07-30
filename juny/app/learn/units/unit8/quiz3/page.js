@@ -9,6 +9,7 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
+  const [selectedDescription, setSelectedDescription] = useState(null);
   const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
@@ -44,7 +45,6 @@ const Page = () => {
       answer: "c. Fair Trading Practices",
     }
   ];
-  
 
   const handleSetStep = (num) => {
     if ((stepsComplete === 0 && num === -1) || (stepsComplete === numSteps && num === 1)) {
@@ -55,6 +55,13 @@ const Page = () => {
 
   const handleSelectAnswer = (step, answer) => {
     setSelectedAnswers((prev) => ({ ...prev, [step]: answer }));
+  };
+
+  const handleMatchAnswer = (step, type, description) => {
+    setSelectedAnswers((prev) => ({
+      ...prev,
+      [step]: { ...prev[step], [type]: description }
+    }));
   };
 
   const handleSubmit = () => {
@@ -121,6 +128,9 @@ const Page = () => {
               questions={questions}
               selectedAnswer={selectedAnswers[stepsComplete]}
               onSelectAnswer={handleSelectAnswer}
+              onMatchAnswer={handleMatchAnswer}
+              selectedDescription={selectedDescription}
+              setSelectedDescription={setSelectedDescription}
             />
             <div className="flex justify-between mt-6">
               <button
@@ -236,9 +246,33 @@ const Step = ({ num, isActive }) => {
   );
 };
 
-const Question = ({ step, questions, selectedAnswer, onSelectAnswer }) => {
+const Question = ({
+  step,
+  questions,
+  selectedAnswer,
+  onSelectAnswer,
+  onMatchAnswer,
+  selectedDescription,
+  setSelectedDescription
+}) => {
   const question = questions[step];
   if (!question) return null;
+
+  if (step === 1) { // Assuming the matching question is the second one
+    return (
+      <div>
+        <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
+        <ClickSelectMatch
+          question={question}
+          selectedAnswer={selectedAnswer}
+          onMatchAnswer={onMatchAnswer}
+          selectedDescription={selectedDescription}
+          setSelectedDescription={setSelectedDescription}
+        />
+      </div>
+    );
+  }
+
   return (
     <div>
       <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
@@ -263,6 +297,62 @@ const Question = ({ step, questions, selectedAnswer, onSelectAnswer }) => {
   );
 };
 
+const ClickSelectMatch = ({
+  question,
+  selectedAnswer,
+  onMatchAnswer,
+  selectedDescription,
+  setSelectedDescription
+}) => {
+  const [descriptions, setDescriptions] = useState(Object.values(question.options));
+
+  const handleDescriptionClick = (description) => {
+    setSelectedDescription(description);
+  };
+
+  const handleBoxClick = (type) => {
+    if (selectedDescription) {
+      const updatedDescriptions = descriptions.filter((desc) => desc !== selectedDescription);
+      const existingDescription = selectedAnswer?.[type];
+
+      if (existingDescription) {
+        updatedDescriptions.push(existingDescription);
+      }
+
+      setDescriptions(updatedDescriptions);
+      onMatchAnswer(1, type, selectedDescription); // Assuming the matching question is the second one
+      setSelectedDescription(null);
+    }
+  };
+
+  return (
+    <div className="overflow-y-auto max-h-96">
+      {Object.keys(question.options).map((type) => (
+        <div key={type} className="flex flex-col mb-4">
+          <span className="font-semibold">{type}</span>
+          <div
+            onClick={() => handleBoxClick(type)}
+            className={`mt-2 p-4 border rounded h-auto min-h-[50px] cursor-pointer ${selectedDescription ? "border-blue-500" : "border-gray-300"}`}
+          >
+            {selectedAnswer?.[type] || "Click to place description here"}
+          </div>
+        </div>
+      ))}
+      <div className="flex flex-col">
+        {descriptions.map((description, index) => (
+          <div
+            key={index}
+            onClick={() => handleDescriptionClick(description)}
+            className={`p-2 border rounded mb-2 cursor-pointer ${selectedDescription === description ? "bg-blue-200 border-blue-500" : "bg-gray-200 border-gray-300"}`}
+          >
+            {description}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }) => {
   return (
     <div className="mb-4 p-4 rounded-lg border-4 border-blue-400 w-full max-w-3xl mx-auto">
@@ -272,17 +362,39 @@ const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }
           <p className="mb-2">
             <strong>Question {index + 1}:</strong> {question.question}
           </p>
-          <p className="mb-2">
-            <strong>Your Answer:</strong> {selectedAnswers[index]}
-          </p>
-          <p className="mb-2">
-            <strong>Correct Answer:</strong> {question.answer} -{" "}
-            {selectedAnswers[index] === question.answer ? (
-              <span className="text-green-600 font-semibold">Correct</span>
-            ) : (
-              <span className="text-red-600 font-semibold">Wrong</span>
-            )}
-          </p>
+          {index === 1 ? ( // Assuming the matching question is the second one
+            <>
+              <p className="mb-2">
+                <strong>Your Answers:</strong>
+              </p>
+              <ul className="list-disc pl-5">
+                {Object.keys(question.options).map((type) => (
+                  <li key={type} className="mb-2">
+                    {type}: {selectedAnswers[1]?.[type]} -{" "}
+                    {selectedAnswers[1]?.[type] === question.answer[type] ? (
+                      <span className="text-green-600 font-semibold">Correct</span>
+                    ) : (
+                      <span className="text-red-600 font-semibold">Wrong</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <>
+              <p className="mb-2">
+                <strong>Your Answer:</strong> {selectedAnswers[index]}
+              </p>
+              <p className="mb-2">
+                <strong>Correct Answer:</strong> {question.answer} -{" "}
+                {selectedAnswers[index] === question.answer ? (
+                  <span className="text-green-600 font-semibold">Correct</span>
+                ) : (
+                  <span className="text-red-600 font-semibold">Wrong</span>
+                )}
+              </p>
+            </>
+          )}
         </div>
       ))}
       {isPremium && (
@@ -297,6 +409,24 @@ const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }
       )}
     </div>
   );
+};
+
+const TypewriterEffect = ({ text }) => {
+  const [displayedText, setDisplayedText] = useState("");
+
+  useEffect(() => {
+    let index = 0;
+    const interval = setInterval(() => {
+      setDisplayedText((prev) => prev + text.charAt(index));
+      index++;
+      if (index >= text.length) {
+        clearInterval(interval);
+      }
+    }, 50);
+    return () => clearInterval(interval);
+  }, [text]);
+
+  return <p>{displayedText}</p>;
 };
 
 export default Page;
