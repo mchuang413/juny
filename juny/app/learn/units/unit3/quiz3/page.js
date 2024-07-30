@@ -8,6 +8,7 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
+  const [selectedDescription, setSelectedDescription] = useState(null);
   const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
@@ -15,17 +16,17 @@ const Page = () => {
     {
       question: "Inflation increases the purchasing power of your money over time.",
       options: ["True", "False"],
-      answer: "False"
+      answer: "False",
     },
     {
       question: "Compounding can significantly increase your wealth over time by reinvesting your earnings.",
       options: ["True", "False"],
-      answer: "True"
+      answer: "True",
     },
     {
       question: "Diversification involves putting all your money into a single stock to maximize returns.",
       options: ["True", "False"],
-      answer: "False"
+      answer: "False",
     },
     {
       question: "Match the concept with its description.",
@@ -233,7 +234,9 @@ const Question = ({
   const question = questions[step];
   if (!question) return null;
 
-  if (step === 3) {
+  const isMatchingQuestion = typeof question.options === 'object' && !Array.isArray(question.options);
+
+  if (isMatchingQuestion) {
     return (
       <div>
         <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
@@ -337,17 +340,39 @@ const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }
           <p className="mb-2">
             <strong>Question {index + 1}:</strong> {question.question}
           </p>
-          <p className="mb-2">
-            <strong>Your Answer:</strong> {selectedAnswers[index]}
-          </p>
-          <p className="mb-2">
-            <strong>Correct Answer:</strong> {question.answer} -{" "}
-            {selectedAnswers[index] === question.answer ? (
-              <span className="text-green-600 font-semibold">Correct</span>
-            ) : (
-              <span className="text-red-600 font-semibold">Wrong</span>
-            )}
-          </p>
+          {typeof question.options === 'object' && !Array.isArray(question.options) ? (
+            <>
+              <p className="mb-2">
+                <strong>Your Answers:</strong>
+              </p>
+              <ul className="list-disc pl-5">
+                {Object.keys(question.options).map((type) => (
+                  <li key={type} className="mb-2">
+                    {type}: {selectedAnswers[index]?.[type]} -{" "}
+                    {selectedAnswers[index]?.[type] === question.answer[type] ? (
+                      <span className="text-green-600 font-semibold">Correct</span>
+                    ) : (
+                      <span className="text-red-600 font-semibold">Wrong</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <>
+              <p className="mb-2">
+                <strong>Your Answer:</strong> {selectedAnswers[index]}
+              </p>
+              <p className="mb-2">
+                <strong>Correct Answer:</strong> {question.answer} -{" "}
+                {selectedAnswers[index] === question.answer ? (
+                  <span className="text-green-600 font-semibold">Correct</span>
+                ) : (
+                  <span className="text-red-600 font-semibold">Wrong</span>
+                )}
+              </p>
+            </>
+          )}
         </div>
       ))}
       {isPremium && (
