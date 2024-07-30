@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import axios from "axios";
 
 const Page = () => {
   const [stepsComplete, setStepsComplete] = useState(0);
@@ -8,31 +9,47 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
+  const [selectedDescription, setSelectedDescription] = useState(null);
   const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "When you buy a stock, you are lending money to a company.",
-      options: ["True", "False"],
-      answer: "False",
+      question: "What is the main purpose of investing?",
+      options: [
+        "a. To buy and sell assets quickly",
+        "b. To build wealth and reach financial goals",
+        "c. To keep money in a savings account",
+        "d. To avoid financial markets"
+      ],
+      answer: "b. To build wealth and reach financial goals"
     },
     {
-      question: "Mutual funds allow investors to pool their money together to buy a diversified portfolio of assets.",
-      options: ["True", "False"],
-      answer: "True",
+      question: "Which of the following is an example of an asset you can invest in?",
+      options: [
+        "a. Groceries",
+        "b. Clothes",
+        "c. Stocks",
+        "d. Vacations"
+      ],
+      answer: "c. Stocks"
     },
     {
-      question: "REITs allow investors to earn income from real estate without having to manage the properties themselves.",
-      options: ["True", "False"],
-      answer: "True",
+      question: "Where was the first modern stock market established?",
+      options: [
+        "a. New York",
+        "b. London",
+        "c. Amsterdam",
+        "d. Tokyo"
+      ],
+      answer: "c. Amsterdam"
     },
     {
       question: "Match the type of investment with its description.",
       options: {
         Stocks: "c. Ownership in a company that can increase in value and may pay dividends",
         Bonds: "e. Lending money to a company or government with the promise of repayment with interest",
-        MutualFunds: "a. Collections of stocks, bonds, or other assets managed by professionals",
+        "Mutual Funds": "a. Collections of stocks, bonds, or other assets managed by professionals",
         ETFs: "b. Traded on stock exchanges, offering diversification and professional management",
         REITs: "d. Companies that own, operate, or finance income-producing real estate",
         Commodities: "f. Raw materials like gold, silver, oil, or agricultural products"
@@ -40,7 +57,7 @@ const Page = () => {
       answer: {
         Stocks: "c. Ownership in a company that can increase in value and may pay dividends",
         Bonds: "e. Lending money to a company or government with the promise of repayment with interest",
-        MutualFunds: "a. Collections of stocks, bonds, or other assets managed by professionals",
+        "Mutual Funds": "a. Collections of stocks, bonds, or other assets managed by professionals",
         ETFs: "b. Traded on stock exchanges, offering diversification and professional management",
         REITs: "d. Companies that own, operate, or finance income-producing real estate",
         Commodities: "f. Raw materials like gold, silver, oil, or agricultural products"
@@ -63,10 +80,43 @@ const Page = () => {
     setSelectedAnswers((prev) => ({ ...prev, [step]: answer }));
   };
 
+  const handleMatchAnswer = (step, type, description) => {
+    setSelectedAnswers((prev) => ({
+      ...prev,
+      [step]: { ...prev[step], [type]: description }
+    }));
+  };
+
   const handleSubmit = () => {
     setIsSubmitted(true);
     if (isPremium) {
       generatePersonalizedFeedback();
+    }
+  };
+
+  const generatePersonalizedFeedback = async () => {
+    setIsLoading(true);
+    setAiFeedback("");
+    try {
+      const response = await axios.post(
+        "https://api.openai.com/v1/completions",
+        {
+          model: "gpt-4o",
+          prompt: `Generate a personalized feedback report for the following quiz answers: ${JSON.stringify(selectedAnswers)}. Questions: ${JSON.stringify(questions)}`,
+        },
+        {
+          headers: {
+            Authorization: `Bearer `,
+            "Content-Type": "application/json"
+          },
+        }
+      );
+      setAiFeedback(response.data.choices[0].text);
+    } catch (error) {
+      console.error("Error generating personalized feedback:", error);
+      setAiFeedback("There was an error generating the feedback. Please try again later.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -100,6 +150,9 @@ const Page = () => {
                 questions={questions}
                 selectedAnswer={selectedAnswers[stepsComplete]}
                 onSelectAnswer={handleSelectAnswer}
+                onMatchAnswer={handleMatchAnswer}
+                selectedDescription={selectedDescription}
+                setSelectedDescription={setSelectedDescription}
               />
             </div>
             <div className="flex items-center justify-end gap-2">
@@ -215,46 +268,33 @@ const Step = ({ num, isActive }) => {
   );
 };
 
-const Question = ({ step, questions, selectedAnswer, onSelectAnswer }) => {
+const Question = ({
+  step,
+  questions,
+  selectedAnswer,
+  onSelectAnswer,
+  onMatchAnswer,
+  selectedDescription,
+  setSelectedDescription
+}) => {
   const question = questions[step];
   if (!question) return null;
-  if (typeof question.options === "object" && !Array.isArray(question.options)) {
+
+  if (step === 3) {
     return (
       <div>
         <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
-        <ul className="list-disc pl-5">
-          {Object.entries(question.options).map(([key, value], index) => (
-            <li key={index} className="mb-2">
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  name={`question-${step}-${key}`}
-                  value={key}
-                  checked={selectedAnswer && selectedAnswer[key] === value}
-                  onChange={(e) =>
-                    onSelectAnswer(step, {
-                      ...selectedAnswer,
-                      [key]: e.target.checked ? value : ""
-                    })
-                  }
-                  className="mr-2"
-                />
-                {key === "MutualFunds" ? (
-                  <span>
-                    Mutual Funds: {value}
-                  </span>
-                ) : (
-                  <span>
-                    {key}: {value}
-                  </span>
-                )}
-              </label>
-            </li>
-          ))}
-        </ul>
+        <ClickSelectMatch
+          question={question}
+          selectedAnswer={selectedAnswer}
+          onMatchAnswer={onMatchAnswer}
+          selectedDescription={selectedDescription}
+          setSelectedDescription={setSelectedDescription}
+        />
       </div>
     );
   }
+
   return (
     <div>
       <h3 className="mb-4 font-semibold text-lg">{question.question}</h3>
@@ -279,6 +319,62 @@ const Question = ({ step, questions, selectedAnswer, onSelectAnswer }) => {
   );
 };
 
+const ClickSelectMatch = ({
+  question,
+  selectedAnswer,
+  onMatchAnswer,
+  selectedDescription,
+  setSelectedDescription
+}) => {
+  const [descriptions, setDescriptions] = useState(Object.values(question.options));
+
+  const handleDescriptionClick = (description) => {
+    setSelectedDescription(description);
+  };
+
+  const handleBoxClick = (type) => {
+    if (selectedDescription) {
+      const updatedDescriptions = descriptions.filter((desc) => desc !== selectedDescription);
+      const existingDescription = selectedAnswer?.[type];
+
+      if (existingDescription) {
+        updatedDescriptions.push(existingDescription);
+      }
+
+      setDescriptions(updatedDescriptions);
+      onMatchAnswer(3, type, selectedDescription);
+      setSelectedDescription(null);
+    }
+  };
+
+  return (
+    <div className="overflow-y-auto max-h-96">
+      {Object.keys(question.options).map((type) => (
+        <div key={type} className="flex flex-col mb-4">
+          <span className="font-semibold">{type}</span>
+          <div
+            onClick={() => handleBoxClick(type)}
+            className={`mt-2 p-4 border rounded h-auto min-h-[50px] cursor-pointer ${selectedDescription ? "border-blue-500" : "border-gray-300"}`}
+          >
+            {selectedAnswer?.[type] || "Click to place description here"}
+          </div>
+        </div>
+      ))}
+      <div className="flex flex-col">
+        {descriptions.map((description, index) => (
+          <div
+            key={index}
+            onClick={() => handleDescriptionClick(description)}
+            className={`p-2 border rounded mb-2 cursor-pointer ${selectedDescription === description ? "bg-blue-200 border-blue-500" : "bg-gray-200 border-gray-300"}`}
+          >
+            {description}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }) => {
   return (
     <div className="mb-4 p-4 rounded-lg border-4 border-blue-400 w-full max-w-3xl mx-auto">
@@ -288,17 +384,39 @@ const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }
           <p className="mb-2">
             <strong>Question {index + 1}:</strong> {question.question}
           </p>
-          <p className="mb-2">
-            <strong>Your Answer:</strong> {selectedAnswers[index]}
-          </p>
-          <p className="mb-2">
-            <strong>Correct Answer:</strong> {question.answer} -{" "}
-            {selectedAnswers[index] === question.answer ? (
-              <span className="text-green-600 font-semibold">Correct</span>
-            ) : (
-              <span className="text-red-600 font-semibold">Wrong</span>
-            )}
-          </p>
+          {index === 3 ? (
+            <>
+              <p className="mb-2">
+                <strong>Your Answers:</strong>
+              </p>
+              <ul className="list-disc pl-5">
+                {Object.keys(question.options).map((type) => (
+                  <li key={type} className="mb-2">
+                    {type}: {selectedAnswers[3]?.[type]} -{" "}
+                    {selectedAnswers[3]?.[type] === question.answer[type] ? (
+                      <span className="text-green-600 font-semibold">Correct</span>
+                    ) : (
+                      <span className="text-red-600 font-semibold">Wrong</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            <>
+              <p className="mb-2">
+                <strong>Your Answer:</strong> {selectedAnswers[index]}
+              </p>
+              <p className="mb-2">
+                <strong>Correct Answer:</strong> {question.answer} -{" "}
+                {selectedAnswers[index] === question.answer ? (
+                  <span className="text-green-600 font-semibold">Correct</span>
+                ) : (
+                  <span className="text-red-600 font-semibold">Wrong</span>
+                )}
+              </p>
+            </>
+          )}
         </div>
       ))}
       {isPremium && (
@@ -313,6 +431,24 @@ const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }
       )}
     </div>
   );
+};
+
+const TypewriterEffect = ({ text }) => {
+  const [displayedText, setDisplayedText] = useState("");
+
+  useEffect(() => {
+    let index = 0;
+    const interval = setInterval(() => {
+      setDisplayedText((prev) => prev + text.charAt(index));
+      index++;
+      if (index >= text.length) {
+        clearInterval(interval);
+      }
+    }, 50);
+    return () => clearInterval(interval);
+  }, [text]);
+
+  return <p>{displayedText}</p>;
 };
 
 export default Page;
