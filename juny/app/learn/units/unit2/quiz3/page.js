@@ -32,7 +32,7 @@ const Page = () => {
       options: {
         Stocks: "c. Ownership in a company that can increase in value and may pay dividends",
         Bonds: "e. Lending money to a company or government with the promise of repayment with interest",
-        "Mutual Funds": "a. Collections of stocks, bonds, or other assets managed by professionals",
+        Mutual Funds: "a. Collections of stocks, bonds, or other assets managed by professionals",
         ETFs: "b. Traded on stock exchanges, offering diversification and professional management",
         REITs: "d. Companies that own, operate, or finance income-producing real estate",
         Commodities: "f. Raw materials like gold, silver, oil, or agricultural products"
@@ -40,7 +40,7 @@ const Page = () => {
       answer: {
         Stocks: "c. Ownership in a company that can increase in value and may pay dividends",
         Bonds: "e. Lending money to a company or government with the promise of repayment with interest",
-        "Mutual Funds": "a. Collections of stocks, bonds, or other assets managed by professionals",
+        Mutual Funds: "a. Collections of stocks, bonds, or other assets managed by professionals",
         ETFs: "b. Traded on stock exchanges, offering diversification and professional management",
         REITs: "d. Companies that own, operate, or finance income-producing real estate",
         Commodities: "f. Raw materials like gold, silver, oil, or agricultural products"
