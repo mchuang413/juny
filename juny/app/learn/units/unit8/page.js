@@ -11,42 +11,109 @@ const Page = () => {
 
   const slides = [
     {
-      title: "Overview of Investing",
-      content: "Investing is like embarking on an adventure with Juny the Octopus in the vast ocean! 🌊 It means putting your money into various assets, such as stocks, bonds, or real estate, with the expectation that these assets will grow in value over time.",
-      image: "/unit1Assets/1.png",
-      juny: "/unit1Assets/gifs/1.gif"
+      title: "Regulatory Environment",
+      content: "The regulatory environment in financial markets is like a set of rules and guidelines that ensure the market operates smoothly and fairly. Imagine a vast underwater world where sea creatures abide by certain rules to maintain harmony and prevent chaos. 🐙🌊 These regulations are designed to protect investors, ensure fair trading practices, and maintain the integrity of the financial system. Let's dive in and explore how this regulatory environment works!",
+      image: "/unit8Assets/1.png",
+      juny: "/unit8Assets/gifs/1.gif"
     },
     {
-      title: "Overview of Investing",
-      content: "The main purpose of investing is to build wealth and reach financial goals, whether it's buying a home, funding education, or saving for retirement. Imagine Juny planting tiny seaweed seeds in her garden, hoping they will grow into a lush underwater forest! 🌱💰",
-      image: "/unit1Assets/2.png",
-      juny: "/unit1Assets/gifs/2.gif"
+      title: "What is the Regulatory Environment?",
+      content: "The regulatory environment consists of laws, regulations, and oversight mechanisms that govern financial markets and institutions. Think of it as the sea guardians who watch over the ocean, making sure everyone plays by the rules and no one cheats. These rules help create a safe and transparent market where all participants can trade with confidence. 🛡️📜",
+      image: "/unit8Assets/2.png",
+      juny: "/unit8Assets/gifs/2.gif"
     },
     {
-      title: "History of Investing",
-      content: "The history of investing is as rich and diverse as the ocean itself. Imagine Juny's ancestors trading precious shells long ago to build their wealth! 🐚 In ancient times, people invested in tangible assets like land, livestock, and trade goods.",
-      image: "/unit1Assets/3.png",
-      juny: "/unit1Assets/gifs/3.gif"
+      title: "Key Regulatory Bodies",
+      content: "Different countries have their own regulatory bodies responsible for overseeing financial markets. Here are some of the major ones:",
+      image: "/unit8Assets/3.png",
+      juny: "/unit8Assets/gifs/3.gif"
     },
     {
-      title: "History of Investing",
-      content: "The concept was simple: put resources into something valuable that could grow over time. The first modern stock market, the Amsterdam Stock Exchange, was established in the early 1600s, allowing people to buy and sell shares of companies.",
-      image: "/unit1Assets/3.png",
-      juny: "/unit1Assets/gifs/4.gif"
+      title: "Key Regulatory Bodies",
+      content: "In the United States, the Securities and Exchange Commission (SEC) is the primary regulatory body overseeing securities markets. The SEC enforces laws related to securities trading, monitors corporate disclosures, and protects investors from fraud. Imagine the SEC as a team of diligent sea guardians ensuring that all trades are fair and transparent. 🛡️",
+      image: "/unit8Assets/4.png",
+      juny: "/unit8Assets/gifs/4.gif"
     },
     {
-      title: "History of Investing",
-      content: "This innovation marked the beginning of modern investing. Fast forward to today, investing has become more diverse and accessible than ever before. From the bustling floors of stock exchanges to the convenience of online trading platforms, anyone can invest with just a few clicks.",
-      image: "/unit1Assets/5.png",
-      juny: "/unit1Assets/gifs/5.gif"
+      title: "Key Regulatory Bodies",
+      content: "In the United Kingdom, the Financial Conduct Authority (FCA) regulates financial markets and firms. The FCA aims to protect consumers, enhance market integrity, and promote competition. It's like a council of wise ocean elders guiding and regulating the behavior of all sea creatures in the market. 🌐🗞️",
+      image: "/unit8Assets/5.png",
+      juny: "/unit8Assets/gifs/5.gif"
     },
     {
-      title: "History of Investing",
-      content: "Juny might use her underwater tablet to keep track of her investments in various coral reefs and seaweed farms, showing how technology has made investing easier for everyone. 📱🌿By understanding what investing is and exploring its fascinating history, you are now ready to join Juny the Octopus on an exciting journey to grow your wealth! 🐙💸",
-      image: "/unit1Assets/6.png",
-      juny: "/unit1Assets/gifs/6.gif"
+      title: "Key Regulatory Bodies",
+      content: "The European Securities and Markets Authority (ESMA) oversees the financial markets across the European Union. ESMA works to ensure investor protection and stable financial markets. Think of ESMA as a group of experienced sea explorers coordinating efforts to maintain harmony across different underwater territories. 🌍⚖️",
+      image: "/unit8Assets/6.png",
+      juny: "/unit8Assets/gifs/6.gif"
+    },
+    {
+      title: "Key Regulatory Bodies",
+      content: "In Japan, the Financial Services Agency (FSA) is responsible for overseeing the financial system, ensuring its stability, and protecting investors. The FSA supervises financial institutions, enforces regulations, and monitors market activities. Imagine the FSA as vigilant sea wardens patrolling the ocean to ensure everything runs smoothly. 🏯🔍",
+      image: "/unit8Assets/7.png",
+      juny: "/unit8Assets/gifs/7.gif"
+    },
+    {
+      title: "Key Regulations and Acts",
+      content: "Various regulations and acts are implemented to govern financial markets. Some important ones include:",
+      image: "/unit8Assets/8.png",
+      juny: "/unit8Assets/gifs/8.gif"
+    },
+    {
+      title: "Key Regulations and Acts",
+      content: "The Securities Act of 1933 in the U.S. requires companies to provide full and fair disclosure of information when issuing securities to the public. It's like requiring sea creatures to be transparent about the treasures they are trading to ensure everyone knows what they're getting. 📜💼",
+      image: "/unit8Assets/9.png",
+      juny: "/unit8Assets/gifs/9.gif"
+    },
+    {
+      title: "Key Regulations and Acts",
+      content: "The Securities Exchange Act of 1934 established the SEC and gave it the authority to regulate securities markets and participants. It aims to ensure fair trading practices and prevent market manipulation. Imagine setting up a council of sea guardians with the power to enforce rules and keep the ocean orderly. 🛡️⚖️",
+      image: "/unit8Assets/10.png",
+      juny: "/unit8Assets/gifs/10.gif"
+    },
+    {
+      title: "Key Regulations and Acts",
+      content: "The Sarbanes-Oxley Act of 2002 was enacted to protect investors from fraudulent financial reporting by corporations. It requires strict disclosure practices and increases penalties for fraudulent activities. Think of it as a set of strict guidelines that sea creatures must follow to ensure they report their treasures accurately and honestly. 📊🔍",
+      image: "/unit8Assets/11.png",
+      juny: "/unit8Assets/gifs/11.gif"
+    },
+    {
+      title: "Key Regulations and Acts",
+      content: "The Markets in Financial Instruments Directive (MiFID) in Europe aims to increase transparency and protect investors in the financial markets. It establishes rules for investment services and activities. It's like creating a detailed map of the ocean to ensure all trades are visible and transparent. 🌐📈",
+      image: "/unit8Assets/12.png",
+      juny: "/unit8Assets/gifs/12.gif"
+    },
+    {
+      title: "Importance of the Regulatory Environment",
+      content: "The regulatory environment plays a crucial role in maintaining the stability and integrity of financial markets. Regulations are designed to protect investors from fraud, abuse, and unfair practices, ensuring that everyone, from small fish to giant whales, can trade in a safe and secure environment. Regulatory bodies work to ensure that all market participants play by the same rules, promoting a level playing field and preventing any single entity from having an unfair advantage. 📜🏛️",
+      image: "/unit8Assets/13.png",
+      juny: "/unit8Assets/gifs/13.gif"
+    },
+    {
+      title: "Importance of the Regulatory Environment",
+      content: "Regulations require companies to disclose accurate and timely information, helping investors make informed decisions. This transparency is like a clear, open ocean where all treasures are visible to everyone. By enforcing rules and monitoring market activities, regulatory bodies help maintain the overall integrity and stability of financial markets, ensuring that the market operates smoothly, like a well-coordinated underwater city. 🌊🛡️",
+      image: "/unit8Assets/14.png",
+      juny: "/unit8Assets/gifs/14.gif"
+    },
+    {
+      title: "Example: Insider Trading",
+      content: "One of the key areas regulated by these bodies is insider trading. Insider trading occurs when someone with non-public, material information about a company uses that information to make a profit or avoid a loss in the stock market.",
+      image: "/unit8Assets/15.png",
+      juny: "/unit8Assets/gifs/15.gif"
+    },
+    {
+      title: "Example: Insider Trading",
+      content: "This is considered unfair and illegal. Imagine a fish who knows about a hidden treasure before anyone else and uses that knowledge to gather all the pearls for themselves, leaving other sea creatures at a disadvantage. Regulatory bodies like the SEC enforce rules against insider trading to keep the market fair for everyone. 🐠⚖️",
+      image: "/unit8Assets/16.png",
+      juny: "/unit8Assets/gifs/16.gif"
+    },
+    {
+      title: "Regulatory Environment",
+      content: "The regulatory environment is vital for the smooth functioning of financial markets, ensuring that all participants follow the rules and trade fairly. By understanding the regulatory framework, you can navigate the world of investing with confidence, just like Juny the Octopus exploring her harmonious underwater realm. 🌊🐙",
+      image: "/unit8Assets/17.png",
+      juny: "/unit8Assets/gifs/17.gif"
     }
   ];
+  
 
   useEffect(() => {
     let currentText = '';

@@ -11,7 +11,7 @@ const Page = () => {
 
   const slides = [
     {
-      title: "Unit 1 Lesson 3: Types of Investments",
+      title: "Types of Investments",
       content: "Investing is like exploring a vibrant coral reef with Juny the Octopus, where each type of investment is a different kind of sea creature, each with its own unique characteristics. Let's dive in and discover the different types of investments! 🐙🌊",
       image: "/unit2Assets/1.png",
       juny: "/unit2Assets/gifs/1.gif"

@@ -14,36 +14,22 @@ const Page = () => {
 
   const questions = [
     {
-      question: "What is the main purpose of investing?",
-      options: [
-        "a. To buy and sell assets quickly",
-        "b. To build wealth and reach financial goals",
-        "c. To keep money in a savings account",
-        "d. To avoid financial markets"
-      ],
-      answer: "b. To build wealth and reach financial goals"
+      question: "What is the primary role of the regulatory environment in financial markets?",
+      options: ["a. To promote the highest returns", "b. To ensure fair and smooth market operations", "c. To encourage insider trading", "d. To provide loans to investors"],
+      answer: "b. To ensure fair and smooth market operations",
     },
     {
-      question: "Which of the following is an example of an asset you can invest in?",
-      options: [
-        "a. Groceries",
-        "b. Clothes",
-        "c. Stocks",
-        "d. Vacations"
-      ],
-      answer: "c. Stocks"
+      question: "Why are regulations important in financial markets?",
+      options: ["a. They help create a safe and transparent market", "b. They ensure only large investors can participate", "c. They guarantee profits for all investors", "d. They make trading difficult"],
+      answer: "a. They help create a safe and transparent market",
     },
     {
-      question: "Where was the first modern stock market established?",
-      options: [
-        "a. New York",
-        "b. London",
-        "c. Amsterdam",
-        "d. Tokyo"
-      ],
-      answer: "c. Amsterdam"
+      question: "What is a key function of regulatory bodies?",
+      options: ["a. To give investment advice", "b. To oversee fair trading practices", "c. To set prices of stocks", "d. To fund startups"],
+      answer: "b. To oversee fair trading practices",
     }
   ];
+  
 
   const handleSetStep = (num) => {
     if (

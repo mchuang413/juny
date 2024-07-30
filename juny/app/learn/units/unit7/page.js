@@ -11,42 +11,86 @@ const Page = () => {
 
   const slides = [
     {
-      title: "Overview of Investing",
-      content: "Investing is like embarking on an adventure with Juny the Octopus in the vast ocean! 🌊 It means putting your money into various assets, such as stocks, bonds, or real estate, with the expectation that these assets will grow in value over time.",
-      image: "/unit1Assets/1.png",
-      juny: "/unit1Assets/gifs/1.gif"
+      title: "Stock Exchanges",
+      content: "Stock exchanges are like bustling marketplaces where buyers and sellers come together to trade stocks and other securities. Imagine a vibrant coral reef where sea creatures from all around gather to trade their treasures. 🐙🌊",
+      image: "/unit7Assets/1.png",
+      juny: "/unit7Assets/gifs/1.gif"
     },
     {
-      title: "Overview of Investing",
-      content: "The main purpose of investing is to build wealth and reach financial goals, whether it's buying a home, funding education, or saving for retirement. Imagine Juny planting tiny seaweed seeds in her garden, hoping they will grow into a lush underwater forest! 🌱💰",
-      image: "/unit1Assets/2.png",
-      juny: "/unit1Assets/gifs/2.gif"
+      title: "Stock Exchanges",
+      content: "A stock exchange is a centralized location, either physical or digital, where securities like stocks, bonds, and other financial instruments are bought and sold. It's like an underwater marketplace where sea creatures come to trade their goods. The main function of a stock exchange is to make trading easy and fair for everyone, providing a transparent and regulated environment for transactions. 🏛️💼",
+      image: "/unit7Assets/2.png",
+      juny: "/unit7Assets/gifs/2.gif"
     },
     {
-      title: "History of Investing",
-      content: "The history of investing is as rich and diverse as the ocean itself. Imagine Juny's ancestors trading precious shells long ago to build their wealth! 🐚 In ancient times, people invested in tangible assets like land, livestock, and trade goods.",
-      image: "/unit1Assets/3.png",
-      juny: "/unit1Assets/gifs/3.gif"
+      title: "Major Stock Exchanges Around the World",
+      content: "Several major stock exchanges play a crucial role in the global financial system. The New York Stock Exchange (NYSE) is one of the largest and most famous stock exchanges in the world, located on Wall Street in New York City. Known for its iconic trading floor and the ringing of the opening bell, the NYSE lists companies such as Coca-Cola and IBM. 🏢🔔",
+      image: "/unit7Assets/3.png",
+      juny: "/unit7Assets/gifs/3.png"
     },
     {
-      title: "History of Investing",
-      content: "The concept was simple: put resources into something valuable that could grow over time. The first modern stock market, the Amsterdam Stock Exchange, was established in the early 1600s, allowing people to buy and sell shares of companies.",
-      image: "/unit1Assets/3.png",
-      juny: "/unit1Assets/gifs/4.gif"
+      title: "Major Stock Exchanges Around the World",
+      content: "Nasdaq, also based in New York City, operates electronically without a physical trading floor. It is known for high-tech and innovative companies like Apple, Microsoft, and Amazon. Think of Nasdaq as an advanced underwater trading network where the latest tech treasures are exchanged. 💻📈",
+      image: "/unit7Assets/4.png",
+      juny: "/unit7Assets/gifs/4.png"
     },
     {
-      title: "History of Investing",
-      content: "This innovation marked the beginning of modern investing. Fast forward to today, investing has become more diverse and accessible than ever before. From the bustling floors of stock exchanges to the convenience of online trading platforms, anyone can invest with just a few clicks.",
-      image: "/unit1Assets/5.png",
-      juny: "/unit1Assets/gifs/5.gif"
+      title: "Major Stock Exchanges Around the World",
+      content: "The London Stock Exchange (LSE), located in the heart of London, is one of the oldest stock exchanges in the world, serving as a hub for European and international companies. The LSE is like a historic underwater market where sea creatures have been trading their treasures for centuries. 🏛️🌍",
+      image: "/unit7Assets/5.png",
+      juny: "/unit7Assets/gifs/5.png"
     },
     {
-      title: "History of Investing",
-      content: "Juny might use her underwater tablet to keep track of her investments in various coral reefs and seaweed farms, showing how technology has made investing easier for everyone. 📱🌿By understanding what investing is and exploring its fascinating history, you are now ready to join Juny the Octopus on an exciting journey to grow your wealth! 🐙💸",
-      image: "/unit1Assets/6.png",
-      juny: "/unit1Assets/gifs/6.gif"
+      title: "Major Stock Exchanges Around the World",
+      content: "The Tokyo Stock Exchange (TSE) in Japan is the largest stock exchange in Asia and home to leading companies such as Toyota and Sony. The TSE is a bustling underwater marketplace where traders from all over Asia come to exchange valuable securities. 🗾🚗",
+      image: "/unit7Assets/6.png",
+      juny: "/unit7Assets/gifs/6.png"
+    },
+    {
+      title: "Functions of Stock Exchanges",
+      content: "Stock exchanges serve several important functions in the financial markets. They provide a platform for buyers and sellers to trade securities, ensuring that transactions are conducted efficiently and transparently. It's like an organized underwater market where sea creatures can easily find trading partners. 🐟🤝",
+      image: "/unit7Assets/7.png",
+      juny: "/unit7Assets/gifs/7.gif"
+    },
+    {
+      title: "Functions of Stock Exchanges",
+      content: "Stock exchanges also play a crucial role in determining the prices of securities through supply and demand. The prices of stocks fluctuate based on how much buyers are willing to pay and sellers are willing to accept. Imagine an auction where sea creatures bid on valuable treasures, setting the price based on competition. 🐠💰",
+      image: "/unit7Assets/8.png",
+      juny: "/unit7Assets/gifs/8.gif"
+    },
+    {
+      title: "Liquidity",
+      content: "Liquidity refers to how easily an asset can be bought or sold in the market without affecting its price. High liquidity means you can quickly trade an asset at a price close to its current value. Stock exchanges provide liquidity by making it easy for investors to buy and sell securities at any time. This is like having a bustling underwater market where sea creatures can trade their treasures at any time, ensuring the market remains active and prices stay stable. 🌊🔄",
+      image: "/unit7Assets/9.png",
+      juny: "/unit7Assets/gifs/9.gif"
+    },
+    {
+      title: "Regulation",
+      content: "Stock exchanges are regulated by government agencies to ensure that trading is fair and transparent. In the U.S., the Securities and Exchange Commission (SEC) oversees the stock exchanges. Think of this as the sea guardians making sure that all trades are conducted fairly and that everyone follows the rules. 🛡️📜",
+      image: "/unit7Assets/10.png",
+      juny: "/unit7Assets/gifs/10.gif"
+    },
+    {
+      title: "Raising Capital",
+      content: "Companies can raise capital by issuing stocks and bonds on a stock exchange. This allows them to fund new projects, expand their businesses, and innovate. It's like a seaweed farm selling shares to raise pearls for growing more seaweed. When a company wants to raise money, it can issue new shares of stock to the public through an initial public offering (IPO). The company sells these shares on a stock exchange, and investors who buy them become part-owners of the company. This process helps companies get the funds they need to grow and develop new products or services. 🌱💸",
+      image: "/unit7Assets/11.png",
+      juny: "/unit7Assets/gifs/11.gif"
+    },
+    {
+      title: "Example: Initial Public Offering (IPO)",
+      content: "When a popular coffee shop chain decides to expand globally, it may need a large amount of capital. By going public and listing on a stock exchange, it can raise the necessary funds. Investors who believe in the coffee shop's potential buy shares, providing the company with the money it needs to open new locations and reach more customers. ☕📈",
+      image: "/unit7Assets/12.png",
+      juny: "/unit7Assets/gifs/12.png"
+    },
+    {
+      title: "Stock Exchanges",
+      content: "Stock exchanges are the beating heart of the financial markets, providing a regulated and efficient environment for trading securities. By understanding how stock exchanges work, you can navigate the world of investing with confidence, just like Juny the Octopus exploring her vibrant ocean marketplace. 🌊🐙",
+      image: "/unit7Assets/13.png",
+      juny: "/unit7Assets/gifs/13.gif"
     }
   ];
+  
+  
 
   useEffect(() => {
     let currentText = '';

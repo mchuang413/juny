@@ -11,7 +11,7 @@ const Page = () => {
 
   const slides = [
     {
-      title: "Unit 1 Lesson 4: Basic Investment Principles",
+      title: "Basic Investment Principles",
       content: "Let's explore the basic principles of investing with Juny the Octopus! These principles are like the rules of the ocean, helping you navigate the vast sea of investment opportunities safely and successfully. 🌊🐙",
       image: "/unit3Assets/1.png",
       juny: "/unit3Assets/gifs/1.gif"

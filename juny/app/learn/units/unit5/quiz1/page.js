@@ -9,41 +9,52 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 3;
+  const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "What is the main purpose of investing?",
+      question: "What is a brokerage account?",
       options: [
-        "a. To buy and sell assets quickly",
-        "b. To build wealth and reach financial goals",
-        "c. To keep money in a savings account",
-        "d. To avoid financial markets"
+        "a. An account designed for education savings",
+        "b. An account that allows you to buy and sell a wide range of investments",
+        "c. An account offered by employers for retirement savings",
+        "d. An account that provides tax-free growth for retirement"
       ],
-      answer: "b. To build wealth and reach financial goals"
+      answer: "b. An account that allows you to buy and sell a wide range of investments"
     },
     {
-      question: "Which of the following is an example of an asset you can invest in?",
+      question: "What is the primary benefit of a retirement account?",
       options: [
-        "a. Groceries",
-        "b. Clothes",
-        "c. Stocks",
-        "d. Vacations"
+        "a. Immediate access to your money",
+        "b. Special tax advantages to encourage long-term savings",
+        "c. High liquidity for frequent trading",
+        "d. Higher interest rates than savings accounts"
       ],
-      answer: "c. Stocks"
+      answer: "b. Special tax advantages to encourage long-term savings"
     },
     {
-      question: "Where was the first modern stock market established?",
+      question: "What is a 401(k) account?",
       options: [
-        "a. New York",
-        "b. London",
-        "c. Amsterdam",
-        "d. Tokyo"
+        "a. A state-sponsored education savings plan",
+        "b. A retirement account offered by many employers",
+        "c. A brokerage account for buying and selling stocks",
+        "d. A margin account for borrowing money to invest"
       ],
-      answer: "c. Amsterdam"
+      answer: "b. A retirement account offered by many employers"
+    },
+    {
+      question: "What is the difference between a Traditional IRA and a Roth IRA?",
+      options: [
+        "a. Traditional IRA contributions are taxed, while Roth IRA contributions are tax-deductible",
+        "b. Traditional IRAs use pre-tax dollars, while Roth IRAs use after-tax dollars",
+        "c. Roth IRAs have higher contribution limits than Traditional IRAs",
+        "d. Traditional IRAs are only for self-employed individuals"
+      ],
+      answer: "b. Traditional IRAs use pre-tax dollars, while Roth IRAs use after-tax dollars"
     }
   ];
+  
 
   const handleSetStep = (num) => {
     if (

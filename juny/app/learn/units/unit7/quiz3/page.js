@@ -9,43 +9,52 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 3;
+  const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "What is the capital of France?",
-      options: ["a. Berlin", "b. Madrid", "c. Paris", "d. Rome"],
-      answer: "c. Paris",
+      question: "Companies can raise capital by issuing stocks and bonds on a stock exchange.",
+      options: ["True", "False"],
+      answer: "True"
     },
     {
-      question: "Which company is known for the iPhone?",
-      options: ["a. Samsung", "b. Apple", "c. Google", "d. Microsoft"],
-      answer: "b. Apple",
+      question: "Match the stock exchange with its description.",
+      options: {
+        "New York Stock Exchange (NYSE)": "d. Known for its iconic trading floor and the ringing of the opening bell",
+        "Nasdaq": "a. Operates electronically without a physical trading floor, known for high-tech companies",
+        "London Stock Exchange (LSE)": "b. One of the oldest stock exchanges, located in the heart of London",
+        "Tokyo Stock Exchange (TSE)": "c. The largest stock exchange in Asia, home to companies like Toyota and Sony"
+      },
+      answer: {
+        "New York Stock Exchange (NYSE)": "d. Known for its iconic trading floor and the ringing of the opening bell",
+        "Nasdaq": "a. Operates electronically without a physical trading floor, known for high-tech companies",
+        "London Stock Exchange (LSE)": "b. One of the oldest stock exchanges, located in the heart of London",
+        "Tokyo Stock Exchange (TSE)": "c. The largest stock exchange in Asia, home to companies like Toyota and Sony"
+      }
     },
     {
-      question: "How has technology made investing easier for everyone?",
+      question: "A popular coffee shop chain decides to expand globally and needs a large amount of capital. By going public and listing on a stock exchange, it can raise the necessary funds. What is this process called?",
       options: [
-        "a. By creating more physical stock exchanges",
-        "b. By increasing the number of banks",
-        "c. By making money more valuable",
-        "d. Through the use of online trading platforms",
+        "a. Secondary Market Offering",
+        "b. Stock Buyback",
+        "c. Initial Public Offering (IPO)",
+        "d. Bond Issuance"
       ],
-      answer: "d. Through the use of online trading platforms",
+      answer: "c. Initial Public Offering (IPO)"
     },
     {
-      question:
-        "Investing means putting your money into various assets with the expectation that they will decrease in value over time.",
-      options: ["True", "False"],
-      answer: "False",
-    },
-    {
-      question:
-        "The main purpose of investing is to build wealth and reach financial goals.",
-      options: ["True", "False"],
-      answer: "True",
-    },
+      question: "Imagine Juny the Octopus wants to trade stocks easily and quickly without affecting their prices. Which feature of a stock exchange helps her achieve this?",
+      options: [
+        "a. Regulation by the SEC",
+        "b. High liquidity",
+        "c. Availability of brokers",
+        "d. Initial Public Offering (IPO)"
+      ],
+      answer: "b. High liquidity"
+    }
   ];
+  
 
   const handleSetStep = (num) => {
     if ((stepsComplete === 0 && num === -1) || (stepsComplete === numSteps && num === 1)) {

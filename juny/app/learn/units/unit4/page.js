@@ -11,40 +11,100 @@ const Page = () => {
 
   const slides = [
     {
-      title: "Overview of Investing",
-      content: "Investing is like embarking on an adventure with Juny the Octopus in the vast ocean! 🌊 It means putting your money into various assets, such as stocks, bonds, or real estate, with the expectation that these assets will grow in value over time.",
-      image: "/unit1Assets/1.png",
-      juny: "/unit1Assets/gifs/1.gif"
+      title: "Setting Investment Goals",
+      content: "Setting investment goals is like planning an underwater expedition with Juny the Octopus. 🐙🌊 You need a clear destination and a map to guide your journey.",
+      image: "/unit4Assets/1.png",
+      juny: "/unit4Assets/gifs/1.gif"
     },
     {
-      title: "Overview of Investing",
-      content: "The main purpose of investing is to build wealth and reach financial goals, whether it's buying a home, funding education, or saving for retirement. Imagine Juny planting tiny seaweed seeds in her garden, hoping they will grow into a lush underwater forest! 🌱💰",
-      image: "/unit1Assets/2.png",
-      juny: "/unit1Assets/gifs/2.gif"
+      title: "Setting Investment Goals",
+      content: "Having well-defined investment goals helps you stay focused and make informed decisions that align with your financial dreams.",
+      image: "/unit4Assets/2.png",
+      juny: "/unit4Assets/gifs/2.gif"
     },
     {
-      title: "History of Investing",
-      content: "The history of investing is as rich and diverse as the ocean itself. Imagine Juny's ancestors trading precious shells long ago to build their wealth! 🐚 In ancient times, people invested in tangible assets like land, livestock, and trade goods.",
-      image: "/unit1Assets/3.png",
-      juny: "/unit1Assets/gifs/3.gif"
+      title: "Short-term vs. Long-term Goals",
+      content: "Investment goals can be categorized into short-term and long-term objectives. Short-term goals are those you want to achieve within a few months to a couple of years.",
+      image: "/unit4Assets/3.png",
+      juny: "/unit4Assets/gifs/3.gif"
     },
     {
-      title: "History of Investing",
-      content: "The concept was simple: put resources into something valuable that could grow over time. The first modern stock market, the Amsterdam Stock Exchange, was established in the early 1600s, allowing people to buy and sell shares of companies.",
-      image: "/unit1Assets/3.png",
-      juny: "/unit1Assets/gifs/4.gif"
+      title: "Short-term vs. Long-term Goals",
+      content: "For example, Juny might want to save up for a new coral bed within the next year. These goals typically involve lower-risk investments because you don’t have much time to recover from potential losses.",
+      image: "/unit4Assets/4.png",
+      juny: "/unit4Assets/gifs/4.gif"
     },
     {
-      title: "History of Investing",
-      content: "This innovation marked the beginning of modern investing. Fast forward to today, investing has become more diverse and accessible than ever before. From the bustling floors of stock exchanges to the convenience of online trading platforms, anyone can invest with just a few clicks.",
-      image: "/unit1Assets/5.png",
-      juny: "/unit1Assets/gifs/5.gif"
+      title: "Short-term vs. Long-term Goals",
+      content: "Think of short-term investments like a secure little underwater nook, such as savings accounts and short-term bonds. 🌟On the other hand, long-term goals are those that take several years to decades to achieve. Juny might be planning to save for a grand underwater palace for her retirement, which is 20 years away.",
+      image: "/unit4Assets/5.png",
+      juny: "/unit4Assets/gifs/5.gif"
     },
     {
-      title: "History of Investing",
-      content: "Juny might use her underwater tablet to keep track of her investments in various coral reefs and seaweed farms, showing how technology has made investing easier for everyone. 📱🌿By understanding what investing is and exploring its fascinating history, you are now ready to join Juny the Octopus on an exciting journey to grow your wealth! 🐙💸",
-      image: "/unit1Assets/6.png",
-      juny: "/unit1Assets/gifs/6.gif"
+      title: "Short-term vs. Long-term Goals",
+      content: "Long-term goals allow you to take on more risk because you have more time to ride out market fluctuations. Picture Juny dreaming of a magnificent coral castle, investing in stocks, mutual funds, and real estate. These are often suitable for long-term growth. 🏰",
+      image: "/unit4Assets/6.png",
+      juny: "/unit4Assets/gifs/6.png"
+    },
+    {
+      title: "Risk Tolerance Assessment",
+      content: "Assessing your risk tolerance is another crucial step. Risk tolerance refers to your ability and willingness to endure fluctuations in the value of your investments.",
+      image: "/unit4Assets/7.png",
+      juny: "/unit4Assets/gifs/7.gif"
+    },
+    {
+      title: "Risk Tolerance Assessment",
+      content: "It’s like determining how deep Juny is willing to dive into the ocean. Everyone has a different level of comfort with risk, influenced by factors such as age, income, and financial responsibilities.",
+      image: "/unit4Assets/8.png",
+      juny: "/unit4Assets/gifs/8.gif"
+    },
+    {
+      title: "Risk Tolerance Assessment",
+      content: "If Juny is comfortable with deep-sea diving and seeking high rewards, she might invest in more volatile assets like stocks and cryptocurrencies. 📈 Conversely, if Juny prefers to stay in shallow waters, she might choose safer investments like bonds and savings accounts. 📉",
+      image: "/unit4Assets/9.png",
+      juny: "/unit4Assets/gifs/9.png"
+    },
+    {
+      title: "Risk Tolerance Assessment",
+      content: "Assessing your risk tolerance helps you select investments that match your comfort level and financial situation.",
+      image: "/unit4Assets/10.png",
+      juny: "/unit4Assets/gifs/10.png"
+    },
+    {
+      title: "Time Horizon",
+      content: "Your time horizon, or the amount of time you plan to hold an investment before you need to use the money, is also essential. It’s like Juny knowing how long she has to prepare for her big underwater party.",
+      image: "/unit4Assets/11.png",
+      juny: "/unit4Assets/gifs/11.gif"
+    },
+    {
+      title: "Time Horizon",
+      content: "If Juny needs the money soon, she’ll choose safer investments with less potential for high returns but lower risk. If she has decades before she needs the money, she can invest in riskier assets. These offer higher returns over time.",
+      image: "/unit4Assets/12.png",
+      juny: "/unit4Assets/gifs/12.gif"
+    },
+    {
+      title: "Creating SMART Goals",
+      content: "Creating SMART goals is a great way to make your investment objectives clear and achievable. SMART stands for Specific, Measurable, Achievable, Relevant, and Time-bound.",
+      image: "/unit4Assets/13.png",
+      juny: "/unit4Assets/gifs/13.gif"
+    },
+    {
+      title: "Creating SMART Goals",
+      content: "For instance, Juny might want to save $5,000 for a new coral bed. This goal is specific and measurable, as Juny will check her savings every month. It’s achievable because she knows she can save $200 a month from her pearl trading.",
+      image: "/unit4Assets/14.png",
+      juny: "/unit4Assets/gifs/14.gif"
+    },
+    {
+      title: "Creating SMART Goals",
+      content: "The goal is relevant since a new coral bed is essential for Juny's comfort, and it’s time-bound because she plans to have it within two years.",
+      image: "/unit4Assets/15.png",
+      juny: "/unit4Assets/gifs/15.gif"
+    },
+    {
+      title: "Creating SMART Goals",
+      content: "By understanding the importance of setting clear investment goals, you can embark on your investment journey with confidence and purpose, just like Juny the Octopus planning her underwater adventures! 🐙🌊",
+      image: "/unit4Assets/16.png",
+      juny: "/unit4Assets/gifs/16.gif"
     }
   ];
 

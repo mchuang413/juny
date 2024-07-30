@@ -8,43 +8,54 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 5;
+  const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "What is the capital of France?",
-      options: ["a. Berlin", "b. Madrid", "c. Paris", "d. Rome"],
-      answer: "c. Paris",
+      question: "Market makers post buy and sell prices for the securities they handle, earning profit from the spread.",
+      options: ["True", "False"],
+      answer: "True"
     },
     {
-      question: "Which company is known for the iPhone?",
-      options: ["a. Samsung", "b. Apple", "c. Google", "d. Microsoft"],
-      answer: "b. Apple",
+      question: "Match the market participant with their description.",
+      options: {
+        "Retail Investors": "d. Individuals who buy and sell securities for their personal accounts",
+        "Brokers": "b. Intermediaries who facilitate transactions between buyers and sellers",
+        "Institutional Investors": "a. Organizations that invest large sums of money on behalf of their members or clients",
+        "Market Makers": "c. Ensure there's always someone available to trade with by constantly buying and selling securities",
+        "Traders": "e. Buy and sell securities frequently, aiming to profit from short-term price movements"
+      },
+      answer: {
+        "Retail Investors": "d. Individuals who buy and sell securities for their personal accounts",
+        "Brokers": "b. Intermediaries who facilitate transactions between buyers and sellers",
+        "Institutional Investors": "a. Organizations that invest large sums of money on behalf of their members or clients",
+        "Market Makers": "c. Ensure there's always someone available to trade with by constantly buying and selling securities",
+        "Traders": "e. Buy and sell securities frequently, aiming to profit from short-term price movements"
+      }
     },
     {
-      question: "How has technology made investing easier for everyone?",
+      question: "Juny the Octopus wants to buy shares of a seaweed farm for her future. She checks market news, does some research, and makes decisions based on her financial goals. Which type of market participant is Juny?",
       options: [
-        "a. By creating more physical stock exchanges",
-        "b. By increasing the number of banks",
-        "c. By making money more valuable",
-        "d. Through the use of online trading platforms",
+        "a. Broker",
+        "b. Institutional Investor",
+        "c. Retail Investor",
+        "d. Market Maker"
       ],
-      answer: "d. Through the use of online trading platforms",
+      answer: "c. Retail Investor"
     },
     {
-      question:
-        "Investing means putting your money into various assets with the expectation that they will decrease in value over time.",
-      options: ["True", "False"],
-      answer: "False",
-    },
-    {
-      question:
-        "The main purpose of investing is to build wealth and reach financial goals.",
-      options: ["True", "False"],
-      answer: "True",
-    },
+      question: "Imagine a large university endowment fund managing billions of dollars to support scholarships, research, and campus facilities. What type of market participant is this fund?",
+      options: [
+        "a. Broker",
+        "b. Institutional Investor",
+        "c. Retail Investor",
+        "d. Trader"
+      ],
+      answer: "b. Institutional Investor"
+    }
   ];
+  
 
   const handleSetStep = (num) => {
     if (

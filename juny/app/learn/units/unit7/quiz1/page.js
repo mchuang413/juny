@@ -9,41 +9,52 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 3;
+  const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "What is the main purpose of investing?",
+      question: "What is a stock exchange?",
       options: [
-        "a. To buy and sell assets quickly",
-        "b. To build wealth and reach financial goals",
-        "c. To keep money in a savings account",
-        "d. To avoid financial markets"
+        "a. A place where only bonds are traded",
+        "b. A centralized location where securities are bought and sold",
+        "c. A private club for wealthy investors",
+        "d. A government agency that regulates the financial markets"
       ],
-      answer: "b. To build wealth and reach financial goals"
+      answer: "b. A centralized location where securities are bought and sold"
     },
     {
-      question: "Which of the following is an example of an asset you can invest in?",
+      question: "Which stock exchange is known for its high-tech and innovative companies like Apple and Amazon?",
       options: [
-        "a. Groceries",
-        "b. Clothes",
-        "c. Stocks",
-        "d. Vacations"
+        "a. New York Stock Exchange (NYSE)",
+        "b. London Stock Exchange (LSE)",
+        "c. Nasdaq",
+        "d. Tokyo Stock Exchange (TSE)"
       ],
-      answer: "c. Stocks"
+      answer: "c. Nasdaq"
     },
     {
-      question: "Where was the first modern stock market established?",
+      question: "What is the primary function of a stock exchange?",
       options: [
-        "a. New York",
-        "b. London",
-        "c. Amsterdam",
-        "d. Tokyo"
+        "a. To provide loans to investors",
+        "b. To facilitate the buying and selling of securities",
+        "c. To control the prices of all securities",
+        "d. To offer investment advice"
       ],
-      answer: "c. Amsterdam"
+      answer: "b. To facilitate the buying and selling of securities"
+    },
+    {
+      question: "Which stock exchange is one of the oldest and located in the heart of London?",
+      options: [
+        "a. Nasdaq",
+        "b. New York Stock Exchange (NYSE)",
+        "c. Tokyo Stock Exchange (TSE)",
+        "d. London Stock Exchange (LSE)"
+      ],
+      answer: "d. London Stock Exchange (LSE)"
     }
   ];
+  
 
   const handleSetStep = (num) => {
     if (

@@ -8,43 +8,54 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 5;
+  const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "What is the capital of France?",
-      options: ["a. Berlin", "b. Madrid", "c. Paris", "d. Rome"],
-      answer: "c. Paris",
+      question: "Creating SMART goals helps make investment objectives clear and achievable.",
+      options: ["True", "False"],
+      answer: "True"
     },
     {
-      question: "Which company is known for the iPhone?",
-      options: ["a. Samsung", "b. Apple", "c. Google", "d. Microsoft"],
-      answer: "b. Apple",
+      question: "Match the concept with its description.",
+      options: {
+        "Short-term goals": "e. Goals you want to achieve within a few months to a couple of years",
+        "Long-term goals": "a. Goals that take several years to decades to achieve",
+        "Risk tolerance": "d. The ability and willingness to endure fluctuations in investment value",
+        "Time horizon": "b. The amount of time you plan to hold an investment before you need to use the money",
+        "SMART goals": "c. Specific, Measurable, Achievable, Relevant, and Time-bound objectives"
+      },
+      answer: {
+        "Short-term goals": "e. Goals you want to achieve within a few months to a couple of years",
+        "Long-term goals": "a. Goals that take several years to decades to achieve",
+        "Risk tolerance": "d. The ability and willingness to endure fluctuations in investment value",
+        "Time horizon": "b. The amount of time you plan to hold an investment before you need to use the money",
+        "SMART goals": "c. Specific, Measurable, Achievable, Relevant, and Time-bound objectives"
+      }
     },
     {
-      question: "How has technology made investing easier for everyone?",
+      question: "Juny the Octopus wants to save for a new coral bed within two years. Which type of goal is this?",
       options: [
-        "a. By creating more physical stock exchanges",
-        "b. By increasing the number of banks",
-        "c. By making money more valuable",
-        "d. Through the use of online trading platforms",
+        "a. Long-term goal",
+        "b. Risk tolerance goal",
+        "c. Short-term goal",
+        "d. Time horizon goal"
       ],
-      answer: "d. Through the use of online trading platforms",
+      answer: "c. Short-term goal"
     },
     {
-      question:
-        "Investing means putting your money into various assets with the expectation that they will decrease in value over time.",
-      options: ["True", "False"],
-      answer: "False",
-    },
-    {
-      question:
-        "The main purpose of investing is to build wealth and reach financial goals.",
-      options: ["True", "False"],
-      answer: "True",
-    },
+      question: "Juny is planning for her retirement in 20 years and is considering investing in stocks and real estate. What type of goal is this?",
+      options: [
+        "a. Long-term goal",
+        "b. Short-term goal",
+        "c. Risk tolerance goal",
+        "d. SMART goal"
+      ],
+      answer: "a. Long-term goal"
+    }
   ];
+  
 
   const handleSetStep = (num) => {
     if (

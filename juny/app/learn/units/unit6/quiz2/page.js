@@ -9,73 +9,37 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 3;
+  const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "How has technology made investing easier for everyone?",
+      question: "Who are traders?",
       options: [
-        "a. By creating more physical stock exchanges",
-        "b. By increasing the number of banks",
-        "c. By making money more valuable",
-        "d. Through the use of online trading platforms"
+        "a. Individuals or professionals who buy and sell securities frequently",
+        "b. Organizations that manage large investment portfolios",
+        "c. Entities that provide market analysis and financial planning",
+        "d. Participants who ensure there are always buyers and sellers"
       ],
-      answer: "d. Through the use of online trading platforms"
+      answer: "a. Individuals or professionals who buy and sell securities frequently"
     },
     {
-      question: "Investing means putting your money into various assets with the expectation that they will decrease in value over time.",
-      options: [
-        "True",
-        "False"
-      ],
+      question: "Retail investors typically have smaller amounts of money to invest compared to institutional investors.",
+      options: ["True", "False"],
+      answer: "True"
+    },
+    {
+      question: "Discount brokers offer a wide range of services including investment advice and financial planning.",
+      options: ["True", "False"],
       answer: "False"
     },
     {
-      question: "The first modern stock market was established in the early 1600s.",
-      options: [
-        "True",
-        "False"
-      ],
+      question: "Institutional investors can influence market trends due to the large volume of their trades.",
+      options: ["True", "False"],
       answer: "True"
-    },
-    {
-      question: "The history of investing includes people in ancient times investing in tangible assets like land and livestock.",
-      options: [
-        "True",
-        "False"
-      ],
-      answer: "True"
-    },
-    {
-      question: "The main purpose of investing is to build wealth and reach financial goals.",
-      options: [
-        "True",
-        "False"
-      ],
-      answer: "True"
-    },
-    {
-      question: "Juny the Octopus wants to invest her money with the hope that it will grow over time. Which of the following should she consider investing in?",
-      options: [
-        "a. Seaweed decorations",
-        "b. Stocks, bonds, or real estate",
-        "c. Pearls for her friends",
-        "d. New underwater tablets"
-      ],
-      answer: "b. Stocks, bonds, or real estate"
-    },
-    {
-      question: "Imagine Juny is looking at her underwater tablet and sees her investment in a coral reef has increased in value. What does this situation exemplify?",
-      options: [
-        "a. A decrease in wealth",
-        "b. The risk of investing",
-        "c. The growth of her investment",
-        "d. The purpose of saving"
-      ],
-      answer: "c. The growth of her investment"
     }
   ];
+  
 
   const handleSetStep = (num) => {
     if (

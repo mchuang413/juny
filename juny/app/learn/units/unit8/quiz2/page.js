@@ -14,68 +14,22 @@ const Page = () => {
 
   const questions = [
     {
-      question: "How has technology made investing easier for everyone?",
-      options: [
-        "a. By creating more physical stock exchanges",
-        "b. By increasing the number of banks",
-        "c. By making money more valuable",
-        "d. Through the use of online trading platforms"
-      ],
-      answer: "d. Through the use of online trading platforms"
+      question: "How do regulations protect investors?",
+      options: ["a. By guaranteeing all investments are profitable", "b. By preventing fraud and ensuring fairness", "c. By limiting the number of investors", "d. By setting high trade fees"],
+      answer: "b. By preventing fraud and ensuring fairness",
     },
     {
-      question: "Investing means putting your money into various assets with the expectation that they will decrease in value over time.",
-      options: [
-        "True",
-        "False"
-      ],
-      answer: "False"
+      question: "Regulatory bodies help maintain market integrity.",
+      options: ["True", "False"],
+      answer: "True",
     },
     {
-      question: "The first modern stock market was established in the early 1600s.",
-      options: [
-        "True",
-        "False"
-      ],
-      answer: "True"
-    },
-    {
-      question: "The history of investing includes people in ancient times investing in tangible assets like land and livestock.",
-      options: [
-        "True",
-        "False"
-      ],
-      answer: "True"
-    },
-    {
-      question: "The main purpose of investing is to build wealth and reach financial goals.",
-      options: [
-        "True",
-        "False"
-      ],
-      answer: "True"
-    },
-    {
-      question: "Juny the Octopus wants to invest her money with the hope that it will grow over time. Which of the following should she consider investing in?",
-      options: [
-        "a. Seaweed decorations",
-        "b. Stocks, bonds, or real estate",
-        "c. Pearls for her friends",
-        "d. New underwater tablets"
-      ],
-      answer: "b. Stocks, bonds, or real estate"
-    },
-    {
-      question: "Imagine Juny is looking at her underwater tablet and sees her investment in a coral reef has increased in value. What does this situation exemplify?",
-      options: [
-        "a. A decrease in wealth",
-        "b. The risk of investing",
-        "c. The growth of her investment",
-        "d. The purpose of saving"
-      ],
-      answer: "c. The growth of her investment"
+      question: "Disclosure requirements ensure all investors have the same information.",
+      options: ["True", "False"],
+      answer: "True",
     }
   ];
+  
 
   const handleSetStep = (num) => {
     if (

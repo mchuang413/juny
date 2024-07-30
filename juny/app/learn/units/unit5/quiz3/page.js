@@ -8,43 +8,56 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 5;
+  const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "What is the capital of France?",
-      options: ["a. Berlin", "b. Madrid", "c. Paris", "d. Rome"],
-      answer: "c. Paris",
+      question: "Coverdell Education Savings Accounts (ESAs) offer more flexibility in investment choices compared to 529 Plans.",
+      options: ["True", "False"],
+      answer: "True"
     },
     {
-      question: "Which company is known for the iPhone?",
-      options: ["a. Samsung", "b. Apple", "c. Google", "d. Microsoft"],
-      answer: "b. Apple",
+      question: "Match the type of investment account with its description.",
+      options: {
+        "Brokerage Account": "c. An account for buying and selling a wide range of investments",
+        "401(k)": "a. A retirement account offered by employers, often with matching contributions",
+        "Traditional IRA": "d. A retirement account using pre-tax dollars, with taxes paid on withdrawal",
+        "Roth IRA": "e. A retirement account using after-tax dollars, with tax-free withdrawals in retirement",
+        "529 Plan": "b. A state-sponsored plan for saving for education expenses with tax advantages",
+        "Coverdell ESA": "f. An education savings account with flexible investment options and contribution limits"
+      },
+      answer: {
+        "Brokerage Account": "c. An account for buying and selling a wide range of investments",
+        "401(k)": "a. A retirement account offered by employers, often with matching contributions",
+        "Traditional IRA": "d. A retirement account using pre-tax dollars, with taxes paid on withdrawal",
+        "Roth IRA": "e. A retirement account using after-tax dollars, with tax-free withdrawals in retirement",
+        "529 Plan": "b. A state-sponsored plan for saving for education expenses with tax advantages",
+        "Coverdell ESA": "f. An education savings account with flexible investment options and contribution limits"
+      }
     },
     {
-      question: "How has technology made investing easier for everyone?",
+      question: "Juny the Octopus has just started her first job and her employer offers a 401(k) plan with matching contributions. What should Juny do to maximize her retirement savings?",
       options: [
-        "a. By creating more physical stock exchanges",
-        "b. By increasing the number of banks",
-        "c. By making money more valuable",
-        "d. Through the use of online trading platforms",
+        "a. Ignore the 401(k) plan and save in a regular savings account",
+        "b. Contribute enough to the 401(k) to get the full employer match",
+        "c. Only invest in high-risk stocks",
+        "d. Withdraw funds from the 401(k) early to use for immediate expenses"
       ],
-      answer: "d. Through the use of online trading platforms",
+      answer: "b. Contribute enough to the 401(k) to get the full employer match"
     },
     {
-      question:
-        "Investing means putting your money into various assets with the expectation that they will decrease in value over time.",
-      options: ["True", "False"],
-      answer: "False",
-    },
-    {
-      question:
-        "The main purpose of investing is to build wealth and reach financial goals.",
-      options: ["True", "False"],
-      answer: "True",
-    },
+      question: "Juny wants to save for her child's future education expenses. Which account should she consider?",
+      options: [
+        "a. 401(k)",
+        "b. Brokerage Account",
+        "c. 529 Plan",
+        "d. Roth IRA"
+      ],
+      answer: "c. 529 Plan"
+    }
   ];
+  
 
   const handleSetStep = (num) => {
     if (

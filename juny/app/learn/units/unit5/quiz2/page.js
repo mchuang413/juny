@@ -9,74 +9,37 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 3;
+  const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "How has technology made investing easier for everyone?",
+      question: "What is a 529 Plan designed for?",
       options: [
-        "a. By creating more physical stock exchanges",
-        "b. By increasing the number of banks",
-        "c. By making money more valuable",
-        "d. Through the use of online trading platforms"
+        "a. Retirement savings",
+        "b. Buying a home",
+        "c. Saving for education expenses",
+        "d. Emergency savings"
       ],
-      answer: "d. Through the use of online trading platforms"
+      answer: "c. Saving for education expenses"
     },
     {
-      question: "Investing means putting your money into various assets with the expectation that they will decrease in value over time.",
-      options: [
-        "True",
-        "False"
-      ],
+      question: "Margin accounts allow you to borrow money from the brokerage to buy more investments.",
+      options: ["True", "False"],
+      answer: "True"
+    },
+    {
+      question: "With a Roth IRA, you pay taxes on the money when you withdraw it in retirement.",
+      options: ["True", "False"],
       answer: "False"
     },
     {
-      question: "The first modern stock market was established in the early 1600s.",
-      options: [
-        "True",
-        "False"
-      ],
+      question: "401(k) accounts often include employer matching contributions.",
+      options: ["True", "False"],
       answer: "True"
-    },
-    {
-      question: "The history of investing includes people in ancient times investing in tangible assets like land and livestock.",
-      options: [
-        "True",
-        "False"
-      ],
-      answer: "True"
-    },
-    {
-      question: "The main purpose of investing is to build wealth and reach financial goals.",
-      options: [
-        "True",
-        "False"
-      ],
-      answer: "True"
-    },
-    {
-      question: "Juny the Octopus wants to invest her money with the hope that it will grow over time. Which of the following should she consider investing in?",
-      options: [
-        "a. Seaweed decorations",
-        "b. Stocks, bonds, or real estate",
-        "c. Pearls for her friends",
-        "d. New underwater tablets"
-      ],
-      answer: "b. Stocks, bonds, or real estate"
-    },
-    {
-      question: "Imagine Juny is looking at her underwater tablet and sees her investment in a coral reef has increased in value. What does this situation exemplify?",
-      options: [
-        "a. A decrease in wealth",
-        "b. The risk of investing",
-        "c. The growth of her investment",
-        "d. The purpose of saving"
-      ],
-      answer: "c. The growth of her investment"
     }
   ];
-
+  
   const handleSetStep = (num) => {
     if (
       (stepsComplete === 0 && num === -1) ||

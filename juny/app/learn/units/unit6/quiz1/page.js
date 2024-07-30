@@ -9,41 +9,52 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 3;
+  const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "What is the main purpose of investing?",
+      question: "Who are retail investors?",
       options: [
-        "a. To buy and sell assets quickly",
-        "b. To build wealth and reach financial goals",
-        "c. To keep money in a savings account",
-        "d. To avoid financial markets"
+        "a. Organizations that invest large sums of money",
+        "b. Individuals who buy and sell securities for personal accounts",
+        "c. Intermediaries who facilitate transactions",
+        "d. Entities that ensure there is always someone available to trade with"
       ],
-      answer: "b. To build wealth and reach financial goals"
+      answer: "b. Individuals who buy and sell securities for personal accounts"
     },
     {
-      question: "Which of the following is an example of an asset you can invest in?",
+      question: "What role do brokers play in financial markets?",
       options: [
-        "a. Groceries",
-        "b. Clothes",
-        "c. Stocks",
-        "d. Vacations"
+        "a. They invest large sums of money on behalf of clients",
+        "b. They facilitate transactions between buyers and sellers",
+        "c. They are individuals who buy and sell securities frequently",
+        "d. They ensure there is always someone available to trade with"
       ],
-      answer: "c. Stocks"
+      answer: "b. They facilitate transactions between buyers and sellers"
     },
     {
-      question: "Where was the first modern stock market established?",
+      question: "What is a characteristic of institutional investors?",
       options: [
-        "a. New York",
-        "b. London",
-        "c. Amsterdam",
-        "d. Tokyo"
+        "a. They are individuals who make small trades",
+        "b. They invest on behalf of their members or clients",
+        "c. They charge high fees for their services",
+        "d. They focus only on short-term trades"
       ],
-      answer: "c. Amsterdam"
+      answer: "b. They invest on behalf of their members or clients"
+    },
+    {
+      question: "What do market makers do?",
+      options: [
+        "a. Invest large sums of money for long-term growth",
+        "b. Buy and sell securities to ensure market liquidity",
+        "c. Provide financial advice and research",
+        "d. Aim to profit from short-term price movements"
+      ],
+      answer: "b. Buy and sell securities to ensure market liquidity"
     }
   ];
+  
 
   const handleSetStep = (num) => {
     if (

@@ -11,42 +11,80 @@ const Page = () => {
 
   const slides = [
     {
-      title: "Overview of Investing",
-      content: "Investing is like embarking on an adventure with Juny the Octopus in the vast ocean! 🌊 It means putting your money into various assets, such as stocks, bonds, or real estate, with the expectation that these assets will grow in value over time.",
-      image: "/unit1Assets/1.png",
-      juny: "/unit1Assets/gifs/1.gif"
+      title: "Investment Accounts",
+      content: "Understanding investment accounts is crucial for your financial journey, much like Juny the Octopus needs the right tools to explore the ocean depths. These accounts are the vehicles that allow you to invest in various assets and grow your wealth over time. Let's dive into the different types of investment accounts and how they can help you reach your financial goals! 🐙💰",
+      image: "/unit5Assets/1.png",
+      juny: "/unit5Assets/gifs/1.gif"
     },
     {
-      title: "Overview of Investing",
-      content: "The main purpose of investing is to build wealth and reach financial goals, whether it's buying a home, funding education, or saving for retirement. Imagine Juny planting tiny seaweed seeds in her garden, hoping they will grow into a lush underwater forest! 🌱💰",
-      image: "/unit1Assets/2.png",
-      juny: "/unit1Assets/gifs/2.gif"
+      title: "Brokerage Accounts",
+      content: "A brokerage account is like a treasure chest that holds all your investments. 🗃️ These accounts are offered by brokerage firms and allow you to buy and sell a wide range of investments, such as stocks, bonds, mutual funds, ETFs, and more. Imagine Juny opening a special underwater vault where she keeps her valuable treasures, from shiny pearls to rare seaweed. 💎🌿",
+      image: "/unit5Assets/2.png",
+      juny: "/unit5Assets/gifs/2.gif"
     },
     {
-      title: "History of Investing",
-      content: "The history of investing is as rich and diverse as the ocean itself. Imagine Juny's ancestors trading precious shells long ago to build their wealth! 🐚 In ancient times, people invested in tangible assets like land, livestock, and trade goods.",
-      image: "/unit1Assets/3.png",
-      juny: "/unit1Assets/gifs/3.gif"
+      title: "Brokerage Accounts",
+      content: "Standard brokerage accounts offer great flexibility and access to a broad array of investments. However, you will need to pay taxes on any gains or income you earn each year. It's like Juny having to give a small pearl to the sea king each time she finds a treasure. 💸👑",
+      image: "/unit5Assets/3.png",
+      juny: "/unit5Assets/gifs/3.gif"
     },
     {
-      title: "History of Investing",
-      content: "The concept was simple: put resources into something valuable that could grow over time. The first modern stock market, the Amsterdam Stock Exchange, was established in the early 1600s, allowing people to buy and sell shares of companies.",
-      image: "/unit1Assets/3.png",
-      juny: "/unit1Assets/gifs/4.gif"
+      title: "Brokerage Accounts",
+      content: "Margin accounts allow you to borrow money from the brokerage to buy more investments than you could with your own money alone. While this can amplify your gains, it also increases your risk, similar to Juny borrowing pearls to buy a larger section of coral reef—if the reef thrives, she profits more, but if it doesn't, she owes more pearls. 📈⚠️",
+      image: "/unit5Assets/4.png",
+      juny: "/unit5Assets/gifs/4.gif"
     },
     {
-      title: "History of Investing",
-      content: "This innovation marked the beginning of modern investing. Fast forward to today, investing has become more diverse and accessible than ever before. From the bustling floors of stock exchanges to the convenience of online trading platforms, anyone can invest with just a few clicks.",
-      image: "/unit1Assets/5.png",
-      juny: "/unit1Assets/gifs/5.gif"
+      title: "Retirement Accounts",
+      content: "Retirement accounts are designed to help you save for your golden years, ensuring you have enough treasure stored away to live comfortably. These accounts offer special tax advantages to encourage long-term savings. Think of them as enchanted chests that protect and grow Juny's pearls over the years. 🌟🧳",
+      image: "/unit5Assets/5.png",
+      juny: "/unit5Assets/gifs/5.gif"
     },
     {
-      title: "History of Investing",
-      content: "Juny might use her underwater tablet to keep track of her investments in various coral reefs and seaweed farms, showing how technology has made investing easier for everyone. 📱🌿By understanding what investing is and exploring its fascinating history, you are now ready to join Juny the Octopus on an exciting journey to grow your wealth! 🐙💸",
-      image: "/unit1Assets/6.png",
-      juny: "/unit1Assets/gifs/6.gif"
+      title: "Retirement Accounts",
+      content: "401(k) accounts are offered by many employers and allow you to save and invest a portion of your paycheck before taxes are taken out. Some employers even match a portion of your contributions, giving you free pearls to add to your treasure chest! 🏦💸 However, there are penalties for withdrawing money before reaching retirement age, so it's best to let these pearls stay hidden until you're ready to retire. 🚫🐚",
+      image: "/unit5Assets/6.png",
+      juny: "/unit5Assets/gifs/6.gif"
+    },
+    {
+      title: "Retirement Accounts",
+      content: "Individual Retirement Accounts (IRAs) come in two main types—Traditional and Roth. Traditional IRAs allow you to contribute pre-tax dollars, reducing your taxable income now, but you'll pay taxes when you withdraw the money in retirement. It's like Juny storing pearls in a cave that protects them from the sea king's taxes until she takes them out. 🏞️💎",
+      image: "/unit5Assets/7.png",
+      juny: "/unit5Assets/gifs/7.png"
+    },
+    {
+      title: "Retirement Accounts",
+      content: "Roth IRAs, on the other hand, use after-tax dollars for contributions, but the money grows tax-free, and you won't owe any taxes when you withdraw it in retirement. This is akin to Juny paying a small tax to the sea king now but ensuring her future treasures are completely tax-free. 🌞🌟",
+      image: "/unit5Assets/8.png",
+      juny: "/unit5Assets/gifs/8.png"
+    },
+    {
+      title: "Education Savings Accounts",
+      content: "Education savings accounts are special accounts designed to help you save for future education expenses, offering tax advantages to make saving easier. Juny might use these accounts to ensure her little octopus friends have enough pearls to attend the best underwater schools. 🐙📚",
+      image: "/unit5Assets/9.png",
+      juny: "/unit5Assets/gifs/9.gif"
+    },
+    {
+      title: "Education Savings Accounts",
+      content: "529 Plans are state-sponsored plans that allow you to save for education expenses with tax-free growth and tax-free withdrawals for qualified expenses. It's like an enchanted coral garden that grows without the sea king's taxes, as long as Juny uses the funds for schooling. 🏫🌺",
+      image: "/unit5Assets/10.png",
+      juny: "/unit5Assets/gifs/10.gif"
+    },
+    {
+      title: "Education Savings Accounts",
+      content: "Coverdell Education Savings Accounts (ESAs) are similar to 529 plans but offer more flexibility in investment choices and contribution limits. Juny can use these funds for a wider range of educational expenses, from elementary to college. 📖🏛️",
+      image: "/unit5Assets/11.png",
+      juny: "/unit5Assets/gifs/11.gif"
+    },
+    {
+      title: "Education Savings Accounts",
+      content: "By understanding and using the right investment accounts, you can ensure your money is working as hard as possible to achieve your financial goals. With the right accounts, Juny the Octopus can confidently navigate her underwater adventures, knowing her treasures are well-managed and growing over time. 🐙💎📈",
+      image: "/unit5Assets/12.png",
+      juny: "/unit5Assets/gifs/12.gif"
     }
   ];
+  
+  
 
   useEffect(() => {
     let currentText = '';

@@ -14,36 +14,37 @@ const Page = () => {
 
   const questions = [
     {
-      question: "What is the main purpose of investing?",
+      question: "What is the purpose of setting investment goals?",
       options: [
-        "a. To buy and sell assets quickly",
-        "b. To build wealth and reach financial goals",
-        "c. To keep money in a savings account",
-        "d. To avoid financial markets"
+        "a. To spend money on luxuries",
+        "b. To stay focused and make informed decisions that align with financial dreams",
+        "c. To avoid paying taxes",
+        "d. To increase spending"
       ],
-      answer: "b. To build wealth and reach financial goals"
+      answer: "b. To stay focused and make informed decisions that align with financial dreams"
     },
     {
-      question: "Which of the following is an example of an asset you can invest in?",
+      question: "What is an example of a short-term investment goal?",
       options: [
-        "a. Groceries",
-        "b. Clothes",
-        "c. Stocks",
-        "d. Vacations"
+        "a. Saving for retirement in 20 years",
+        "b. Buying a new coral bed within the next year",
+        "c. Purchasing a house in 10 years",
+        "d. Investing in stocks for future growth"
       ],
-      answer: "c. Stocks"
+      answer: "b. Buying a new coral bed within the next year"
     },
     {
-      question: "Where was the first modern stock market established?",
+      question: "Which type of investments are typically suitable for long-term goals?",
       options: [
-        "a. New York",
-        "b. London",
-        "c. Amsterdam",
-        "d. Tokyo"
+        "a. Savings accounts and short-term bonds",
+        "b. High-risk stocks and cryptocurrencies",
+        "c. Stocks, mutual funds, and real estate",
+        "d. Checking accounts and cash"
       ],
-      answer: "c. Amsterdam"
+      answer: "c. Stocks, mutual funds, and real estate"
     }
   ];
+  
 
   const handleSetStep = (num) => {
     if (

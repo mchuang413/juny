@@ -9,43 +9,42 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
-  const numSteps = 3;
+  const numSteps = 4;
   const isPremium = true; // Change this to dynamically check for premium status
 
   const questions = [
     {
-      question: "What is the capital of France?",
-      options: ["a. Berlin", "b. Madrid", "c. Paris", "d. Rome"],
-      answer: "c. Paris",
-    },
-    {
-      question: "Which company is known for the iPhone?",
-      options: ["a. Samsung", "b. Apple", "c. Google", "d. Microsoft"],
-      answer: "b. Apple",
-    },
-    {
-      question: "How has technology made investing easier for everyone?",
-      options: [
-        "a. By creating more physical stock exchanges",
-        "b. By increasing the number of banks",
-        "c. By making money more valuable",
-        "d. Through the use of online trading platforms",
-      ],
-      answer: "d. Through the use of online trading platforms",
-    },
-    {
-      question:
-        "Investing means putting your money into various assets with the expectation that they will decrease in value over time.",
+      question: "Insider trading is fair and encouraged by regulators.",
       options: ["True", "False"],
       answer: "False",
     },
     {
-      question:
-        "The main purpose of investing is to build wealth and reach financial goals.",
-      options: ["True", "False"],
-      answer: "True",
+      question: "Match the concept with its description.",
+      options: {
+        "Regulatory Environment": "b. System of rules governing financial markets",
+        "Investor Protection": "c. Safeguarding investors from fraud",
+        "Market Integrity": "d. Maintaining trust in the market system",
+        "Fair Trading Practices": "a. Ensuring trades are transparent and fair"
+      },
+      answer: {
+        "Regulatory Environment": "b. System of rules governing financial markets",
+        "Investor Protection": "c. Safeguarding investors from fraud",
+        "Market Integrity": "d. Maintaining trust in the market system",
+        "Fair Trading Practices": "a. Ensuring trades are transparent and fair"
+      }
     },
+    {
+      question: "Juny the Octopus learns about a hidden treasure and buys it before the information is public. What is this?",
+      options: ["a. Transparent Trading", "b. Insider Trading", "c. Market Regulation", "d. Fair Trading"],
+      answer: "b. Insider Trading",
+    },
+    {
+      question: "Juny wants to invest in a market where everyone follows the same rules. Which aspect ensures this?",
+      options: ["a. Market Manipulation", "b. High liquidity", "c. Fair Trading Practices", "d. Investment Flexibility"],
+      answer: "c. Fair Trading Practices",
+    }
   ];
+  
 
   const handleSetStep = (num) => {
     if ((stepsComplete === 0 && num === -1) || (stepsComplete === numSteps && num === 1)) {
