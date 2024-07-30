@@ -15,34 +15,19 @@ const Page = () => {
 
   const questions = [
     {
-      question: "What is the main purpose of investing?",
-      options: [
-        "a. To buy and sell assets quickly",
-        "b. To build wealth and reach financial goals",
-        "c. To keep money in a savings account",
-        "d. To avoid financial markets"
-      ],
-      answer: "b. To build wealth and reach financial goals"
+      question: "When you buy a stock, you are lending money to a company.",
+      options: ["True", "False"],
+      answer: "False",
     },
     {
-      question: "Which of the following is an example of an asset you can invest in?",
-      options: [
-        "a. Groceries",
-        "b. Clothes",
-        "c. Stocks",
-        "d. Vacations"
-      ],
-      answer: "c. Stocks"
+      question: "Mutual funds allow investors to pool their money together to buy a diversified portfolio of assets.",
+      options: ["True", "False"],
+      answer: "True",
     },
     {
-      question: "Where was the first modern stock market established?",
-      options: [
-        "a. New York",
-        "b. London",
-        "c. Amsterdam",
-        "d. Tokyo"
-      ],
-      answer: "c. Amsterdam"
+      question: "REITs allow investors to earn income from real estate without having to manage the properties themselves.",
+      options: ["True", "False"],
+      answer: "True",
     },
     {
       question: "Match the type of investment with its description.",
