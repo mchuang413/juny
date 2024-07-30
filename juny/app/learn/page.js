@@ -43,11 +43,6 @@ const Page = () => {
       requiredLevel: 0,  // Level 11 required for Unit 4
     },
     {
-      title: "UNIT 4: Setting Investment Goals",
-      description: "Learn how to set and achieve your investment goals. This lesson covers the differences between short-term and long-term goals, assessing your risk tolerance, and determining your investment time horizon. 🏁🎯",
-      requiredLevel: 0,
-    },
-    {
       title: "UNIT 5: Investment Accounts",
       description: "Discover different types of investment accounts, including brokerage accounts and retirement accounts like 401(k) and IRA. Understand their features, benefits, and how to choose the right account for your investment needs. 💼💡",
       requiredLevel: 0,
