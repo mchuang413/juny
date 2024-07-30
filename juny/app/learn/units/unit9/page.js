@@ -12,7 +12,7 @@ const Page = () => {
   const slides = [
     {
       title: "Work in Progress",
-      content: "Units 9-49 are still undergoing development and will be released soon. Stay tuned!",
+      content: "This unit is still undergoing development and will be released soon. Stay tuned!",
       image: "/unit1Assets/1.png",
       juny: "service-tools.gif"
     },
