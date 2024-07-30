@@ -29,6 +29,7 @@ const Page = () => {
 
       if (data.status === 'works') {
         Cookies.set('username', username);
+        console.log(username);
         Cookies.set('auth', 'your-auth-token'); // Replace with actual token if available
         setMessage('Login successful');
         window.location.reload(); // Refresh the page to update the authentication state

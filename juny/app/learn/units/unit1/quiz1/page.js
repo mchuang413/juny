@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Cookies from 'js-cookie';
 
 const Page = () => {
   const [stepsComplete, setStepsComplete] = useState(0);
@@ -50,10 +51,17 @@ const Page = () => {
     const fetchUserLevel = async () => {
       try {
         const username = Cookies.get('username');
-        console.log('Username:', username);
+        if (!username) {
+          console.error('Username not found in cookies');
+          return;
+        }
         const response = await fetch(`/get_user_level?username=${username}`);
         const data = await response.json();
-        setUserLevel(data.level);
+        if (response.ok) {
+          setUserLevel(data.level);
+        } else {
+          console.error('Failed to fetch user level:', data.message);
+        }
       } catch (error) {
         console.error('Error fetching user level:', error);
       }
@@ -63,13 +71,9 @@ const Page = () => {
   }, []);
 
   const handleSetStep = (num) => {
-    if (
-      (stepsComplete === 0 && num === -1) ||
-      (stepsComplete === numSteps && num === 1)
-    ) {
+    if ((stepsComplete === 0 && num === -1) || (stepsComplete === numSteps && num === 1)) {
       return;
     }
-
     setStepsComplete((pv) => pv + num);
   };
 
@@ -94,12 +98,15 @@ const Page = () => {
   };
 
   const incrementUserLevel = async () => {
-    if (userLevel > 1) {
-      return;
-    }
-
     try {
-      const response = await fetch('/increment_user_level', { method: 'POST' });
+      const username = Cookies.get('username');
+      const response = await fetch('/increment_level', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username })
+      });
       if (response.ok) {
         setUserLevel((prevLevel) => prevLevel + 1);
       } else {
@@ -118,7 +125,7 @@ const Page = () => {
       if (!apiKey) {
         throw new Error("API key is not set");
       }
-  
+
       const response = await fetch("https://api.openai.com/v1/completions", {
         method: "POST",
         headers: {
@@ -131,17 +138,17 @@ const Page = () => {
           max_tokens: 500
         })
       });
-  
+
       if (!response.ok) {
         throw new Error(`Error: ${response.status} ${response.statusText}`);
       }
-  
+
       const data = await response.json();
-  
+
       if (!data.choices || !data.choices[0] || !data.choices[0].text) {
         throw new Error("Unexpected API response structure");
       }
-  
+
       setAiFeedback(data.choices[0].text);
     } catch (error) {
       console.error("Error generating personalized feedback:", error);
@@ -149,24 +156,6 @@ const Page = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const TypewriterEffect = ({ text }) => {
-    const [displayedText, setDisplayedText] = useState("");
-
-    useEffect(() => {
-      let index = 0;
-      const interval = setInterval(() => {
-        setDisplayedText((prev) => prev + text.charAt(index));
-        index++;
-        if (index >= text.length) {
-          clearInterval(interval);
-        }
-      }, 50);
-      return () => clearInterval(interval);
-    }, [text]);
-
-    return <p>{displayedText}</p>;
   };
 
   return (
