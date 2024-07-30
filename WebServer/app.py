@@ -27,27 +27,6 @@ db = client["Juny"]
 collection = db["users"]  # Assuming a collection named "users" for user data
 news_collection = db["news"]  # Collection for storing news
 
-problems = [
-    "What is bullish meaning?",
-    "What is bearish meaning?",
-    "What is the main purpose of investing? a. To buy and sell assets quickly b. To build wealth and reach financial goals c. To keep money in a savings account d. To avoid financial markets",
-    "Which of the following is an example of an asset you can invest in? a. Groceries b. Clothes c. Stocks d. Vacations",
-    "Where was the first modern stock market established? a. New York b. London c. Amsterdam d. Tokyo",
-    "Scenario: Juny wants to build wealth and reach her financial goals. Based on the text, which of the following should she consider investing in? a. Clothes b. Stocks c. Groceries d. Vacations",
-    "Investing guarantees growth in value over time. True False",
-    "In ancient times, people invested in tangible assets like land, livestock, and trade goods. True False"
-]
-answers = [
-    "Bullish is a buying trend that indicates that the price is rising.",
-    "Bearish is a selling trend that indicates that the price is falling.",
-    "b",
-    "c",
-    "c",
-    "b",
-    "f",
-    "t"
-]
-
 def ask_gpt(pretext, prompt):
     response = client.chat.completions.create(
         messages=[
@@ -98,7 +77,8 @@ def signup():
         "password": password,
         "alpaca_key": alpaca_key,
         "alpaca_secret": alpaca_secret,
-        "premium_user": False
+        "premium_user": False,
+        "level": 1
     })
 
     response = jsonify({"status": "success", "message": "User registered successfully"})
@@ -121,25 +101,67 @@ def checkanswer(question, answer, id):
         mydict = {"id": id, "question": question, "correct": "F"}
         collection.insert_one(mydict)
         return("Incorrect")
+    
+@app.route("/get_premium_status", methods=["GET"])
+def get_premium_status():
+    username = request.args.get("username")
 
-@app.route("/get_api_keys/<username>", methods=["GET"])
-def get_api_keys(username):
-    print(f"Username parameter: {username}")
-    print(" hi")
     if not username:
-        return jsonify({"status": "error", "message": "Username parameter not found"}), 400
+        return jsonify({"status": "error", "message": "Username is required"}), 400
 
     user = collection.find_one({"username": username})
     if not user:
         return jsonify({"status": "error", "message": "User not found"}), 404
 
-    alpaca_key = user.get("alpaca_key")
-    alpaca_secret = user.get("alpaca_secret")
+    premium_user = user.get("premium_user", False)
+    return jsonify({"status": "success", "premium_user": premium_user})
 
-    if not alpaca_key or not alpaca_secret:
-        return jsonify({"status": "error", "message": "API keys not found"}), 404
-    print(alpaca_key + " " + alpaca_secret)
-    return jsonify({"status": "success", "alpaca_key": alpaca_key, "alpaca_secret": alpaca_secret})
+@app.route("/get_user_level", methods=["GET"])
+def get_user_level():
+    username = request.args.get("username")
+
+    if not username:
+        return jsonify({"status": "error", "message": "Username is required"}), 400
+
+    user = collection.find_one({"username": username})
+    if not user:
+        return jsonify({"status": "error", "message": "User not found"}), 404
+
+    level = user.get("level", 1)
+    return jsonify({"status": "success", "level": level})
+
+@app.route("/increment_level", methods=["POST"])
+def increment_level():
+    data = request.json
+    username = data.get("username")
+
+    if not username:
+        return jsonify({"status": "error", "message": "Username is required"}), 400
+
+    user = collection.find_one({"username": username})
+    if not user:
+        return jsonify({"status": "error", "message": "User not found"}), 404
+
+    new_level = user.get("level", 1) + 1
+    collection.update_one({"username": username}, {"$set": {"level": new_level}})
+    
+    return jsonify({"status": "success", "new_level": new_level})
+
+@app.route("/upgrade_premium", methods=["POST"])
+def upgrade_premium():
+    data = request.json
+    username = data.get("username")
+
+    if not username:
+        return jsonify({"status": "error", "message": "Username is required"}), 400
+
+    user = collection.find_one({"username": username})
+    if not user:
+        return jsonify({"status": "error", "message": "User not found"}), 404
+
+    collection.update_one({"username": username}, {"$set": {"premium_user": True}})
+    
+    return jsonify({"status": "success", "new_premium_status": True})
 
 @app.route("/live_wallstreetbets", methods=["GET"])
 def live_wallstreetbets():
