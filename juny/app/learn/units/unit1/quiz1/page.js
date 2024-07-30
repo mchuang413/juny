@@ -51,7 +51,7 @@ const Page = () => {
       try {
         const username = Cookies.get('username');
         console.log('Username:', username);
-        const response = await fetch(`/get_user_level?username=${username}`);  // Replace 'your_username' with actual logic
+        const response = await fetch(`/get_user_level?username=${username}`);
         const data = await response.json();
         setUserLevel(data.level);
       } catch (error) {
