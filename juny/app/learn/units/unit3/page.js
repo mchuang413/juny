@@ -38,7 +38,7 @@ const Page = () => {
       title: "Diversification",
       content: "By diversifying, you can protect your portfolio from significant losses. For instance, if you invest in both technology stocks and government bonds, a downturn in the tech industry won’t wipe out your entire portfolio. 🌱📊",
       image: "/unit3Assets/5.png",
-      juny: "/unit3Assets/gifs/5.gif"
+      juny: "/unit3Assets/gifs/5.png"
     },
     {
       title: "Compounding",
