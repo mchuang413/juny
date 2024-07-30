@@ -8,6 +8,8 @@ const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+  const [userLevel, setUserLevel] = useState(1); // State to store user level
   const numSteps = 3;
   const isPremium = true; // Change this to dynamically check for premium status
 
@@ -44,6 +46,20 @@ const Page = () => {
     }
   ];
 
+  useEffect(() => {
+    const fetchUserLevel = async () => {
+      try {
+        const response = await fetch('/get_user_level?username=your_username');  // Replace 'your_username' with actual logic
+        const data = await response.json();
+        setUserLevel(data.level);
+      } catch (error) {
+        console.error('Error fetching user level:', error);
+      }
+    };
+
+    fetchUserLevel();
+  }, []);
+
   const handleSetStep = (num) => {
     if (
       (stepsComplete === 0 && num === -1) ||
@@ -61,8 +77,34 @@ const Page = () => {
 
   const handleSubmit = () => {
     setIsSubmitted(true);
+    const correctAnswers = questions.filter(
+      (question, index) => question.answer === selectedAnswers[index]
+    ).length;
+    setCorrectAnswersCount(correctAnswers);
+
+    if (correctAnswers === questions.length) {
+      incrementUserLevel();
+    }
+
     if (isPremium) {
       generatePersonalizedFeedback();
+    }
+  };
+
+  const incrementUserLevel = async () => {
+    if (userLevel > 1) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/increment_user_level', { method: 'POST' });
+      if (response.ok) {
+        setUserLevel((prevLevel) => prevLevel + 1);
+      } else {
+        console.error('Failed to increment user level');
+      }
+    } catch (error) {
+      console.error('Error incrementing user level:', error);
     }
   };
 
@@ -78,7 +120,7 @@ const Page = () => {
       const response = await fetch("https://api.openai.com/v1/completions", {
         method: "POST",
         headers: {
-          Authorization: `${apiKey}`,
+          Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
@@ -106,7 +148,6 @@ const Page = () => {
       setIsLoading(false);
     }
   };
-  
 
   const TypewriterEffect = ({ text }) => {
     const [displayedText, setDisplayedText] = useState("");
@@ -168,6 +209,7 @@ const Page = () => {
           <Report
             questions={questions}
             selectedAnswers={selectedAnswers}
+            correctAnswersCount={correctAnswersCount}
             isLoading={isLoading}
             aiFeedback={aiFeedback}
             isPremium={isPremium}
@@ -280,30 +322,41 @@ const Question = ({ step, questions, selectedAnswer, onSelectAnswer }) => {
   );
 };
 
-const Report = ({ questions, selectedAnswers, isLoading, aiFeedback, isPremium }) => {
+const Report = ({ questions, selectedAnswers, correctAnswersCount, isLoading, aiFeedback, isPremium }) => {
   return (
-    <div className="mb-4 p-4 rounded-lg border-4 border-blue-400 w-full max-w-3xl mx-auto">
-      <h3 className="mb-6 font-semibold text-xl text-center">Quiz Report</h3>
-      {questions.map((question, index) => (
-        <div key={index} className="mb-4 p-4 bg-gray-100 rounded-lg shadow-md">
-          <p className="mb-2">
-            <strong>Question {index + 1}:</strong> {question.question}
-          </p>
-          <p className="mb-2">
-            <strong>Your Answer:</strong> {selectedAnswers[index]}
-          </p>
-          <p className="mb-2">
-            <strong>Correct Answer:</strong> {question.answer} -{" "}
-            {selectedAnswers[index] === question.answer ? (
-              <span className="text-green-600 font-semibold">Correct</span>
-            ) : (
-              <span className="text-red-600 font-semibold">Wrong</span>
-            )}
-          </p>
-        </div>
-      ))}
+    <div className="mb-4 w-full max-w-3xl mx-auto">
+      <div className="text-center mb-6">
+        <img src="/report.png" alt="Report" className="mx-auto mb-4" />
+        <h3 className="font-semibold text-xl">
+          You got {correctAnswersCount} out of {questions.length} correct!
+        </h3>
+      </div>
+      <div className="text-left">
+        {questions.map((question, index) => (
+          <div key={index} className="mb-4 flex items-center">
+            <div className="mr-4">
+              {selectedAnswers[index] === question.answer ? (
+                <span className="text-green-600 font-semibold">✔️</span>
+              ) : (
+                <span className="text-red-600 font-semibold">❌</span>
+              )}
+            </div>
+            <div>
+              <p>
+                <strong>Question {index + 1}:</strong> {question.question}
+              </p>
+              <p>
+                <strong>Your Answer:</strong> {selectedAnswers[index]}
+              </p>
+              <p>
+                <strong>Correct Answer:</strong> {question.answer}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
       {isPremium && (
-        <div className="mt-6 p-4 bg-gray-100 rounded-lg shadow-md">
+        <div className="mt-6">
           <h4 className="mb-4 font-semibold text-lg">Personalized Feedback</h4>
           {isLoading ? (
             <p>Loading personalized feedback...</p>
