@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 const Page = () => {
   const router = useRouter();
   const [scrollDepth, setScrollDepth] = useState(0);
-  const [userLevel, setUserLevel] = useState(0);  // State to store user level
+  const [userLevel, setUserLevel] = useState(0);
   const [showError, setShowError] = useState(false);  // State to control error message visibility
 
   useEffect(() => {
@@ -333,19 +333,8 @@ const Page = () => {
 
   const closeError = () => setShowError(false);
 
-  // Calculate progress percentage
-  const progressPercentage = (userLevel / 150) * 100;
-
   return (
     <div className="relative flex flex-col items-center h-screen pt-8">
-      {/* Progress Bar */}
-      <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden mb-8">
-        <div
-          className="h-full bg-blue-500 transition-width duration-500"
-          style={{ width: `${progressPercentage}%` }}
-        ></div>
-      </div>
-
       {units.map((unit, unitIndex) => (
         <div key={unitIndex} className="relative w-full mb-16 z-10">
           <div className="relative w-full flex justify-center">
