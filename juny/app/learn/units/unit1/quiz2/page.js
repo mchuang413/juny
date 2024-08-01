@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
+const MAX_USER_LEVEL = 2;
+
 const Page = () => {
   const [stepsComplete, setStepsComplete] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -41,6 +43,55 @@ const Page = () => {
     
   ];
 
+  useEffect(() => {
+    const fetchUserLevel = async () => {
+      try {
+        const username = Cookies.get('username');
+        if (!username) {
+          console.error('Username not found in cookies');
+          return;
+        }
+        const response = await fetch(`https://michaelape.site/get_user_level?username=${username}`);
+        const data = await response.json();
+        if (response.ok) {
+          setUserLevel(data.level);
+        } else {
+          console.error('Failed to fetch user level:', data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching user level:', error);
+      }
+    };
+
+    fetchUserLevel();
+  }, []);
+
+  const incrementUserLevel = async () => {
+    try {
+      const username = Cookies.get('username');
+      if (!username) {
+        console.error('Username not found in cookies');
+        return;
+      }
+      if (userLevel < MAX_USER_LEVEL) {
+        const response = await fetch(`https://michaelape.site/increment_level?username=${username}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username })
+        });
+        if (response.ok) {
+          setUserLevel((prevLevel) => prevLevel + 1);
+        } else {
+          console.error('Failed to increment user level');
+        }
+      }
+    } catch (error) {
+      console.error('Error incrementing user level:', error);
+    }
+  };
+
   const handleSetStep = (num) => {
     if (
       (stepsComplete === 0 && num === -1) ||
@@ -58,6 +109,15 @@ const Page = () => {
 
   const handleSubmit = () => {
     setIsSubmitted(true);
+    const correctAnswers = questions.filter(
+      (question, index) => question.answer === selectedAnswers[index]
+    ).length;
+    setCorrectAnswersCount(correctAnswers);
+
+    if (correctAnswers === questions.length) {
+      incrementUserLevel();
+    }
+
     if (isPremium) {
       generatePersonalizedFeedback();
     }
