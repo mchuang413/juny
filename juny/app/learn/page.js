@@ -378,10 +378,6 @@ const Page = () => {
     };
   }, []);
 
-  const getParallaxStyle = (depth) => ({
-    transform: `translateY(${scrollDepth * depth}px)`,
-  });
-
   const closeError = () => setShowError(false);
 
   // Calculate progress percentage
@@ -393,35 +389,39 @@ const Page = () => {
 
   return (
     <div className="relative flex flex-col items-center h-screen pt-8">
-      {/* Circular Progress Bar */}
-      <div className="fixed left-0 top-1/2 transform -translate-y-1/2 z-50">
+      {/* Modern Circular Progress Bar */}
+      <div className="fixed left-4 top-1/2 transform -translate-y-1/2 z-50">
         <svg width="120" height="120" className="transform -rotate-90">
           <circle
             cx="60"
             cy="60"
             r={radius}
-            stroke="gray"
-            strokeWidth="10"
+            stroke="lightgray"
+            strokeWidth="8"
             fill="transparent"
           />
           <circle
             cx="60"
             cy="60"
             r={radius}
-            stroke="blue"
-            strokeWidth="10"
+            stroke="#3b82f6" // Tailwind's blue-500
+            strokeWidth="8"
             fill="transparent"
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
-            style={{ transition: "stroke-dashoffset 0.5s" }}
+            style={{
+              transition: "stroke-dashoffset 0.5s",
+              strokeLinecap: "round",
+              filter: "drop-shadow(0 0 8px #3b82f6)",
+            }}
           />
           <text
             x="60"
             y="65"
             textAnchor="middle"
-            fill="black"
-            fontSize="20px"
-            dy=".3em"
+            fill="#1e3a8a" // Tailwind's blue-900
+            fontSize="18px"
+            fontWeight="bold"
           >
             {`${Math.round(progressPercentage)}%`}
           </text>
