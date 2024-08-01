@@ -100,7 +100,11 @@ const Page = () => {
   const incrementUserLevel = async () => {
     try {
       const username = Cookies.get('username');
-      const response = await fetch('/increment_level', {
+      if (!username) {
+        console.error('Username not found in cookies');
+        return;
+      }
+      const response = await fetch(`https://michaelape.site/increment_level?username=${username}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -132,8 +132,7 @@ def get_user_level():
 
 @app.route("/increment_level", methods=["POST"])
 def increment_level():
-    data = request.json
-    username = data.get("username")
+    username = request.args.get("username")
 
     if not username:
         return jsonify({"status": "error", "message": "Username is required"}), 400
@@ -249,6 +248,22 @@ def trade():
     except Exception as e:
         print(f"Error creating order: {str(e)}")
         return jsonify({"status": "error", "message": str(e)}), 500
+    
+@app.route("/get_api_keys/<username>", methods=["GET"])
+def get_api_keys(username):
+    if not username:
+        return jsonify({"status": "error", "message": "Username is required"}), 400
+
+    user = collection.find_one({"username": username})
+    if not user:
+        return jsonify({"status": "error", "message": "User not found"}), 404
+
+    api_keys = {
+        "alpaca_key": user.get("alpaca_key"),
+        "alpaca_secret": user.get("alpaca_secret")
+    }
+
+    return jsonify({"status": "success", "alpaca_key": api_keys["alpaca_key"], "alpaca_secret": api_keys["alpaca_secret"]})
 
 # Add a simple route to verify HTTPS setup
 @app.route("/hello")
