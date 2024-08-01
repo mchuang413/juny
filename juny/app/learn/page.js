@@ -294,6 +294,17 @@ const Page = () => {
     </svg>
   );
 
+  const checkmarkIcon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-8 w-8 text-white"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M9 16.2l-3.5-3.5L4 14l5 5 9-9-1.5-1.5z" />
+    </svg>
+  );
+
   const handleStarClick = (unitIndex, starIndex) => {
     if (userLevel >= units[unitIndex].requiredLevel) {
       router.push(`/learn/units/unit${unitIndex + 1}/quiz${starIndex + 1}`);
