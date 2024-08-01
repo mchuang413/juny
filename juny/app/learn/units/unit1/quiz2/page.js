@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Cookies from 'js-cookie';
 
 const MAX_USER_LEVEL = 2;
 
@@ -109,21 +110,21 @@ const Page = () => {
     setSelectedAnswers((prev) => ({ ...prev, [step]: answer }));
   };
 
-  const handleSubmit = () => {
-    setIsSubmitted(true);
-    const correctAnswers = questions.filter(
-      (question, index) => question.answer === selectedAnswers[index]
-    ).length;
-    setCorrectAnswersCount(correctAnswers);
+    const handleSubmit = () => {
+      setIsSubmitted(true);
+      const correctAnswers = questions.filter(
+        (question, index) => question.answer === selectedAnswers[index]
+      ).length;
+      setCorrectAnswersCount(correctAnswers);
 
-    if (correctAnswers === questions.length) {
-      incrementUserLevel();
-    }
+      if (correctAnswers === questions.length) {
+        incrementUserLevel();
+      }
 
-    if (isPremium) {
-      generatePersonalizedFeedback();
-    }
-  };
+      if (isPremium) {
+        generatePersonalizedFeedback();
+      }
+    };
 
   const TypewriterEffect = ({ text }) => {
     const [displayedText, setDisplayedText] = useState("");
