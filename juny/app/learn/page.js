@@ -360,8 +360,8 @@ const Page = () => {
     } else if (isGreen) {
       return {
         backgroundColor: 'green',
-        boxShadow: '0 8px 0 0 #1bff8a, 0 13px 0 0 #1bff8a',
-        borderBottom: '1px solid #1bff8a',
+        boxShadow: '0 8px 0 0 #1b8f5a, 0 13px 0 0 #1b8f5a',
+        borderBottom: '1px solid #1b8f5a',
       };
     }
   };
