@@ -12,7 +12,7 @@ const Page = () => {
     const fetchUserLevel = async () => {
       try {
         const username = Cookies.get('username'); 
-        const response = await fetch(`https://michaelape.site/get_user_level?username=${username}`);
+        const response = await fetch(`https://michaelape.site/get_user_level?username=${username}`);  // Replace 'your_username' with actual logic
         const data = await response.json();
         setUserLevel(data.level);
       } catch (error) {
@@ -294,33 +294,11 @@ const Page = () => {
     </svg>
   );
 
-  const lockIcon = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-8 w-8 text-white"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-    >
-      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-    </svg>
-  );
-
-  const checkmarkIcon = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-8 w-8 text-white"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-    >
-      <path d="M9 16.2l-3.5-3.5L4 14l5 5 9-9-1.5-1.5z" />
-    </svg>
-  );
-
   const handleStarClick = (unitIndex, starIndex) => {
-    if (userLevel >= units[unitIndex].requiredLevel + starIndex) {
+    if (userLevel >= units[unitIndex].requiredLevel) {
       router.push(`/learn/units/unit${unitIndex + 1}/quiz${starIndex + 1}`);
     } else {
-      alert("You do not have the required level to access this quiz.");
+      alert("You do not have the required level to access this unit.");
     }
   };
 
@@ -340,37 +318,8 @@ const Page = () => {
     transform: `translateY(${scrollDepth * depth}px)`,
   });
 
-  const getQuizButtonStyle = (unitIndex, quizIndex) => {
-    const isLocked = userLevel < units[unitIndex].requiredLevel + quizIndex;
-    const isBlue = userLevel === units[unitIndex].requiredLevel + quizIndex;
-    const isGreen = userLevel > units[unitIndex].requiredLevel + quizIndex;
-
-    if (isLocked) {
-      return {
-        backgroundColor: 'gray',
-        boxShadow: '0 8px 0 0 #888888, 0 13px 0 0 #888888',
-        borderBottom: '1px solid #888888',
-      };
-    } else if (isBlue) {
-      return {
-        backgroundColor: 'blue',
-        boxShadow: '0 8px 0 0 #1b6ff8, 0 13px 0 0 #1b70f841',
-        borderBottom: '1px solid #1b6ff8',
-      };
-    } else if (isGreen) {
-      return {
-        backgroundColor: 'green',
-        boxShadow: '0 8px 0 0 #1b8f5a, 0 13px 0 0 #1b8f5a',
-        borderBottom: '1px solid #1b8f5a',
-      };
-    }
-  };
-
   return (
     <div className="relative flex flex-col items-center h-screen pt-8">
-      <div className="parallax-background absolute top-0 left-0 w-full h-full" style={{ backgroundImage: 'url(/path/to/your/background1.png)', ...getParallaxStyle(0.1) }} />
-      <div className="parallax-background absolute top-0 left-0 w-full h-full" style={{ backgroundImage: 'url(/path/to/your/background2.png)', ...getParallaxStyle(0.2) }} />
-      <div className="parallax-background absolute top-0 left-0 w-full h-full" style={{ backgroundImage: 'url(/path/to/your/background3.png)', ...getParallaxStyle(0.3) }} />
       {units.map((unit, unitIndex) => (
         <div key={unitIndex} className="relative w-full mb-16 z-10">
           <div className="relative w-full flex justify-center">
@@ -392,21 +341,39 @@ const Page = () => {
           </div>
 
           <div className="relative w-full h-[400px] mt-8">
-          {(unitIndex % 2 === 0 ? buttonPositionsLeft : buttonPositionsRight).map((pos, starIndex) => (
-            <div 
-              key={starIndex} 
-              style={{ position: 'absolute', top: pos.top, left: pos.left, transform: pos.transform, ...getQuizButtonStyle(unitIndex, starIndex) }} 
-              className="button w-24 h-24 rounded-full cursor-pointer select-none
-              active:translate-y-2 transition-all duration-150 flex justify-center items-center text-white font-bold text-lg"
-              onClick={() => handleStarClick(unitIndex, starIndex)}
-            >
-              {userLevel < units[unitIndex].requiredLevel + starIndex
-                ? lockIcon
-                : userLevel === units[unitIndex].requiredLevel + starIndex
-                ? starIcon
-                : checkmarkIcon}
-            </div>
-          ))}
+            {(unitIndex % 2 === 0 ? buttonPositionsLeft : buttonPositionsRight).map((pos, starIndex) => {
+              const quizLevel = units[unitIndex].requiredLevel + starIndex;
+              const buttonColor =
+                userLevel < quizLevel
+                  ? 'bg-gray-500 border-gray-400' // Locked (gray)
+                  : userLevel === quizLevel
+                  ? 'bg-blue-500 border-blue-400' // Current quiz (blue)
+                  : 'bg-green-500 border-green-400'; // Completed (green)
+
+              return (
+                <div
+                  key={starIndex}
+                  style={{
+                    position: 'absolute',
+                    top: pos.top,
+                    left: pos.left,
+                    transform: pos.transform,
+                  }}
+                  className={`button w-24 h-24 ${buttonColor} rounded-full cursor-pointer select-none
+                  active:translate-y-2 active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
+                  active:border-b-[0px] transition-all duration-150 [box-shadow:0_8px_0_0_#1b6ff8,0_13px_0_0_#1b70f841] border-[1px] flex justify-center items-center text-white font-bold text-lg`}
+                  onClick={() => handleStarClick(unitIndex, starIndex)}
+                >
+                  {userLevel < quizLevel ? (
+                    <img src="/lock.png" alt="locked" className="h-6 w-6" />
+                  ) : userLevel === quizLevel ? (
+                    starIcon
+                  ) : (
+                    checkmarkIcon
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       ))}
