@@ -391,7 +391,7 @@ const Page = () => {
     <div className="relative flex flex-col items-center h-screen pt-8">
       {/* Modern Circular Progress Bar */}
       <div className="fixed left-4 top-1/2 transform -translate-y-1/2 z-50">
-        <svg width="120" height="120" className="transform -rotate-90">
+        <svg width="120" height="120" className="transform">
           <circle
             cx="60"
             cy="60"
