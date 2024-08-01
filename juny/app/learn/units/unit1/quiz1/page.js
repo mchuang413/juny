@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Cookies from 'js-cookie';
 
+const MAX_USER_LEVEL = 5; // Set the maximum user level here
+
 const Page = () => {
   const [stepsComplete, setStepsComplete] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
@@ -104,19 +106,19 @@ const Page = () => {
         console.error('Username not found in cookies');
         return;
       }
-      const response = await fetch(`https://michaelape.site/increment_level?username=${username}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username })
-      });
-      if (response.ok) {
-        if (userLevel < 1) {
+      if (userLevel < MAX_USER_LEVEL) {
+        const response = await fetch(`https://michaelape.site/increment_level?username=${username}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username })
+        });
+        if (response.ok) {
           setUserLevel((prevLevel) => prevLevel + 1);
+        } else {
+          console.error('Failed to increment user level');
         }
-      } else {
-        console.error('Failed to increment user level');
       }
     } catch (error) {
       console.error('Error incrementing user level:', error);
