@@ -339,7 +339,7 @@ const Page = () => {
   return (
     <div className="relative flex flex-col items-center h-screen pt-8">
       {/* Progress Bar */}
-      <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden mb-8">
+      <div className="fixed top-0 left-0 w-full h-4 bg-gray-200 z-50 rounded-full overflow-hidden">
         <div
           className="h-full bg-blue-500 transition-width duration-500"
           style={{ width: `${progressPercentage}%` }}
@@ -347,7 +347,7 @@ const Page = () => {
       </div>
 
       {units.map((unit, unitIndex) => (
-        <div key={unitIndex} className="relative w-full mb-16 z-10">
+        <div key={unitIndex} className="relative w-full mb-16 z-10 pt-4">
           <div className="relative w-full flex justify-center">
             <a href={userLevel >= unit.requiredLevel ? `/learn/units/unit${unitIndex + 1}` : "#"} className={`block w-3/4 p-10 ${userLevel >= unit.requiredLevel ? 'bg-blue-400' : 'bg-gray-400'} text-white border ${userLevel >= unit.requiredLevel ? 'border-blue-400' : 'border-gray-400'} rounded-lg shadow-lg`}>
               <div className="flex justify-between items-center">
