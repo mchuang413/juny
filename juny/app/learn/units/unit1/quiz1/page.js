@@ -112,7 +112,9 @@ const Page = () => {
         body: JSON.stringify({ username })
       });
       if (response.ok) {
-        setUserLevel((prevLevel) => prevLevel + 1);
+        if (userLevel < 1) {
+          setUserLevel((prevLevel) => prevLevel + 1);
+        }
       } else {
         console.error('Failed to increment user level');
       }
