@@ -9,6 +9,7 @@ const Page = () => {
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+  const [userLevel, setUserLevel] = useState(0); // Add this line
   const [isLoading, setIsLoading] = useState(false);
   const [aiFeedback, setAiFeedback] = useState("");
   const numSteps = 3;
