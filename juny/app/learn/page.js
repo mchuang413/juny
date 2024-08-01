@@ -7,12 +7,13 @@ const Page = () => {
   const router = useRouter();
   const [scrollDepth, setScrollDepth] = useState(0);
   const [userLevel, setUserLevel] = useState(0);  // State to store user level
+  const [showError, setShowError] = useState(false);  // State to control error message visibility
 
   useEffect(() => {
     const fetchUserLevel = async () => {
       try {
-        const username = Cookies.get('username'); 
-        const response = await fetch(`https://michaelape.site/get_user_level?username=${username}`);  // Replace 'your_username' with actual logic
+        const username = Cookies.get('username');
+        const response = await fetch(`https://michaelape.site/get_user_level?username=${username}`);
         const data = await response.json();
         setUserLevel(data.level);
       } catch (error) {
@@ -306,10 +307,11 @@ const Page = () => {
   );
 
   const handleStarClick = (unitIndex, starIndex) => {
-    if (userLevel >= units[unitIndex].requiredLevel) {
+    const quizLevel = units[unitIndex].requiredLevel + starIndex;
+    if (userLevel >= quizLevel) {
       router.push(`/learn/units/unit${unitIndex + 1}/quiz${starIndex + 1}`);
     } else {
-      alert("You do not have the required level to access this unit.");
+      setShowError(true);  // Show error message when content is locked
     }
   };
 
@@ -329,8 +331,21 @@ const Page = () => {
     transform: `translateY(${scrollDepth * depth}px)`,
   });
 
+  const closeError = () => setShowError(false);
+
+  // Calculate progress percentage
+  const progressPercentage = (userLevel / 150) * 100;
+
   return (
     <div className="relative flex flex-col items-center h-screen pt-8">
+      {/* Progress Bar */}
+      <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden mb-8">
+        <div
+          className="h-full bg-blue-500 transition-width duration-500"
+          style={{ width: `${progressPercentage}%` }}
+        ></div>
+      </div>
+
       {units.map((unit, unitIndex) => (
         <div key={unitIndex} className="relative w-full mb-16 z-10">
           <div className="relative w-full flex justify-center">
@@ -388,6 +403,23 @@ const Page = () => {
           </div>
         </div>
       ))}
+
+      {/* Error message modal */}
+      {showError && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center">
+            <img src="/oops.png" alt="Oops" className="w-16 h-16 mb-4" />
+            <h2 className="text-xl font-bold mb-2">Oops!</h2>
+            <p className="text-gray-700 mb-4">You haven't unlocked this content yet!</p>
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+              onClick={closeError}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
