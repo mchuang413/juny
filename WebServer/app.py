@@ -78,7 +78,7 @@ def signup():
         "alpaca_key": alpaca_key,
         "alpaca_secret": alpaca_secret,
         "premium_user": False,
-        "level": 1
+        "level": 0
     })
 
     response = jsonify({"status": "success", "message": "User registered successfully"})
