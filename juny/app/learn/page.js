@@ -305,6 +305,17 @@ const Page = () => {
     </svg>
   );
 
+  const checkmarkIcon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-8 w-8 text-white"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M9 16.2l-3.5-3.5L4 14l5 5 9-9-1.5-1.5z" />
+    </svg>
+  );
+
   const handleStarClick = (unitIndex, starIndex) => {
     if (userLevel >= units[unitIndex].requiredLevel + starIndex) {
       router.push(`/learn/units/unit${unitIndex + 1}/quiz${starIndex + 1}`);
@@ -335,11 +346,23 @@ const Page = () => {
     const isGreen = userLevel > units[unitIndex].requiredLevel + quizIndex;
 
     if (isLocked) {
-      return 'bg-gray-500';
+      return {
+        backgroundColor: 'gray',
+        boxShadow: '0 8px 0 0 #888888, 0 13px 0 0 #888888',
+        borderBottom: '1px solid #888888',
+      };
     } else if (isBlue) {
-      return 'bg-blue-500';
+      return {
+        backgroundColor: 'blue',
+        boxShadow: '0 8px 0 0 #1b6ff8, 0 13px 0 0 #1b70f841',
+        borderBottom: '1px solid #1b6ff8',
+      };
     } else if (isGreen) {
-      return 'bg-green-500';
+      return {
+        backgroundColor: 'green',
+        boxShadow: '0 8px 0 0 #1bff8a, 0 13px 0 0 #1bff8a',
+        borderBottom: '1px solid #1bff8a',
+      };
     }
   };
 
@@ -372,17 +395,16 @@ const Page = () => {
           {(unitIndex % 2 === 0 ? buttonPositionsLeft : buttonPositionsRight).map((pos, starIndex) => (
             <div 
               key={starIndex} 
-              style={{ position: 'absolute', top: pos.top, left: pos.left, transform: pos.transform }} 
-              className={`button w-24 h-24 ${getQuizButtonStyle(unitIndex, starIndex)} rounded-full cursor-pointer select-none
-              active:translate-y-2 active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841]
-              active:border-b-[0px] transition-all duration-150 ${userLevel >= units[unitIndex].requiredLevel ? '[box-shadow:0_8px_0_0_#1b6ff8,0_13px_0_0_#1b70f841] border-[1px] border-blue-400' : '[box-shadow:0_8px_0_0_#888888,0_13px_0_0_#888888] border-[1px] border-gray-400'} flex justify-center items-center text-white font-bold text-lg`}
+              style={{ position: 'absolute', top: pos.top, left: pos.left, transform: pos.transform, ...getQuizButtonStyle(unitIndex, starIndex) }} 
+              className="button w-24 h-24 rounded-full cursor-pointer select-none
+              active:translate-y-2 transition-all duration-150 flex justify-center items-center text-white font-bold text-lg"
               onClick={() => handleStarClick(unitIndex, starIndex)}
             >
               {userLevel < units[unitIndex].requiredLevel + starIndex
-                ? <img src="/lock.png" alt="locked" className="h-6 w-6" />
+                ? lockIcon
                 : userLevel === units[unitIndex].requiredLevel + starIndex
                 ? starIcon
-                : starIcon /* Replace with a green checkmark icon for passed quizzes */}
+                : checkmarkIcon}
             </div>
           ))}
           </div>
