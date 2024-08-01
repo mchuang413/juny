@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Cookies from 'js-cookie';
 
-const MAX_USER_LEVEL = 5; // Set the maximum user level here
+const MAX_USER_LEVEL = 1;
 
 const Page = () => {
   const [stepsComplete, setStepsComplete] = useState(0);
