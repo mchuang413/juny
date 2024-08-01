@@ -325,7 +325,7 @@ const Report = ({ questions, selectedAnswers, correctAnswersCount, isLoading, ai
   return (
     <div className="mb-4 w-full max-w-3xl mx-auto">
       <div className="text-center mb-6">
-        <img src="/report.png" alt="Report" className="mx-auto mb-4" />
+        <img src="/report.png" width={200} height={200} alt="Report" className="mx-auto mb-4" />
         <h3 className="font-semibold text-xl">
           You got {correctAnswersCount} out of {questions.length} correct!
         </h3>
