@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 const Page = () => {
   const router = useRouter();
   const [scrollDepth, setScrollDepth] = useState(0);
-  const [userLevel, setUserLevel] = useState(0);
+  const [userLevel, setUserLevel] = useState(0);  // State to store user level
   const [showError, setShowError] = useState(false);  // State to control error message visibility
 
   useEffect(() => {
@@ -333,8 +333,19 @@ const Page = () => {
 
   const closeError = () => setShowError(false);
 
+  // Calculate progress percentage
+  const progressPercentage = (userLevel / 150) * 100;
+
   return (
     <div className="relative flex flex-col items-center h-screen pt-8">
+      {/* Progress Bar */}
+      <div className="w-full h-4 bg-gray-200 rounded-full overflow-hidden mb-8">
+        <div
+          className="h-full bg-blue-500 transition-width duration-500"
+          style={{ width: `${progressPercentage}%` }}
+        ></div>
+      </div>
+
       {units.map((unit, unitIndex) => (
         <div key={unitIndex} className="relative w-full mb-16 z-10">
           <div className="relative w-full flex justify-center">
@@ -399,7 +410,7 @@ const Page = () => {
           <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center">
             <img src="/oops.png" alt="Oops" className="w-16 h-16 mb-4" />
             <h2 className="text-xl font-bold mb-2">Oops!</h2>
-            <p className="text-gray-700 mb-4">You haven't unlocked this content yet!</p>
+            <p className="text-gray-700 mb-4">You need to pass all previous quizzes to unlock this content!</p>
             <button
               className="px-4 py-2 bg-blue-500 text-white rounded-lg"
               onClick={closeError}
