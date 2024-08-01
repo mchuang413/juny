@@ -11,43 +11,12 @@ const Page = () => {
 
   const slides = [
     {
-      title: "Overview of Investing",
-      content: "Investing is like embarking on an adventure with Juny the Octopus in the vast ocean! 🌊 It means putting your money into various assets, such as stocks, bonds, or real estate, with the expectation that these assets will grow in value over time.",
+      title: "Work in Progress",
+      content: "This unit is still undergoing development and will be released soon. Stay tuned!",
       image: "/unit1Assets/1.png",
-      juny: "/unit1Assets/gifs/1.gif"
+      juny: "service-tools.gif"
     },
-    {
-      title: "Overview of Investing",
-      content: "The main purpose of investing is to build wealth and reach financial goals, whether it's buying a home, funding education, or saving for retirement. Imagine Juny planting tiny seaweed seeds in her garden, hoping they will grow into a lush underwater forest! 🌱💰",
-      image: "/unit1Assets/2.png",
-      juny: "/unit1Assets/gifs/2.gif"
-    },
-    {
-      title: "History of Investing",
-      content: "The history of investing is as rich and diverse as the ocean itself. Imagine Juny's ancestors trading precious shells long ago to build their wealth! 🐚 In ancient times, people invested in tangible assets like land, livestock, and trade goods.",
-      image: "/unit1Assets/3.png",
-      juny: "/unit1Assets/gifs/3.gif"
-    },
-    {
-      title: "History of Investing",
-      content: "The concept was simple: put resources into something valuable that could grow over time. The first modern stock market, the Amsterdam Stock Exchange, was established in the early 1600s, allowing people to buy and sell shares of companies.",
-      image: "/unit1Assets/3.png",
-      juny: "/unit1Assets/gifs/4.gif"
-    },
-    {
-      title: "History of Investing",
-      content: "This innovation marked the beginning of modern investing. Fast forward to today, investing has become more diverse and accessible than ever before. From the bustling floors of stock exchanges to the convenience of online trading platforms, anyone can invest with just a few clicks.",
-      image: "/unit1Assets/5.png",
-      juny: "/unit1Assets/gifs/5.gif"
-    },
-    {
-      title: "History of Investing",
-      content: "Juny might use her underwater tablet to keep track of her investments in various coral reefs and seaweed farms, showing how technology has made investing easier for everyone. 📱🌿By understanding what investing is and exploring its fascinating history, you are now ready to join Juny the Octopus on an exciting journey to grow your wealth! 🐙💸",
-      image: "/unit1Assets/6.png",
-      juny: "/unit1Assets/gifs/6.gif"
-    }
   ];
-
   useEffect(() => {
     let currentText = '';
     let index = 0;
