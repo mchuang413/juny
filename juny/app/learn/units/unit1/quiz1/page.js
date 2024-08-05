@@ -129,21 +129,14 @@ const Page = () => {
     setIsLoading(true);
     setAiFeedback("");
     try {
-      const apiKey = process.env.NEXT_PUBLIC_OPENAI_KEY;
-      if (!apiKey) {
-        throw new Error("API key is not set");
-      }
-
-      const response = await fetch("https://api.openai.com/v1/completions", {
+      const response = await fetch("https://michaelape.site/generate_feedback", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: "gpt-4",
-          prompt: `Generate a personalized feedback report for the following quiz answers: ${JSON.stringify(selectedAnswers)}. Questions: ${JSON.stringify(questions)}`,
-          max_tokens: 500
+          selected_answers: selectedAnswers,
+          questions: questions
         })
       });
 
@@ -153,11 +146,11 @@ const Page = () => {
 
       const data = await response.json();
 
-      if (!data.choices || !data.choices[0] || !data.choices[0].text) {
-        throw new Error("Unexpected API response structure");
+      if (data.status !== "success") {
+        throw new Error(data.message || "Failed to generate feedback");
       }
 
-      setAiFeedback(data.choices[0].text);
+      setAiFeedback(data.feedback);
     } catch (error) {
       console.error("Error generating personalized feedback:", error);
       setAiFeedback("There was an error generating the feedback. Please try again later.");
