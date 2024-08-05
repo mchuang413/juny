@@ -54,11 +54,16 @@ const Leaderboard = () => {
               <td className="p-3 border-t">{index + 1}</td>
               <td className="p-3 border-t">{entry.username}</td>
               <td
-                className={`p-3 border-t ${
+                className={`p-3 border-t flex items-center ${
                   entry.daily_change_pct >= 0 ? 'text-green-500' : 'text-red-500'
                 }`}
               >
-                {entry.daily_change_pct >= 0 ? '🔺' : '🔻'} {entry.daily_change_pct.toFixed(2)}%
+                {entry.daily_change_pct >= 0 ? (
+                  <span className="mr-2 text-green-500">&#9650;</span>
+                ) : (
+                  <span className="mr-2 text-red-500">&#9660;</span>
+                )}
+                {entry.daily_change_pct.toFixed(2)}%
               </td>
             </tr>
           ))}
