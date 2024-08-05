@@ -85,6 +85,51 @@ def signup():
     response.set_cookie("username", username)
     return response, 201
 
+@app.route("/portfolio_leaderboard", methods=["GET"])
+def portfolio_leaderboard():
+    users = collection.find()
+    leaderboard = []
+
+    for user in users:
+        alpaca_key = user.get("alpaca_key")
+        alpaca_secret = user.get("alpaca_secret")
+        username = user.get("username")
+
+        if not alpaca_key or not alpaca_secret:
+            continue  # Skip users without valid API keys
+
+        alpaca = REST(
+            alpaca_key,
+            alpaca_secret,
+            base_url='https://paper-api.alpaca.markets'
+        )
+
+        try:
+            # Get the account details
+            account = alpaca.get_account()
+            equity = float(account.equity)
+            last_equity = float(account.last_equity)
+            
+            # Calculate the daily percentage change
+            if last_equity != 0:
+                daily_change_pct = ((equity - last_equity) / last_equity) * 100
+            else:
+                daily_change_pct = 0
+
+            leaderboard.append({
+                "username": username,
+                "daily_change_pct": daily_change_pct
+            })
+
+        except Exception as e:
+            print(f"Error fetching data for user {username}: {str(e)}")
+            continue  # Skip users with errors
+
+    # Sort the leaderboard by daily percentage change in descending order
+    leaderboard.sort(key=lambda x: x["daily_change_pct"], reverse=True)
+
+    return jsonify({"status": "success", "leaderboard": leaderboard})
+
 @app.route('/weaknesses/<input>')
 def weaknesses(input):
     response = ask_gpt("Here are the questions asked by us, then the answers the user suggested. You're an expert teacher. Provide insightful feedback on the weaknesses of the student's learning style.", input)
