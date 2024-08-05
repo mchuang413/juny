@@ -1,4 +1,3 @@
-"use client"
 import React, { useEffect, useState } from 'react';
 
 const Leaderboard = () => {
@@ -30,23 +29,40 @@ const Leaderboard = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="text-center text-lg mt-5">Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="text-center text-lg mt-5 text-red-500">Error: {error}</div>;
   }
 
   return (
-    <div>
-      <h2>Leaderboard</h2>
-      <ul>
-        {leaderboard.map((entry, index) => (
-          <li key={index}>
-            {index + 1}. {entry.username} - {entry.daily_change_pct.toFixed(2)}%
-          </li>
-        ))}
-      </ul>
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+      <h2 className="text-2xl font-semibold text-center text-gray-800">Leaderboard</h2>
+      <table className="w-full mt-4 border-collapse">
+        <thead>
+          <tr className="bg-gray-200">
+            <th className="p-3 text-left text-gray-600">Rank</th>
+            <th className="p-3 text-left text-gray-600">Username</th>
+            <th className="p-3 text-left text-gray-600">Change</th>
+          </tr>
+        </thead>
+        <tbody>
+          {leaderboard.map((entry, index) => (
+            <tr key={index} className="hover:bg-gray-100 transition-colors">
+              <td className="p-3 border-t">{index + 1}</td>
+              <td className="p-3 border-t">{entry.username}</td>
+              <td
+                className={`p-3 border-t ${
+                  entry.daily_change_pct >= 0 ? 'text-green-500' : 'text-red-500'
+                }`}
+              >
+                {entry.daily_change_pct >= 0 ? '🔺' : '🔻'} {entry.daily_change_pct.toFixed(2)}%
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
