@@ -1,31 +1,53 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 
-const fetchPortfolioHistory = async () => {
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        'APCA-API-KEY-ID': apiKeys.alpaca_key,
-        'APCA-API-SECRET-KEY': apiKeys.alpaca_secret
+const Leaderboard = () => {
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const response = await fetch('https://michaelape.site/portfolio_leaderboard');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        if (data.status === 'success') {
+          setLeaderboard(data.leaderboard);
+        } else {
+          throw new Error('Failed to fetch leaderboard data');
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
-    try {
-      const response = await fetch(`https://paper-api.alpaca.markets/v2/account/portfolio/history?intraday_reporting=market_hours&pnl_reset=per_day`, options);
-      const data = await response.json();
-      setPortfolioData(data);
-      filterData(data, timeFrame);
-      console.log('Alpaca Portfolio Data:', data);
-    } catch (error) {
-      console.error('Error fetching portfolio data:', error);
-      toast.error('Failed to fetch portfolio data. Please check your API keys and parameters.');
-    }
-  };
+    fetchLeaderboard();
+  }, []);
 
-const page = () => {
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
-    <div>page</div>
-  )
-}
+    <div>
+      <h2>Leaderboard</h2>
+      <ul>
+        {leaderboard.map((entry, index) => (
+          <li key={index}>
+            {index + 1}. {entry.username} - {entry.daily_change_pct.toFixed(2)}%
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
-export default page
+export default Leaderboard;
