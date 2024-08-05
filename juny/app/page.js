@@ -217,11 +217,11 @@ const Page = () => {
 
             {/* Image Container */}
             <div className="w-1/3 ml-8">
-              <div className="rounded-full overflow-hidden shadow-lg">
+              <div className="rounded-lg overflow-hidden shadow-lg">
                 <img
                   src="/logo/image.png"
                   alt="Logo"
-                  className="object-cover h-40 w-40"
+                  className="h-auto w-full"
                 />
               </div>
             </div>
