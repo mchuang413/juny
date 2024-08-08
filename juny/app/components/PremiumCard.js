@@ -1,16 +1,64 @@
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const PremiumCard = () => {
+  const [isPremium, setIsPremium] = useState(false);
+
+  useEffect(() => {
+    // Check if the user already has premium status
+    const checkPremiumStatus = async () => {
+      try {
+        const response = await fetch("https://michaelape.site/get_premium_status");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setIsPremium(data.status);
+      } catch (error) {
+        console.error("Error fetching premium status:", error);
+      }
+    };
+
+    checkPremiumStatus();
+  }, []);
+
+  const handleUpgrade = () => {
+    // Redirect to Stripe checkout page
+    const stripeUrl = "https://buy.stripe.com/test_dR6eWf1M8bXj9q0fYY";
+    window.location.href = stripeUrl;
+  };
+
+  const handlePostPayment = async () => {
+    try {
+      const response = await fetch("https://michaelape.site/upgrade_premium", {
+        method: "POST",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to upgrade premium status");
+      }
+      const data = await response.json();
+      console.log("Upgrade successful:", data);
+    } catch (error) {
+      console.error("Error upgrading premium status:", error);
+    }
+  };
+
   return (
     <section className="px-4 py-12">
       <div className="mx-auto">
-        <Card />
+        {isPremium ? (
+          <div className="p-4 text-center text-white bg-green-500 rounded">
+            Thank you for already supporting the Juny team. Your account already has Juny+.
+          </div>
+        ) : (
+          <Card onUpgrade={handleUpgrade} />
+        )}
       </div>
     </section>
   );
 };
 
-const Card = () => {
+const Card = ({ onUpgrade }) => {
   return (
     <motion.div
       whileHover="hover"
@@ -62,18 +110,19 @@ const Card = () => {
           <li className="flex items-center">
             <CheckIcon /> AI - Powered Feedback
           </li>
-          <li className="flex items-center">
-            <CheckIcon /> and MORE!
-          </li>
         </ul>
       </div>
-      <button className="absolute bottom-4 left-4 right-4 z-20 rounded border-2 border-white bg-white py-2 text-center font-mono font-black uppercase text-neutral-800 backdrop-blur transition-colors hover:bg-white/30 hover:text-white">
+      <button
+        onClick={onUpgrade}
+        className="absolute bottom-4 left-4 right-4 z-20 rounded border-2 border-white bg-white py-2 text-center font-mono font-black uppercase text-neutral-800 backdrop-blur transition-colors hover:bg-white/30 hover:text-white"
+      >
         Reveal the Secrets
       </button>
       <Background />
     </motion.div>
   );
 };
+
 const CheckIcon = () => (
   <svg
     className="w-6 h-6 text-green-500 mr-2"
