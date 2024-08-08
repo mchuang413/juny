@@ -5,7 +5,6 @@ const PremiumCard = () => {
   const [isPremium, setIsPremium] = useState(false);
 
   useEffect(() => {
-    // Check if the user already has premium status
     const checkPremiumStatus = async () => {
       try {
         const response = await fetch("https://michaelape.site/get_premium_status");
@@ -22,24 +21,22 @@ const PremiumCard = () => {
     checkPremiumStatus();
   }, []);
 
-  const handleUpgrade = () => {
-    // Redirect to Stripe checkout page
-    const stripeUrl = "https://buy.stripe.com/test_dR6eWf1M8bXj9q0fYY";
-    window.location.href = stripeUrl;
-  };
-
-  const handlePostPayment = async () => {
+  const handleUpgrade = async () => {
     try {
-      const response = await fetch("https://michaelape.site/upgrade_premium", {
+      // Request the server to create a checkout session
+      const response = await fetch("/create-checkout-session", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
-      if (!response.ok) {
-        throw new Error("Failed to upgrade premium status");
-      }
-      const data = await response.json();
-      console.log("Upgrade successful:", data);
+
+      const { id: sessionId } = await response.json();
+
+      const stripe = window.Stripe("your-publishable-key"); // Replace with your Stripe publishable key
+      await stripe.redirectToCheckout({ sessionId });
     } catch (error) {
-      console.error("Error upgrading premium status:", error);
+      console.error("Error redirecting to checkout:", error);
     }
   };
 
@@ -71,7 +68,7 @@ const Card = ({ onUpgrade }) => {
           scale: 1.05,
         },
       }}
-      className="relative h-auto w-96 shrink-0 overflow-hidden rounded-xl bg-indigo-500 p-8 pb-20" // Add padding to the bottom
+      className="relative h-auto w-96 shrink-0 overflow-hidden rounded-xl bg-indigo-500 p-8 pb-20"
     >
       <div className="relative z-10 text-white">
         <span className="mb-3 block w-fit rounded-full bg-white/30 px-3 py-0.5 text-sm font-light text-white">
