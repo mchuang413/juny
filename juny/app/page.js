@@ -95,7 +95,7 @@ const Page = () => {
     <div className="h-full flex flex-col justify-center items-center relative overflow-hidden">
       {Cookies.get("auth") ? (
         <div className="text-center">
-          <h1 className="text-4xl font-bold">Welcome to JUNY!</h1>
+          <h1 className="text-4xl font-bold">Welcome to JUNY, {Cookies.get("username")}!</h1>
           <button
             className="bg-indigo-600 hover:bg-indigo-800 py-2 px-4 rounded transition duration-300 text-white font-semibold mt-4"
             onClick={handleLogout}
