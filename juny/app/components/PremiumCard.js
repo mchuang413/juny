@@ -7,12 +7,12 @@ const PremiumCard = () => {
   useEffect(() => {
     const checkPremiumStatus = async () => {
       try {
-        const response = await fetch("https://michaelape.site/get_premium_status");
+        const response = await fetch("https://michaelape.site/get_premium_status?username=yourUsername"); // Ensure username is included
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        setIsPremium(data.status);
+        setIsPremium(data.premium_user);
       } catch (error) {
         console.error("Error fetching premium status:", error);
       }
@@ -21,23 +21,10 @@ const PremiumCard = () => {
     checkPremiumStatus();
   }, []);
 
-  const handleUpgrade = async () => {
-    try {
-      // Request the server to create a checkout session
-      const response = await fetch("/create-checkout-session", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const { id: sessionId } = await response.json();
-
-      const stripe = window.Stripe("your-publishable-key"); // Replace with your Stripe publishable key
-      await stripe.redirectToCheckout({ sessionId });
-    } catch (error) {
-      console.error("Error redirecting to checkout:", error);
-    }
+  const handleUpgrade = () => {
+    // Redirect to the Stripe checkout URL
+    const stripeUrl = "https://buy.stripe.com/test_dR6eWf1M8bXj9q0fYY";
+    window.location.href = stripeUrl;
   };
 
   return (
