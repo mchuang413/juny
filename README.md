@@ -1,27 +1,36 @@
-# Juny: Your Personal Investment Learning Companion
+# Juny - Your Personal Investment Learning Companion 🐙
 
-Welcome to **Juny**, an interactive and engaging investment learning app designed to make understanding the stock market as fun as learning a new language! Inspired by the Duolingo approach, Juny offers a comprehensive platform for learning about investments with AI-driven feedback, real-time simulations, and much more.
-
-## JUNY IS NOW LIVE!
-
-- Learn More About Juny: https://juny-edu.web.app/
-- Start Learning here: https://www.junyapp.com/
+Juny is an interactive web-based e-learning platform designed to teach users of all experience levels the ins and outs of investing. Inspired by the gamified learning models of platforms like Duolingo, Juny helps users grasp complex investment concepts in a fun and engaging way. With AI-driven feedback, games, levels, goals, and rewards, Juny simplifies the stock market and investing strategies, making learning intuitive and enjoyable.
 
 ## Features
 
-- **AI-Driven Feedback:** Receive personalized guidance and feedback to enhance your learning experience.
-- **Paper Trading Simulator:** Practice trading with virtual money to gain hands-on experience without financial risk.
-- **Live Stock News Updates:** Stay informed with the latest market news to make better-informed decisions.
-- **Leaderboard:** Compete with friends and other learners to track your progress and stay motivated.
-- **Engaging Lessons:** Explore countless lessons that break down complex investment topics into easy-to-understand segments.
-- **Interactive Games and Challenges:** Test your knowledge with fun quizzes and interactive challenges.
-- **Goals and Rewards:** Set learning goals, earn rewards, and keep your learning streak alive!
+- **Interactive Lessons**: Learn investing concepts step-by-step, with personalized AI feedback and assessments.
+- **Gamified Learning**: Track your progress through levels, earn rewards, set goals, and maintain streaks.
+- **Paper Trading Simulation**: Practice what you’ve learned with our stock market simulator, providing real-time feedback on your trades without any risk.
+- **Real-Time Stock News**: Stay updated with live stock news and current events impacting the market.
+- **Leaderboard**: Challenge yourself by climbing the leaderboard and see how your performance compares with other learners.
+- **Clear Explanations**: Enjoy simple, easy-to-follow explanations of investing concepts, perfect for beginners and seasoned investors alike.
 
-## Getting Started
+## JUNY IS NOW LIVE!
 
-1. **Download the App:** Available on iOS and Android platforms. Search for "Juny" in your app store and install the app.
-2. **Create an Account:** Sign up with your email or use a social media account to get started.
-3. **Choose Your Learning Path:** Select topics of interest and start your journey into the world of investing.
-4. **Engage and Learn:** Complete lessons, practice trading, and track your progress through leaderboards and achievements.
+- Learn More About Juny: [https://juny-edu.web.app/](https://juny-edu.web.app/)
+- Start Learning Here: [https://www.junyapp.com/](https://www.junyapp.com/)
 
-## For questions or feedback, please contact us at mchuangyc@gmail.com
+## Upcoming Features
+
+As we continue to grow, we're planning to expand Juny to mobile platforms for both iOS and Android. Our goal is to build upon our existing platform, offering users a seamless learning experience whether they’re on desktop or on the go. Stay tuned for updates!
+
+## Contributing
+
+We welcome contributions to Juny! Whether it's code, content, or feedback, your involvement helps us improve and reach more users. Please refer to our contributing guide for more details on how you can help make Juny better.
+
+## License
+
+Juny is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Contact
+
+For more information or support, please feel free to reach out:
+
+- **Email**: support@junyapp.com
+- **Website**: [https://juny-edu.web.app/](https://juny-edu.web.app/)
