@@ -24,10 +24,6 @@ As we continue to grow, we're planning to expand Juny to mobile platforms for bo
 
 We welcome contributions to Juny! Whether it's code, content, or feedback, your involvement helps us improve and reach more users. Please refer to our contributing guide for more details on how you can help make Juny better.
 
-## License
-
-Juny is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
 ## Contact
 
 For more information or support, please feel free to reach out:
