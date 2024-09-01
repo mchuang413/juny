@@ -10,11 +10,10 @@ const Page = () => {
   const [isSignup, setIsSignup] = useState(false);
   const [message, setMessage] = useState("");
 
-  // Function to handle login
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://michaelape.site/login", {
+      const response = await fetch("https://sea-lion-app-dckh3.ondigitalocean.app/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,9 +29,9 @@ const Page = () => {
       if (data.status === "works") {
         Cookies.set("username", username);
         console.log(username);
-        Cookies.set("auth", "your-auth-token"); // Replace with actual token if available
+        Cookies.set("auth", "your-auth-token"); 
         setMessage("Login successful");
-        window.location.reload(); // Refresh the page to update the authentication state
+        window.location.reload(); 
       } else if (data.status === "nouser") {
         setMessage("User does not exist");
       } else {
@@ -44,11 +43,10 @@ const Page = () => {
     }
   };
 
-  // Function to handle signup
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://michaelape.site/signup", {
+      const response = await fetch("https://sea-lion-app-dckh3.ondigitalocean.app/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,9 +63,9 @@ const Page = () => {
 
       if (data.status === "success") {
         Cookies.set("username", username);
-        Cookies.set("auth", "your-auth-token"); // Replace with actual token if available
+        Cookies.set("auth", "your-auth-token"); 
         setMessage("Signup successful");
-        setIsSignup(false); // Redirect or handle post-signup logic here
+        setIsSignup(false); 
       } else {
         setMessage(data.message);
       }
@@ -77,11 +75,10 @@ const Page = () => {
     }
   };
 
-  // Function to handle logout
   const handleLogout = () => {
     Cookies.remove("auth");
     Cookies.remove("username");
-    window.location.reload(); // Refresh the page to update the authentication state
+    window.location.reload();
   };
 
   useEffect(() => {

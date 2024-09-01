@@ -6,11 +6,14 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import requests
 import atexit
 from alpaca_trade_api import REST, TimeFrame  # Import Alpaca API client
+import stripe
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
 uri = "mongodb+srv://michael:michaelchuang@cluster0.r9ljm0v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+stripe.api_key = "sk_test_51PlbBbJZFpZ3kJxXocbnkyGcmjhIE8IoBwc49QGolVnZSqLjQT7lEapXwoU0jY7UsQYJZM3xK1xIsFqgtrBUpBOd002ajzjaxU"
 
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
@@ -26,6 +29,45 @@ except Exception as e:
 db = client["Juny"]
 collection = db["users"]  # Assuming a collection named "users" for user data
 news_collection = db["news"]  # Collection for storing news
+
+@app.route("/create-checkout-session", methods=["POST"])
+def create_checkout_session():
+    try:
+        data = request.json
+        username = data.get("username")
+
+        if not username:
+            return jsonify({"status": "error", "message": "Username is required"}), 400
+
+        user = collection.find_one({"username": username})
+        if not user:
+            return jsonify({"status": "error", "message": "User not found"}), 404
+
+        if user.get("premium_user"):
+            return jsonify({"status": "error", "message": "User is already a premium user"}), 400
+
+        session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[
+                {
+                    "price_data": {
+                        "currency": "usd",
+                        "product_data": {
+                            "name": "Juny+ Subscription",
+                        },
+                        "unit_amount": 1000,  # $10.00
+                    },
+                    "quantity": 1,
+                },
+            ],
+            mode="subscription",
+            success_url="https://www.junyapp.com/shop",  # Redirect URL on success
+            cancel_url="https://www.junyapp.com/shop",  # Redirect URL on cancel
+        )
+
+        return jsonify({"id": session.id})
+    except Exception as e:
+        return jsonify(error=str(e)), 500
 
 def ask_gpt(pretext, prompt):
     response = client.chat.completions.create(

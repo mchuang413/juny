@@ -11,7 +11,7 @@ const Page = () => {
   const [aiFeedback, setAiFeedback] = useState("");
   const [selectedDescription, setSelectedDescription] = useState(null);
   const numSteps = 3;
-  const isPremium = true; // Change this to dynamically check for premium status
+  const isPremium = true; 
 
   const questions = [
     {

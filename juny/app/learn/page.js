@@ -14,7 +14,7 @@ const Page = () => {
       try {
         const username = Cookies.get("username");
         const response = await fetch(
-          `https://michaelape.site/get_user_level?username=${username}`
+          `https://sea-lion-app-dckh3.ondigitalocean.app/get_user_level?username=${username}`
         );
         const data = await response.json();
         setUserLevel(data.level);
@@ -362,7 +362,7 @@ const Page = () => {
     if (userLevel >= quizLevel) {
       router.push(`/learn/units/unit${unitIndex + 1}/quiz${starIndex + 1}`);
     } else {
-      setShowError(true); // Show error message when content is locked
+      setShowError(true); 
     }
   };
 
@@ -380,7 +380,6 @@ const Page = () => {
 
   const closeError = () => setShowError(false);
 
-  // Calculate progress percentage
   const progressPercentage = (userLevel / 150) * 100;
   const radius = 50;
   const circumference = 2 * Math.PI * radius;
@@ -405,7 +404,7 @@ const Page = () => {
               cx="60"
               cy="60"
               r={radius}
-              stroke="#3b82f6" // Tailwind's blue-500
+              stroke="#3b82f6"
               strokeWidth="8"
               fill="transparent"
               strokeDasharray={circumference}
@@ -420,7 +419,7 @@ const Page = () => {
               x="60"
               y="65"
               textAnchor="middle"
-              fill="#1e3a8a" // Tailwind's blue-900
+              fill="#1e3a8a"
               fontSize="18px"
               fontWeight="bold"
             >

@@ -54,7 +54,7 @@ const Page = () => {
           console.error('Username not found in cookies');
           return;
         }
-        const response = await fetch(`https://michaelape.site/get_user_level?username=${username}`);
+        const response = await fetch(`https://sea-lion-app-dckh3.ondigitalocean.app/get_user_level?username=${username}`);
         const data = await response.json();
         if (response.ok) {
           setUserLevel(data.level);
@@ -77,7 +77,7 @@ const Page = () => {
         return;
       }
       if (userLevel < MAX_USER_LEVEL) {
-        const response = await fetch(`https://michaelape.site/increment_level?username=${username}`, {
+        const response = await fetch(`https://sea-lion-app-dckh3.ondigitalocean.app/increment_level?username=${username}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
