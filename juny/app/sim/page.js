@@ -7,6 +7,7 @@ import CountUp from 'react-countup';
 import BarPoll from './BarPoll'; // Import the BarPoll component
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Navbar from "../components/Navbar"
 
 const Page = () => {
   const [portfolioData, setPortfolioData] = useState(null);
@@ -238,6 +239,7 @@ const Page = () => {
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-white">
+      <Navbar />
       <ToastContainer />
       <div className="w-full max-w-6xl bg-white rounded-lg shadow dark:bg-gray-800 p-6 mt-6">
         <div className="flex justify-between items-center mb-6">

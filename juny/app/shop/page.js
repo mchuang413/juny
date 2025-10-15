@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import PremiumCard from "../components/PremiumCard";
+import Navbar from "../components/Navbar"
 
 const Slogan = () => {
   return (
@@ -15,6 +16,7 @@ const Slogan = () => {
 const Page = () => {
   return (
     <div className="flex flex-col items-center justify-center">
+      <Navbar />
       <Slogan />
       <div className="flex items-center justify-center bg-gradient-to-b from-blue-400 to-black rounded-xl shadow-lg p-8" style={{ width: '60%', height: '60%' }}>
         <PremiumCard />
