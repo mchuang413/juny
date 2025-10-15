@@ -35,7 +35,7 @@ problems = [
     "Where was the first modern stock market established? a. New York b. London c. Amsterdam d. Tokyo",
     "Scenario: Juny wants to build wealth and reach her financial goals. Based on the text, which of the following should she consider investing in? a. Clothes b. Stocks c. Groceries d. Vacations",
     "Investing guarantees growth in value over time. True False",
-    "In ancient times, people invested in tangible assets and whilike land, livestock, and trade goods. True False"
+    "In ancient times, people invested in tangible assets like land, livestock, and trade goods. True False"
 ]
 answers = [
     "Bullish is a buying trend that indicates that the price is rising.",
