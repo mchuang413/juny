@@ -358,7 +358,7 @@ const Page = () => {
   );
 
   const handleStarClick = (unitIndex, starIndex) => {
-    const quizLevel = units[unitIndex].requiredLevel + starIndex;
+    const quizLevel = 0; //units[unitIndex].requiredLevel + starIndex;
     if (userLevel >= quizLevel) {
       router.push(`/learn/units/unit${unitIndex + 1}/quiz${starIndex + 1}`);
     } else {
