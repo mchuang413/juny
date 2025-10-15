@@ -37,8 +37,8 @@ const Page = () => {
       const data = await response.json();
       if (data.status === 'success') {
         setApiKeys({
-          alpaca_key: data.alpaca_key,
-          alpaca_secret: data.alpaca_secret,
+          alpaca_key: "PKLETO52ONVTDFUX6UY236NVKG",
+          alpaca_secret: "onMKzB3SVKGBYXCo2Gxo5r1xPTiJQso8WQJugr7f5Lv",
         });
       } else {
         console.error('Failed to fetch API keys:', data.message);
