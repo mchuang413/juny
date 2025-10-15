@@ -282,5 +282,4 @@ scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
 
 if __name__ == "__main__":
-    context = ('/etc/letsencrypt/live/michaelape.site/fullchain.pem', '/etc/letsencrypt/live/michaelape.site/privkey.pem')  # Update paths to your SSL certificate and key
-    app.run(host='0.0.0.0', port=443, ssl_context=context)
+    app.run(host='0.0.0.0', port=80)

@@ -15,7 +15,7 @@ const Page = () => {
       try {
         const username = Cookies.get("username");
         const response = await fetch(
-          `https://sea-lion-app-dckh3.ondigitalocean.app/get_user_level?username=${username}`
+          `https://junybackendredeploy-5xfpx.ondigitalocean.app/get_user_level?username=${username}`
         );
         const data = await response.json();
         setUserLevel(data.level);
