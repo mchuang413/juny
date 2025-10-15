@@ -13,7 +13,7 @@ const Page = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://sea-lion-app-dckh3.ondigitalocean.app/login", {
+      const response = await fetch("https://junybackendredeploy-5xfpx.ondigitalocean.app/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +46,7 @@ const Page = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://sea-lion-app-dckh3.ondigitalocean.app/signup", {
+      const response = await fetch("https://junybackendredeploy-5xfpx.ondigitalocean.app/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
