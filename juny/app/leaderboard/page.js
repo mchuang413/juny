@@ -9,7 +9,7 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const response = await fetch('https://sea-lion-app-dckh3.ondigitalocean.app/portfolio_leaderboard');
+        const response = await fetch('https://junybackendredeploy-5xfpx.ondigitalocean.app/portfolio_leaderboard');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
