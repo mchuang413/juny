@@ -37,97 +37,97 @@ const Page = () => {
       title: "UNIT 2: Types of Investments",
       description:
         "Explore various types of investments, including stocks, bonds, mutual funds, ETFs, REITs, and commodities. You'll learn the characteristics of each investment type, how they work, and their potential benefits and risks. 📊💼",
-      requiredLevel: 3, // Level 4 required for Unit 2
+      requiredLevel: 0, // Level 4 required for Unit 2
     },
     {
       title: "UNIT 3: Basic Investment Principles",
       description:
         "Understand fundamental investment principles such as risk vs. reward, diversification, compounding, and the impact of inflation on investments. These core concepts will help you make informed investment decisions and build a robust portfolio. 📉🏦",
-      requiredLevel: 6, // Level 7 required for Unit 3
+      requiredLevel: 0, // Level 7 required for Unit 3
     },
     {
       title: "UNIT 4: Setting Investment Goals",
       description:
         "Learn how to set and achieve your investment goals. This lesson covers the differences between short-term and long-term goals, assessing your risk tolerance, and determining your investment time horizon. 🏁🎯",
-      requiredLevel: 9, // Level 11 required for Unit 4
+      requiredLevel: 0, // Level 11 required for Unit 4
     },
     {
       title: "UNIT 5: Investment Accounts",
       description:
         "Discover different types of investment accounts, including brokerage accounts and retirement accounts like 401(k) and IRA. Understand their features, benefits, and how to choose the right account for your investment needs. 💼💡",
-      requiredLevel: 12,
+      requiredLevel: 0,
     },
     {
       title: "UNIT 6: Market Participants",
       description:
         "Meet the key players in the financial markets, including retail investors, institutional investors, and market makers. Learn their roles and how they contribute to the market's functionality. 🐟🐋🐠",
-      requiredLevel: 15,
+      requiredLevel: 0,
     },
     {
       title: "UNIT 7: Stock Exchanges",
       description:
         "Explore major global stock exchanges such as the NYSE, NASDAQ, and more. Understand how stock exchanges operate and facilitate the buying and selling of securities, ensuring market liquidity and efficiency. 🏛️📈",
-      requiredLevel: 18,
+      requiredLevel: 0,
     },
     {
       title: "UNIT 8: Regulatory Environment",
       description:
         "Dive into the regulatory environment of financial markets. Learn about the role of regulatory bodies like the SEC and FINRA, insider trading laws, and market ethics. Understand how regulations protect investors and maintain market integrity. 🛡️⚖️",
-      requiredLevel: 21,
+      requiredLevel: 0,
     },
     {
       title: "UNIT 9: Financial Statements",
       description:
         "Understand the three main financial statements: the Balance Sheet, Income Statement, and Cash Flow Statement. Learn how to read and analyze these documents to assess a company's financial health. 📑📊",
-      requiredLevel: 24,
+      requiredLevel: 0,
     },
     {
       title: "UNIT 10: Financial Ratios",
       description:
         "Discover key financial ratios such as the Price-to-Earnings (P/E) Ratio, Debt-to-Equity Ratio, and Return on Equity (ROE). Learn how these ratios help evaluate a company's performance and compare it to others in the industry. 📈🔍",
-      requiredLevel: 27,
+      requiredLevel: 0,
     },
     {
       title: "UNIT 11: Company Valuation",
       description:
         "Learn methods to determine a company's intrinsic value, including Discounted Cash Flow (DCF) analysis. Understand the importance of valuation in making investment decisions. 💰🔍",
-      requiredLevel: 30,
+      requiredLevel: 0,
     },
     {
       title: "UNIT 12: Industry and Sector Analysis",
       description:
         "Explore techniques for analyzing industries and sectors. Understand how competitive analysis and market trends impact investment decisions and company performance. 🌐📊",
-      requiredLevel: 33,
+      requiredLevel: 0,
     },
     {
       title: "UNIT 13: Economic Indicators",
       description:
         "Discover key economic indicators such as GDP, employment data, and inflation rates. Learn how these indicators influence the market and help investors make informed decisions. 📈📉",
-      requiredLevel: 36,
+      requiredLevel: 0,
     },
     {
       title: "UNIT 14: Chart Patterns",
       description:
         "Learn about different chart patterns, including trends (uptrend, downtrend, sideways), support and resistance levels, and common patterns like head and shoulders and double top/bottom. 📈🔍",
-      requiredLevel: 39,
+      requiredLevel: 0,
     },
     {
       title: "UNIT 15: Technical Indicators",
       description:
         "Understand technical indicators such as Moving Averages (SMA, EMA), Relative Strength Index (RSI), and Bollinger Bands. Learn how to use these tools to analyze market trends and make trading decisions. 📉📊",
-      requiredLevel: 42,
+      requiredLevel: 0,
     },
     {
       title: "UNIT 16: Volume Analysis",
       description:
         "Explore the importance of trading volume and volume patterns in technical analysis. Understand how volume confirms trends and signals potential market reversals. 📊🔍",
-      requiredLevel: 45,
+      requiredLevel: 0,
     },
     {
       title: "UNIT 17: Technical Analysis Tools",
       description:
         "Discover various technical analysis tools, including trendlines and Fibonacci retracement. Learn how these tools help identify potential entry and exit points in the market. 📉📈",
-      requiredLevel: 48,
+      requiredLevel: 0,
     },
     {
       title: "UNIT 18: Building a Portfolio",
