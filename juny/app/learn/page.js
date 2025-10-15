@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import Navbar from "../components/Navbar"
 
 const Page = () => {
   const router = useRouter();
@@ -387,7 +388,9 @@ const Page = () => {
     circumference - (progressPercentage / 100) * circumference;
 
   return (
+    
     <div className="relative flex flex-col items-center h-screen pt-8">
+      <Navbar />
       {/* Modern Circular Progress Bar */}
       <div className="fixed left-4 top-1/2 transform -translate-y-1/2 z-50">
         <div className="p-2 rounded-lg bg-white shadow-md">
