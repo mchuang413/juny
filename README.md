@@ -13,8 +13,7 @@ Juny is an interactive web-based e-learning platform designed to teach users of 
 
 ## JUNY IS NOW LIVE!
 
-- Learn More About Juny: [https://juny-edu.web.app/](https://juny-edu.web.app/)
-- Start Learning Here: [https://www.junyapp.com/](https://www.junyapp.com/)
+- Start Learning Here: [https://juny-rmq3.vercel.app/]
 
 ## Upcoming Features
 
