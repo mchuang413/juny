@@ -28,4 +28,4 @@ We welcome contributions to Juny! Whether it's code, content, or feedback, your 
 For more information or support, please feel free to reach out:
 
 - **Email**: support@junyapp.com
-- **Website**: [https://juny-edu.web.app/](https://juny-edu.web.app/)
+- **Website**: [https://juny-rmq3.vercel.app/]
